@@ -1,0 +1,63 @@
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>ลงทะเบียนฝึกอบรม</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    </head>
+    <body>
+        <div class="container mt-2">
+            <div class="col-md-12">
+                <h3 class="text-center">หลักสูตร {{ course.Course_Name }} รุ่นที่ {{ course.Batch_Type }}</h3>
+                <h3 class="text-center">วันที่เริ่ม {{course.Start_Date}}</h3>
+                <h3 class="text-center">วันที่สิ้นสุด {{course.End_Date}}</h3>
+                <h3 class="text-center">สถานที่จัด {{course.Location}}</h3>
+            </div>
+        </div>
+        <div class="card p-4">
+            <div class="col-md-12 mb-3">
+                <div class="col-md-12 mb-3">
+                    <h3>ลงทะเบียน</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                         <div class="form-group">
+                            <label for="Emp_id">รหัสพนักงาน</label>
+                            <input type="text" class="form-control" id="Emp_id" name="Emp_id">
+                        
+                        </div>
+                         <button type="submit" class="btn btn-success">ลงทะเบียน</button>
+                    </form>
+
+                </div>
+                <div>
+                <table class="table table-striped stylefont mt-5">
+                    <thead class="thead-light">
+                        <tr class="stylefont text-center">
+                            <th class="align-middle">ลำดับที่</th>
+                            <th class="align-middle">รหัสพนักงาน</th>
+                            <th class="align-middle">ชื่อ</th>
+                            <th>สังกัด</th>
+                            <th>วันที่สมัคร</th>
+                        </tr>
+                    </thead>
+                        {% for student in student %}
+                            <tr class="stylefont text-center">
+                                <td class="align-middle"></td>
+                                <td class="align-middle">
+                                    <small class="text-muted">{{ student.E_ID }}</small>
+                                </td>
+                                <td class="align-middle">{{ student.Fullname }}</td>
+                                <td class="align-middle">{{ student.Dep }}</td>
+                                <td class="align-middle">{{ student.Regist_Date }}</td>
+                            </tr>
+                            
+                        {% endfor %}
+                    <tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

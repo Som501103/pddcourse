@@ -1,0 +1,56 @@
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>ลงทะเบียนฝึกอบรม</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    </head>
+
+    <body>
+        <div class="container mt-5">
+            <ol class="breadcrumb my-4">
+                <li class="breadcrumb-item active">กองพัฒนาบุคลากร</li>
+            </ol>
+            <div class="card p-4">
+                <h3>หลักสูตรที่เปิดลงทะเบียน</h3>
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr class="stylefont text-center">
+                            <th class="align-middle">หลักสูตร</th>
+                            <th class="align-middle">รุ่นที่</th>
+                            <th>วันที่</th>
+                            <th>สถานที่</th>
+                            <th>จำนวนคน</th>
+                            <th>ลงทะเบียนแล้ว</th>
+                            <th>คงเหลือ</th>
+                            <th>ลงทะเบียน</th>
+                            <th>รายชื่อ</th>
+                        </tr>
+                    </thead>
+                        {% for course in courses %}
+                            <tr>
+                                <td class="align-middle">
+                                    {{ course.Course_ID }} <br>
+                                    <small class="text-muted">{{ course.Batch_Type }}</small>
+                                </td>
+                                <td class="align-middle">{{ course.Course_Name }}</td>
+                                <td class="align-middle">{{ course.Start_Date }}</td>
+                                <td class="align-middle">{{ course.Location}}</td>
+                                <td class="align-middle">{{ course.Number_App}}</td>
+                                <td class="align-middle">{{ course.Number_People}}</td>
+                                <td class="align-middle"></td>
+                                <td class="align-middle"><a href="{% url 'course_title' course.PK_Course_D %}">ลงทะเบียน</a></td>
+                                <td class="align-middle"><a href="{% url 'course_title' course.PK_Course_D %}">รายชื่อ</a></td>
+
+                            </tr>
+                        {% endfor %}
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+
+</html>
