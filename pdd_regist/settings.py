@@ -25,7 +25,7 @@ SECRET_KEY = 'd4i6u+0afm^$rc%7&9z0#y5xr*(yb9syxm(6!04yw(^k2!2_th'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*','pddcourse.herokuapp.com/']
 
 
 # Application definition
@@ -79,10 +79,10 @@ WSGI_APPLICATION = 'pdd_regist.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
+        'NAME': 'd29653c2ig8bkr',
+        'USER': 'ndkddtohanpxsh',
+        'PASSWORD': 'b8d184f0601e56e0967adec1f773504d80b69e8182c61ce72ccd317b39fe00e3',
+        'HOST': 'ec2-3-213-192-58.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
