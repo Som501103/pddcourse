@@ -4,6 +4,7 @@ from django.http import Http404
 from .models import MT_User, Course_D, List_Dept, List_Emp
 from .forms import SaveForm
 import requests, xmltodict
+import string
 
 
 def home(request):
@@ -14,33 +15,33 @@ def home(request):
 def course_title(request, PK_Course_D):
     try:
         course = Course_D.objects.get(PK_Course_D=PK_Course_D)
-        student = List_Emp.objects.filter(ref_course=PK_Course_D)
-
+        student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1)
+        massage = ''
         if request.method == 'POST':
             Emp_id = request.POST.get('Emp_id')
             print(Emp_id)
-            qs_check_user = len(List_Emp.objects.filter(ref_course=course, E_ID = Emp_id))
+            qs_check_user = len(List_Emp.objects.filter(ref_course=course, E_ID = Emp_id, status= 1))
             if qs_check_user == 0:
                 nameget = idm(Emp_id)
                 print(nameget['TitleFullName'], nameget['FirstName'],nameget['LastName'],nameget['DepartmentShort'])
                 fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
-                print(fullname)
                 employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Dep = nameget['DepartmentShort'])
                 employee.save()
                 employee.Fullname
+                massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
+                
             else:
-                msg = 'ท่านได้ลงทะเบียนแล้ว'
-                print(msg)
+                massage = "ท่านได้ลงทะเบียนแล้ว"
 
     except Course_D.DoesNotExist:
         raise Http404
 
-    return render(request, 'course_register.html', {'course': course,'student':student})
+    return render(request, 'course_register.html', {'course': course,'student':student,'massage':massage})
 
 def course_detial(request, PK_Course_D):
     try:
         course = Course_D.objects.get(PK_Course_D=PK_Course_D)
-        student = List_Emp.objects.filter(ref_course=PK_Course_D)
+        student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1)
     except Course_D.DoesNotExist:
         raise Http404
 

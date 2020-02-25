@@ -24,10 +24,11 @@
                         {% csrf_token %}
                          <div class="form-group">
                             <label for="Emp_id">รหัสพนักงาน</label>
-                            <input type="text" class="form-control" id="Emp_id" name="Emp_id">
-                        
+                            <input type="text" class="col-sm-9" id="Emp_id" name="Emp_id">
+                            <button type="submit" class="btn btn-success">ลงทะเบียน</button>
+                            <div class="col-sm-12 text-center" ><label for="massage_error" class="text-danger text-center">{{ massage }}</label></div>
                         </div>
-                         <button type="submit" class="btn btn-success">ลงทะเบียน</button>
+                         
                     </form>
 
                 </div>

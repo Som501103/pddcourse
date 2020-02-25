@@ -42,6 +42,8 @@ class List_Dept(models.Model):
     dept = models.CharField(max_length=30,null=True)  
     number_dept = models.IntegerField(null=True)
     number_stamp = models.IntegerField(null=True)
+    status = models.IntegerField(default=1, null=True)
+    # status 1= on, 0 = offf
 
 
 class List_Emp(models.Model):
@@ -51,6 +53,8 @@ class List_Emp(models.Model):
     Fullname = models.CharField(max_length=70,null=True,blank=True)
     Dep = models.CharField(max_length=100,null=True,blank=True)
     Regist_Date = models.DateField(auto_now_add=True)
+    status = models.IntegerField(default=1, null=True)
+    # status 1= on, 0 = offf
 
     def __str__(self):
         return self.E_ID
