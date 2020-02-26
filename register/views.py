@@ -72,7 +72,7 @@ def idm(Emp_id):
     return employeedata
 
 class ZeroConfigurationDatatableView(DatatableView):
-    model = Course_D
+    model = List_Emp
 
     
 # Create your views here.
