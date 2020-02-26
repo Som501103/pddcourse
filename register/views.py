@@ -17,12 +17,12 @@ def home(request):
 def course_title(request, PK_Course_D):
     try:
         course = Course_D.objects.get(PK_Course_D=PK_Course_D, status = 1)
-        student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1)
+        student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1).order_by('-PK_List_Emp')
         massage = ''
         if request.method == 'POST':
             Emp_id = request.POST.get('Emp_id')
             print(Emp_id)
-            qs_check_user = len(List_Emp.objects.filter(E_ID = Emp_id, status= 1).order_by('-PK_List_Emp'))
+            qs_check_user = len(List_Emp.objects.filter(E_ID = Emp_id, status= 1))
             if qs_check_user == 0:
                 nameget = idm(Emp_id)
                 print(nameget['TitleFullName'], nameget['FirstName'],nameget['LastName'],nameget['DepartmentShort'])
