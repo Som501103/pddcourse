@@ -72,7 +72,7 @@ def idm(Emp_id):
     return employeedata
 
 class ZeroConfigurationDatatableView(DatatableView):
-    model = List_Emp
+    model = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1)
 
     
 # Create your views here.
