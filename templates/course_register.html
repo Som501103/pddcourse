@@ -7,6 +7,25 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+        <script type="text/javascript">
+        var USERS_LIST_JSON_URL = '{% url "order_list_json" %}';
+        var oLanguages = {
+                oPaginate:{
+                    sFirst:'<<',
+                    sLast: '>>',
+                    sNext: '>',
+                    sPrevious: '<'
+                },
+                sInfo:'{% trans "Showing _START_ to _END_ of _TOTAL_ entries" %}',
+                sInfoEmpty: '{% trans "No entries to show" %}',
+                sInfoFiltered: '{% trans "(filtered from _MAX_ total entries)" %}',
+                sLengthMenu:'{% trans "Show _MENU_ entries" %}',
+                sProcessing: '{% trans "Processing" %}',
+                sSearch: '{% trans "Filter records:" %}',
+                sZeroRecords: '{% trans "No data to show" %}'
+            }
+        </script>
     </head>
     <body>
         <div class="container mt-2">
@@ -74,22 +93,3 @@
         </div>
     </body>
 </html>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
-<script type="text/javascript">
-    var USERS_LIST_JSON_URL = '{% url "order_list_json" %}';
-     var oLanguages = {
-            oPaginate:{
-                sFirst:'<<',
-                sLast: '>>',
-                sNext: '>',
-                sPrevious: '<'
-            },
-            sInfo:'{% trans "Showing _START_ to _END_ of _TOTAL_ entries" %}',
-            sInfoEmpty: '{% trans "No entries to show" %}',
-            sInfoFiltered: '{% trans "(filtered from _MAX_ total entries)" %}',
-            sLengthMenu:'{% trans "Show _MENU_ entries" %}',
-            sProcessing: '{% trans "Processing" %}',
-            sSearch: '{% trans "Filter records:" %}',
-            sZeroRecords: '{% trans "No data to show" %}'
-        }
-</script>
