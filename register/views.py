@@ -27,7 +27,7 @@ def course_title(request, PK_Course_D):
                 nameget = idm(Emp_id)
                 print(nameget['TitleFullName'], nameget['FirstName'],nameget['LastName'],nameget['DepartmentShort'])
                 fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
-                employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Dep = nameget['DepartmentShort'])
+                employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'])
                 employee.save()
                 employee.Fullname
                 massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
