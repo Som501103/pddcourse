@@ -5,16 +5,17 @@ from .models import MT_User, Course_D, List_Dept, List_Emp
 from .forms import SaveForm
 import requests, xmltodict
 import string
+from datatableview.views import DatatableView
 
 
 def home(request):
-    courses = Course_D.objects.all()
+    courses = Course_D.objects.all().filter(status = 1)
 
     return render(request, 'home.html', {'courses': courses})
 
 def course_title(request, PK_Course_D):
     try:
-        course = Course_D.objects.get(PK_Course_D=PK_Course_D)
+        course = Course_D.objects.get(PK_Course_D=PK_Course_D, status = 1)
         student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1)
         massage = ''
         if request.method == 'POST':
@@ -69,6 +70,9 @@ def idm(Emp_id):
     employeedata = dict(jsonconvert)
     print(employeedata['FirstName'])
     return employeedata
+
+class ZeroConfigurationDatatableView(DatatableView):
+    model = Course_D
 
     
 # Create your views here.
