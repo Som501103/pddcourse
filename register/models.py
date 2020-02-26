@@ -33,6 +33,7 @@ class Course_D(models.Model):
     RegisterType = models.CharField(max_length=15,null=True)
     Start_Time = models.DateTimeField(null=True)
     End_Time = models.DateTimeField(null=True)
+    status = models.IntegerField(null=True, default=1)
 
 
 class List_Dept(models.Model):
