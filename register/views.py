@@ -5,8 +5,7 @@ from .models import MT_User, Course_D, List_Dept, List_Emp
 from .forms import SaveForm
 import requests, xmltodict
 import string
-from django_datatables_view.base_datatable_view import BaseDatatableView
-from django.utils.html import escape
+from django-datatable-view.base_datatable_view import BaseDatatableView
 
 
 def home(request):
