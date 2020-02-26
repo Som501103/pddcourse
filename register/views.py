@@ -72,7 +72,7 @@ def idm(Emp_id):
     print(employeedata['FirstName'])
     return employeedata
 
-class OrderListJson(BaseDatatableView):
+class UsersListJson(BaseDatatableView):
         # The model we're going to show
         model = List_Emp
         columns = ['Fullname', 'Dep', 'Regist_Date']
@@ -81,7 +81,7 @@ class OrderListJson(BaseDatatableView):
         def filter_queryset(self, qs):
             sSearch = self.request.GET.get('sSearch', None)
             if sSearch:
-                qs = qs.filter(Q(fullname__istartswith=sSearch) | Q(Dep__istartswith=sSearch))
+                qs = qs.filter(Q(Fullname__istartswith=sSearch) | Q(Dep__istartswith=sSearch))
             return qs
 
 
