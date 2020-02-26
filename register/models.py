@@ -52,7 +52,7 @@ class List_Emp(models.Model):
     ref_course = models.ForeignKey(Course_D, related_name='List_Emp_Course_D',on_delete = models.CASCADE,null= True,default='0')
     E_ID = models.CharField(max_length=10,null=True,blank=True)
     Fullname = models.CharField(max_length=70,null=True,blank=True)
-    Position = models.CharField(max_length=10,null=True,default='หผ.')
+    Position = models.CharField(max_length=20,null=True,default='หผ.')
     Level = models.CharField(max_length=2,null=True,default='08')
     Dep = models.CharField(max_length=100,null=True,blank=True)
     Regist_Date = models.DateField(auto_now_add=True)
