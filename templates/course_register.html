@@ -58,15 +58,38 @@
                         {% endfor %}
                     <tbody>
                 </table>
-                {{ datatable }}
                 </div>
+                {% block content %}
+                <table class="datatable">
+                    <thead>
+                        <th>{% trans "Fullname" %}</th>
+                        <th>{% trans "Dep" %}</th>
+                        <th>{% trans "Register date" %}</th>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                {% endblock %}
             </div>
         </div>
     </body>
 </html>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 <script type="text/javascript">
-    $(function(){
-        datatableview.initialize($('.datatable'));
-    });
+    var USERS_LIST_JSON_URL = '{% url "order_list_json" %}';
+     var oLanguages = {
+            oPaginate:{
+                sFirst:'<<',
+                sLast: '>>',
+                sNext: '>',
+                sPrevious: '<'
+            },
+            sInfo:'{% trans "Showing _START_ to _END_ of _TOTAL_ entries" %}',
+            sInfoEmpty: '{% trans "No entries to show" %}',
+            sInfoFiltered: '{% trans "(filtered from _MAX_ total entries)" %}',
+            sLengthMenu:'{% trans "Show _MENU_ entries" %}',
+            sProcessing: '{% trans "Processing" %}',
+            sSearch: '{% trans "Filter records:" %}',
+            sZeroRecords: '{% trans "No data to show" %}'
+        }
 </script>

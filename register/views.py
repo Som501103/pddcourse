@@ -5,7 +5,8 @@ from .models import MT_User, Course_D, List_Dept, List_Emp
 from .forms import SaveForm
 import requests, xmltodict
 import string
-from datatableview.views import DatatableView
+from django_datatables_view.base_datatable_view import BaseDatatableView
+from django.utils.html import escape
 
 
 def home(request):
@@ -71,8 +72,22 @@ def idm(Emp_id):
     print(employeedata['FirstName'])
     return employeedata
 
-class ZeroConfigurationDatatableView(DatatableView):
-    model = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1)
+class OrderListJson(BaseDatatableView):
+        # The model we're going to show
+        model = List_Emp
+        columns = ['Fullname', 'Dep', 'Regist_Date']
+        order_columns = ['Regist_Date','Dep','Fullname']
+        
+        def render_column(self, row, column):
+            return super(OrderListJson, self).render_column(row, column)
+
+        def filter_queryset(self, qs):
+            search = self.request.GET.get('search[value]', None)
+            qs = qs.filter(name__istartswith=search)
+            return qs
+
+
+
 
     
 # Create your views here.
