@@ -17,13 +17,13 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path
 from register import views
-from .views import OrderListJson
+
 
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     # url(r'^save_emp', views.save_emp),
-    url(r'^datatable/data/$', OrderListJson.as_view(), name='order_list_json'),
+    url(r'^datatable/$', views.OrderListJson, name='order_list_json'),
     path('regist/<int:PK_Course_D>/', views.course_title, name='course_title'),
     path('detial/<int:PK_Course_D>/', views.course_detial, name='course_detial'),
     path('admin/', admin.site.urls),

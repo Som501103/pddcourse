@@ -5,7 +5,8 @@ from .models import MT_User, Course_D, List_Dept, List_Emp
 from .forms import SaveForm
 import requests, xmltodict
 import string
-from django-datatable-view.base_datatable_view import BaseDatatableView
+from django_datatables_view.base_datatable_view import BaseDatatableView
+from django.db.models import Q
 
 
 def home(request):
@@ -76,13 +77,11 @@ class OrderListJson(BaseDatatableView):
         model = List_Emp
         columns = ['Fullname', 'Dep', 'Regist_Date']
         order_columns = ['Regist_Date','Dep','Fullname']
-        
-        def render_column(self, row, column):
-            return super(OrderListJson, self).render_column(row, column)
 
         def filter_queryset(self, qs):
-            search = self.request.GET.get('search[value]', None)
-            qs = qs.filter(name__istartswith=search)
+            sSearch = self.request.GET.get('sSearch', None)
+            if sSearch:
+                qs = qs.filter(Q(fullname__istartswith=sSearch) | Q(Dep__istartswith=sSearch))
             return qs
 
 
