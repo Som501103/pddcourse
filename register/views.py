@@ -22,7 +22,7 @@ def course_title(request, PK_Course_D):
         if request.method == 'POST':
             Emp_id = request.POST.get('Emp_id')
             print(Emp_id)
-            qs_check_user = len(List_Emp.objects.filter(ref_course=course, E_ID = Emp_id, status= 1))
+            qs_check_user = len(List_Emp.objects.filter(E_ID = Emp_id, status= 1).order_by('-PK_List_Emp'))
             if qs_check_user == 0:
                 nameget = idm(Emp_id)
                 print(nameget['TitleFullName'], nameget['FirstName'],nameget['LastName'],nameget['DepartmentShort'])
@@ -71,6 +71,15 @@ def idm(Emp_id):
     employeedata = dict(jsonconvert)
     print(employeedata['FirstName'])
     return employeedata
+
+def checkStudent(Emp_id):
+    student = len(List_Emp.objects.get(E_ID= Emp_id,status= 1))
+    if student == 0:
+        rerult = 1
+    else :
+        rerult = 0
+    return rerult
+
 
 class UsersListJson(BaseDatatableView):
         # The model we're going to show
