@@ -30,7 +30,7 @@ def course_title(request, PK_Course_D):
                 if nameget['BaCode'] == 'Z000':
                     print(nameget['TitleFullName'], nameget['FirstName'],nameget['LastName'],nameget['DepartmentShort'])
                     fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
-                    employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['LevelDesc'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'])
+                    employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'])
                     employee.save()
                     count = len(List_Emp.objects.filter(ref_course=PK_Course_D, status = 1))
                     print (count)
