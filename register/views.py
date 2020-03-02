@@ -11,7 +11,7 @@ from django.db.models import Q
 
 def home(request):
     courses = Course_D.objects.all().filter(status = 1)
-    count = Course_D['']
+    # count = Course_D['']
 
 
     return render(request, 'home.html', {'courses': courses})
