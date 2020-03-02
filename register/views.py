@@ -10,7 +10,7 @@ from django.db.models import Q
 
 
 def home(request):
-    courses = Course_D.objects.all().filter(status = 1)
+    courses = Course_D.objects.all().filter(status = 1).order_by('PK_Course_D')
     # count = Course_D['']
 
 
@@ -31,11 +31,11 @@ def course_title(request, PK_Course_D):
                 fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
                 employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'])
                 employee.save()
-                # count = len(List_Emp.objects.get(ref_course=course, status = 1))
-                # update_num_student = Course_D.objects.filter(PK_Course_D=course).update(Number_People=count)
-                employee.Fullname
+                # count = len(List_Emp.objects.filter(ref_course=PK_Course_D, status = 1))
+                # print (count)
+                # update_num_student = Course_D.objects.get(PK_Course_D = 7).update(Number_People = count)
+                # print(update_num_student)
                 massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
-                
             else:
                 massage = "ท่านได้ลงทะเบียน หรือ เคยผ่านกการฝึกอบรมหลักสูตร KM Tools/KM Action/KM Facilitator แล้ว"
 
