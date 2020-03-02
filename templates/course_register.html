@@ -29,6 +29,11 @@
         </script>
     </head>
     <body>
+        <div class="container mt-5">
+            <ol class="breadcrumb my-4">
+                <li class="breadcrumb-item active"><a href="{% url 'home' %}">หลักสูตร กพค.</a></li>
+            </ol>
+        
         <div class="container mt-2">
             <div class="col-md-12">
                 <h3 class="text-center">หลักสูตร {{ course.Course_Name }} รุ่นที่ {{ course.Batch_Type }}</h3>
@@ -49,9 +54,7 @@
                             <button type="submit" class="btn btn-success">ลงทะเบียน</button>
                             <div class="col-sm-12 text-center" ><label for="massage_error" class="text-danger text-center">{{ massage }}</label></div>
                         </div>
-                         
                     </form>
-
                 </div>
                 <div>
                 <table class="table table-striped stylefont mt-5">
@@ -67,12 +70,29 @@
                     </thead>
                         {% for student in student %}
                             <tr class="stylefont text-center">
-                                <td class="align-middle"></td>
-                                <td class="align-middle">
-                                    <small class="text-muted">{{ student.E_ID }}</small>
-                                </td>
+                                <td class="align-middle">{{ forloop.counter }}</td>
+                                <td class="align-middle">{{ student.E_ID }}</td>
                                 <td class="align-middle">{{ student.Fullname }}</td>
-                                <td class="align-middle">{{ student.Position }}{{ student.Level }}</td>
+                                <td class="align-middle">{{ student.Position }}
+                                                        {% if student.Level == "M1" %}
+                                                            </td>
+                                                        {% elif student.Level == "M2" %}
+                                                            </td>
+                                                        {% elif student.Level == "M3" %}
+                                                            </td> 
+                                                        {% elif student.Level == "M4" %}
+                                                            </td>
+                                                        {% elif student.Level == "M5" %}
+                                                            </td>
+                                                        {% elif student.Level == "M6" %}
+                                                            </td>  
+                                                        {% elif student.Level == "S1" %}
+                                                            </td> 
+                                                        {% elif student.Level == "S2" %}
+                                                            </td>                                                       
+                                                        {% else %}
+                                                            {{ student.Level }}</td>
+                                                        {% endif %}
                                 <td class="align-middle">{{ student.Dep }}</td>
                                 <td class="align-middle">{{ student.Regist_Date }}</td>
                             </tr>
@@ -94,5 +114,6 @@
                 {% endblock %} -->
             </div>
         </div>
+    </div>
     </body>
 </html>
