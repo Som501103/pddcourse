@@ -18,9 +18,10 @@
                 <table class="table">
                     <thead class="thead-light">
                         <tr class="stylefont text-center">
-                            <th class="align-middle">หลักสูตร</th>
+                            <th class="align-middle">ลำดับ</th>
                             <th class="align-middle">รุ่นที่</th>
-                            <th>วันที่</th>
+                            <th>วันที่เริ่มต้น</th>
+                            <th>วันที่สิ้นสุด</th>
                             <th>สถานที่</th>
                             <th>จำนวนคน</th>
                             <th>ลงทะเบียนแล้ว</th>
@@ -31,9 +32,10 @@
                     </thead>
                         {% for course in courses %}
                             <tr>
-                                <td class="align-middle">{{ course.Course_ID }}</td>
-                                <td class="align-middle">{{ course.Course_Name }}</td>
+                                <td class="align-middle">{{ forloop.counter }}</td>
+                                <td class="align-middle">{{ course.Course_Name }}รุ่นที่ {{ course.Batch_Type }}</td>
                                 <td class="align-middle">{{ course.Start_Date }}</td>
+                                <td class="align-middle">{{ course.Course_ID }}</td>
                                 <td class="align-middle">{{ course.Location}}</td>
                                 <td class="align-middle">{{ course.Number_App}}</td>
                                 <td class="align-middle">{{ course.Number_People}}</td>
