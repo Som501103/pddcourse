@@ -35,7 +35,7 @@ class Course_D(models.Model):
     End_Time = models.DateTimeField(null=True)
     status = models.IntegerField(null=True, default=1)
     def __str__(self):
-        return self.Course_ID, self.Course_Name
+        return self.Course_ID
 
 
 class List_Dept(models.Model):
@@ -62,7 +62,7 @@ class List_Emp(models.Model):
     # status 1= on, 0 = offf
 
     def __str__(self):
-        return self.E_ID, self.ref_course.Course_ID
+        return self.E_ID
 
 
 
