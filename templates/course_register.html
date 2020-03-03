@@ -48,12 +48,16 @@
                     <h3>ลงทะเบียน</h3>
                     <form method="post">
                         {% csrf_token %}
+                        {% if course.Number_App > course.Number_People %}
                          <div class="form-group">
                             <label for="Emp_id">รหัสพนักงาน</label>
                             <input type="text" class="col-sm-9" id="Emp_id" name="Emp_id">
                             <button type="submit" class="btn btn-success">ลงทะเบียน</button>
                             <div class="col-sm-12 text-center" ><label for="massage_error" class="text-danger text-center">{{ massage }}</label></div>
                         </div>
+                        {% else %}
+                        <div class="col-sm-12 text-center" ><h4 for="Emp_id" class="text-danger text-center">หลักสูตรนี้ปิดการลงทะเบียนแล้ว</h4></div>
+                        {% endif %}
                     </form>
                 </div>
                 <div>

@@ -6,14 +6,13 @@ from .forms import SaveForm
 import requests, xmltodict
 import string
 from django_datatables_view.base_datatable_view import BaseDatatableView
-from django.db.models import Q
+from django.db.models import Q, F
 
 
 def home(request):
-    courses = Course_D.objects.all().filter(status = 1).order_by('PK_Course_D')
-    # count = Course_D['']
-
-
+    courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('PK_Course_D')
+    #  qs_SAIFI_Area = EventCustom.objects.all().select_related('stationpea').filter(region_pea__icontains = region, DateOutage__year= Eng_year, stationpea__CauseCode__icontains = causecode).annotate(year=TruncYear('DateOutage')).values('year','stationpea__Staion').annotate(Sum('Cus_A1')).annotate(Sum('Cus_A2')).annotate(Sum('Cus_A3')).annotate(Sum('Cus_A4')).annotate(Sum('Cus_A5')).order_by('year')
+    #     print(qs_SAIFI_Area.query)
     return render(request, 'home.html', {'courses': courses})
 
 def course_title(request, PK_Course_D):
