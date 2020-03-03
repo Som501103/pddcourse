@@ -62,7 +62,7 @@ class List_Emp(models.Model):
     # status 1= on, 0 = offf
 
     def __str__(self):
-        return self.E_ID, self.PK_List_Emp
+        return self.E_ID, self.ref_course.Course_ID
 
 
 
