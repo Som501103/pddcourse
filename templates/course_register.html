@@ -51,9 +51,11 @@
                         {% if course.Number_App > course.Number_People %}
                          <div class="form-group">
                             <label for="Emp_id">รหัสพนักงาน</label>
-                            <input type="text" class="col-sm-9" id="Emp_id" name="Emp_id">
+                            <input type="text" class="col-sm-9" id="Emp_id" name="Emp_id" required>
                             <label for="Emp_id">E-mail (ใช้อีเมล์ส่วนตัวในการลงทะเบียนได้)</label>
-                            <input type="email" class="col-sm-6" id="Emp_email" name="Emp_email">
+                            <input type="email" class="col-sm-6" id="Emp_email" name="Emp_email" required></br>
+                            <label for="Emp_tel">เบอร์มือถือ</label>
+                            <input type="text" class="col-sm-6" id="Emp_tel" name="Emp_tel" required>
                             <label class="text-danger">ทางบริษัทจะส่งข้อมูล username และ password ผ่าน e-mail ที่ท่านแจ้งไว้</label>
                             <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ ชมพูนุท เบอร์ 093 569 2496 หรือ overseas.trn@pea.co.th</label>
                             </br>

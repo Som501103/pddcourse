@@ -58,6 +58,7 @@ class List_Emp(models.Model):
     Level = models.CharField(max_length=2,null=True,default='08')
     Dep = models.CharField(max_length=100,null=True,blank=True)
     Email = models.EmailField(blank=True,null=True,max_length=100)
+    Tel = models.CharField(blank=True,null=True,max_length=15)
     Regist_Date = models.DateField(auto_now_add=True)
     status = models.IntegerField(default=1, null=True)
     # status 1= on, 0 = offf

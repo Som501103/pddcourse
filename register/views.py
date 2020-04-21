@@ -23,10 +23,11 @@ def course_title(request, PK_Course_D):
         if request.method == 'POST':
             Emp_id = request.POST.get('Emp_id')
             Emp_email = request.POST.get('Emp_email')
-            print(Emp_id)
-            print(Emp_email)
+            Emp_tel = request.POST.get('Emp_tel')
+            # print(Emp_id)
+            # print(Emp_email)
             qs_check_user = len(List_Emp.objects.filter(E_ID = Emp_id, status= 1))
-            print(PK_Course_D)
+            # print(PK_Course_D)
             if PK_Course_D == 8:
                 qs_check_user_online = len(List_Emp.objects.filter(E_ID = Emp_id, status= 1, ref_course = 8))
                 if qs_check_user_online == 0:
@@ -34,7 +35,7 @@ def course_title(request, PK_Course_D):
                     print(PK_Course_D)
                     nameget = idm(Emp_id)
                     fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
-                    employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = Emp_email)
+                    employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = Emp_email, Tel = Emp_tel)
                     employee.save()
                     count = len(List_Emp.objects.filter(ref_course=PK_Course_D, status = 1))
                     print (count)
