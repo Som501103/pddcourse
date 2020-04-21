@@ -36,7 +36,7 @@
         
         <div class="container mt-2">
             <div class="col-md-12">
-                <h3 class="text-center">หลักสูตร {{ course.Course_Name }} รุ่นที่ {{ course.Batch_Type }}</h3>
+                <h3 class="text-center">หลักสูตร {{ course.Course_Name }} </h3>
                 <h3 class="text-center">วันที่เริ่ม {{course.Start_Date}}</h3>
                 <h3 class="text-center">วันที่สิ้นสุด {{course.End_Date}}</h3>
                 <h3 class="text-center">สถานที่จัด {{course.Location}}</h3>
@@ -55,6 +55,7 @@
                             <label for="Emp_id">E-mail (ใช้อีเมล์ส่วนตัวในการลงทะเบียนได้)</label>
                             <input type="email" class="col-sm-6" id="Emp_email" name="Emp_email">
                             <label class="text-danger">ทางบริษัทจะส่งข้อมูล username และ password ผ่าน e-mail ที่ท่านแจ้งไว้</label>
+                            <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ ชมพูนุท เบอร์ 093 569 2496 หรือ overseas.trn@pea.co.th</label>
                             </br>
                             <button type="submit" class="btn btn-success text-center">ลงทะเบียน</button>
                             <div class="col-sm-12 text-center" ><label for="massage_error" class="text-danger text-center">{{ massage }}</label></div>
