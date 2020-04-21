@@ -53,8 +53,10 @@
                             <label for="Emp_id">รหัสพนักงาน</label>
                             <input type="text" class="col-sm-9" id="Emp_id" name="Emp_id">
                             <label for="Emp_id">E-mail (ใช้อีเมล์ส่วนตัวในการลงทะเบียนได้)</label>
-                            <input type="email" class="col-sm-9" id="Emp_email" name="Emp_email">
-                            <button type="submit" class="btn btn-success">ลงทะเบียน</button>
+                            <input type="email" class="col-sm-6" id="Emp_email" name="Emp_email">
+                            <label class="text-danger">ทางบริษัทจะส่งข้อมูล username และ password ผ่าน e-mail ที่ท่านแจ้งไว้</label>
+                            </br>
+                            <button type="submit" class="btn btn-success text-center">ลงทะเบียน</button>
                             <div class="col-sm-12 text-center" ><label for="massage_error" class="text-danger text-center">{{ massage }}</label></div>
                         </div>
                         {% else %}
