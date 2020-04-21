@@ -23,23 +23,32 @@ def course_title(request, PK_Course_D):
         if request.method == 'POST':
             Emp_id = request.POST.get('Emp_id')
             Emp_email = request.POST.get('Emp_email')
-
-            if course.PK_Course_D == '8':
-                nameget = idm(Emp_id)
-                fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
-                employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = Emp_email)
-                employee.save()
-                count = len(List_Emp.objects.filter(ref_course=PK_Course_D, status = 1))
-                print (count)
-                update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
-                print(update_num_student)
-                massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
-
             print(Emp_id)
+            print(Emp_email)
             qs_check_user = len(List_Emp.objects.filter(E_ID = Emp_id, status= 1))
-            if qs_check_user == 0:
+            print(PK_Course_D)
+            if PK_Course_D == 8:
+                qs_check_user_online = len(List_Emp.objects.filter(E_ID = Emp_id, status= 1, ref_course = 8))
+                if qs_check_user_online == 0:
+                    print('online')
+                    print(PK_Course_D)
+                    nameget = idm(Emp_id)
+                    fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
+                    employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = Emp_email)
+                    employee.save()
+                    count = len(List_Emp.objects.filter(ref_course=PK_Course_D, status = 1))
+                    print (count)
+                    update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                    print(update_num_student)
+                    massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
+                else:
+                    massage = "ท่านได้ลงทะเบียนแล้ว"
+
+            
+            elif qs_check_user == 0:
                 nameget = idm(Emp_id)
                 if nameget['BaCode'] == 'Z000':
+                    print('km')
                     print(nameget['TitleFullName'], nameget['FirstName'],nameget['LastName'],nameget['DepartmentShort'])
                     fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
                     employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'])
