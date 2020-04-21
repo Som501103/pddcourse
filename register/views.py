@@ -52,7 +52,7 @@ def course_title(request, PK_Course_D):
                 else :
                     massage = "หลักสูตรนี้เฉพาะหนักงานที่สังกัดใน สำนักงานใหญ่"
             else:
-                massage = "ท่านได้ลงทะเบียน หรือ เคยผ่านกการฝึกอบรมหลักสูตร KM Tools/KM Action/KM Facilitator แล้ว"
+                massage = "ท่านได้ลงทะเบียนแล้ว"
 
     except Course_D.DoesNotExist:
         raise Http404
