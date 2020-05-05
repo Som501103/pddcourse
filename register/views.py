@@ -81,7 +81,7 @@ def home(request):
     Emp_id = request.session['Emp_id'] 
     Fullname = request.session['Fullname']
     Dept = request.session['Department']
-    check_km = List_Emp.objects.filter(E_ID = '501582',ref_course__PK_Course_D__range=(3,6)).exclude(ref_course='8').count()
+    check_km = List_Emp.objects.filter(E_ID = Emp_id,ref_course__PK_Course_D__range=(3,6)).exclude(ref_course='8').count()
     print(check_km)
     if check_km == 0:
         courses = Course_D.objects.all().filter(status = 0).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('PK_Course_D')
