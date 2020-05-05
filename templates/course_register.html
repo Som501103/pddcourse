@@ -36,7 +36,7 @@
         
         <div class="container mt-2">
             <div class="col-md-12">
-                <h3 class="text-center">หลักสูตร {{ course.Course_Name }} </h3>
+                <h3 class="text-center">หลักสูตร {{ course.Course_Name }} รุ่นที่ {{ course.Batch_Type }}</h3>
                 <h3 class="text-center">วันที่เริ่ม {{course.Start_Date}}</h3>
                 <h3 class="text-center">วันที่สิ้นสุด {{course.End_Date}}</h3>
                 <h3 class="text-center">สถานที่จัด {{course.Location}}</h3>
@@ -50,20 +50,44 @@
                         {% csrf_token %}
                         {% if course.Number_App > course.Number_People %}
                          <div class="form-group">
-                            <label for="Emp_id">รหัสพนักงาน</label>
-                            <input type="text" class="col-sm-9" id="Emp_id" name="Emp_id" required>
-                            <label for="Emp_id">E-mail (ใช้อีเมล์ส่วนตัวในการลงทะเบียนได้)</label>
-                            <input type="email" class="col-sm-6" id="Emp_email" name="Emp_email" required></br>
-                            <label for="Emp_tel">เบอร์มือถือ</label>
-                            <input type="text" class="col-sm-6" id="Emp_tel" name="Emp_tel" required>
-                            <label class="text-danger">ทางบริษัทจะส่งข้อมูล username และ password ผ่าน e-mail ที่ท่านแจ้งไว้</label>
-                            <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ ชมพูนุท เบอร์ 093 569 2496 หรือ overseas.trn@pea.co.th</label>
+                            <div class="row">
+                                <div class="col-sm-6"><label for="Emp_id"><b>ชื่อ</b> {{ profile.Fullname }}({{ profile.Emp_id }})</label></div>
+                                <div class="col-sm-6"><label for="Emp_id"><b>สังกัด</b> {{ profile.Dept }}</label></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <input type="email" id="Emp_email" name="Emp_email" class="form-control" placeholder="E-mail (ใช้อีเมล์ส่วนตัวในการลงทะเบียนได้)" required >
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" id="Emp_tel" name="Emp_tel" class="form-control" placeholder="เบอร์มือถือ" required>
+                                </div>
+                            </div>
                             </br>
-                            <button type="submit" class="btn btn-success text-center">ลงทะเบียน</button>
-                            <div class="col-sm-12 text-center" ><label for="massage_error" class="text-danger text-center">{{ massage }}</label></div>
+                            <div class="row">
+                                <div class="col-sm-12 text-center">
+                                    <button type="submit" class="btn btn-success text-center">ลงทะเบียน</button>
+                                </div>
+                            </div>
+                            </br>
+                            <div class="row">
+                                <div class="col-sm-12 text-center">
+                                    <label class="text-danger">ทาง ผจค. จะส่ง link เข้าเรียน ผ่าน e-mail ที่ท่านแจ้งไว้ ล่วงหน้า 2 วัน</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 text-center">
+                                    <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ อัศวิน เบอร์ 02-590-5858 หรือ kmpea5858@gmail.com</label>
+                                </div>
+                            </div>
+                            </br>
+                            <div class="row">
+                                <div class="col-sm-12 text-center" ><label for="massage_error" class="text-danger text-center">{{ massage }}</label></div>
+                            </div>
                         </div>
                         {% else %}
-                        <div class="col-sm-12 text-center" ><h4 for="Emp_id" class="text-danger text-center">หลักสูตรนี้ปิดการลงทะเบียนแล้ว</h4></div>
+                        <div class="row">
+                            <div class="col-sm-12 text-center" ><h4 for="Emp_id" class="text-danger text-center">หลักสูตรนี้ปิดการลงทะเบียนแล้ว</h4></div>
+                        </div>
                         {% endif %}
                     </form>
                 </div>
