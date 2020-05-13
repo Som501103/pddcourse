@@ -102,8 +102,12 @@ def course_title(request, PK_Course_D):
             'Fullname' : Fullname,
             'Dept' : Dept
         }
-        course = Course_D.objects.get(PK_Course_D=PK_Course_D, status = 1)
-        student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1).order_by('-PK_List_Emp')
+        if PK_Course_D == 13:
+            course = Course_D.objects.get(PK_Course_D=PK_Course_D)
+            student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1).order_by('-PK_List_Emp')
+        else:
+            course = Course_D.objects.get(PK_Course_D=PK_Course_D, status = 1)
+            student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1).order_by('-PK_List_Emp')
         massage = ''
         if request.method == 'POST':
             Emp_email = request.POST.get('Emp_email')
