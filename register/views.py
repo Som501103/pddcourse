@@ -202,7 +202,7 @@ def idm(Emp_id):
     response = requests.post(url,data=body,headers=headers)
     o = xmltodict.parse(response.text)
 
-    print(o)
+    # print(o)
     jsonconvert=o["soap:Envelope"]['soap:Body']['GetEmployeeInfoByEmployeeId_SIResponse']['GetEmployeeInfoByEmployeeId_SIResult']['ResultObject']
     employeedata = dict(jsonconvert)
     print(employeedata['FirstName'])
