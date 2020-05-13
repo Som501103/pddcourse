@@ -69,16 +69,32 @@
                                 </div>
                             </div>
                             </br>
-                            <div class="row">
-                                <div class="col-sm-12 text-center">
-                                    <label class="text-danger">ทาง ผจค. จะส่ง link เข้าเรียน ผ่าน e-mail ที่ท่านแจ้งไว้ ล่วงหน้า 2 วัน</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 text-center">
-                                    <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ อัศวิน เบอร์ 02-590-5858 หรือ kmpea5858@gmail.com</label>
-                                </div>
-                            </div>
+                                {% if course.PK_Course_D == '13' %}
+                                    <div class="row">
+                                        <div class="col-sm-12 text-center">
+                                            <label class="text-danger">ทาง Admin จะส่ง link เข้าเรียน ผ่าน e-mail ที่ท่านแจ้งไว้ ล่วงหน้า 1 วัน</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 text-center">
+                                            <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ Admin ส้ม เบอร์ 02-590-5858 หรือ kmpea5858@gmail.com</label>
+                                        </div>
+                                    </div>
+
+                                {% else %}
+                                    <div class="row">
+                                        <div class="col-sm-12 text-center">
+                                            <label class="text-danger">ทาง ผจค. จะส่ง link เข้าเรียน ผ่าน e-mail ที่ท่านแจ้งไว้ ล่วงหน้า 2 วัน</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 text-center">
+                                            <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ อัศวิน เบอร์ 02-590-5858 หรือ kmpea5858@gmail.com</label>
+                                        </div>
+                                    </div>
+
+                                {% endif %}
+                            
                             </br>
                             <div class="row">
                                 <div class="col-sm-12 text-center" ><label for="massage_error" class="text-danger text-center">{{ massage }}</label></div>
