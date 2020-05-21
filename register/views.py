@@ -86,6 +86,9 @@ def home(request):
     if check_km == 0:
         courses = Course_D.objects.all().filter(status = 0).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('PK_Course_D')
     
+    elif Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599':
+        courses = Course_D.objects.all().filter(status = 0).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('PK_Course_D')
+
     else : 
         courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('PK_Course_D')
     
