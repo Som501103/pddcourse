@@ -117,7 +117,8 @@ def course_title(request, PK_Course_D):
             Emp_tel = request.POST.get('Emp_tel')
             # print(Emp_id)
             # print(Emp_email)
-            qs_check_user = List_Emp.objects.filter(E_ID = Emp_id,ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+            qs_check_user = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+            print(qs_check_user)
             # print(PK_Course_D)
             # if PK_Course_D == 8:
             #     qs_check_user_online = len(List_Emp.objects.filter(E_ID = Emp_id, status= 1, ref_course = 8))
@@ -155,7 +156,7 @@ def course_title(request, PK_Course_D):
             # else:
 
             #     massage = "ท่านได้ลงทะเบียนแล้ว"
-            if qs_check_user == 1:
+            if qs_check_user == 0:
                 # check_user_regist = List_Emp.objects.filter(E_ID = Emp_id,ref_course__PK_Course_D__range=(9,14)).exclude(ref_course='8').count()
                 
                 print('online')
