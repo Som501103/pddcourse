@@ -117,7 +117,7 @@ def course_title(request, PK_Course_D):
             Emp_tel = request.POST.get('Emp_tel')
             # print(Emp_id)
             # print(Emp_email)
-            qs_check_user = List_Emp.objects.filter(E_ID = Emp_id,ref_course__PK_Course_D__range=(3,6)).exclude(ref_course='8').count()
+            qs_check_user = List_Emp.objects.filter(E_ID = Emp_id,ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
             # print(PK_Course_D)
             # if PK_Course_D == 8:
             #     qs_check_user_online = len(List_Emp.objects.filter(E_ID = Emp_id, status= 1, ref_course = 8))
@@ -156,23 +156,22 @@ def course_title(request, PK_Course_D):
 
             #     massage = "ท่านได้ลงทะเบียนแล้ว"
             if qs_check_user == 1:
-                check_user_regist = List_Emp.objects.filter(E_ID = Emp_id,ref_course__PK_Course_D__range=(9,12)).exclude(ref_course='8').count()
-                if check_user_regist == 0:
-                    print('online')
-                    print(PK_Course_D)
-                    nameget = idm(Emp_id)
-                    fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
-                    employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = Emp_email, Tel = Emp_tel)
-                    employee.save()
-                    count = len(List_Emp.objects.filter(ref_course=PK_Course_D, status = 1))
-                    print (count)
-                    update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
-                    print(update_num_student)
-                    massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
-                else :
-                    massage = "ท่านได้ลงทะเบียนแล้ว"
-            else:
-                massage = "หลักสูตรเปิดสำหรับผู้ที่เคยลงทะเบียน KM in action ช่วงเดือน เมษายน 2563"
+                # check_user_regist = List_Emp.objects.filter(E_ID = Emp_id,ref_course__PK_Course_D__range=(9,14)).exclude(ref_course='8').count()
+                
+                print('online')
+                print(PK_Course_D)
+                nameget = idm(Emp_id)
+                fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
+                employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = Emp_email, Tel = Emp_tel)
+                employee.save()
+                count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
+                print (count)
+                update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                print(update_num_student)
+                massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
+            else :
+                massage = "ท่านได้ลงทะเบียนแล้ว"
+    
 
     except Course_D.DoesNotExist:
         raise Http404
