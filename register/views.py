@@ -78,10 +78,10 @@ def home(request):
     courses= {
             'courses' : ''
         }
-    Emp_id = '301812'
+    Emp_id = request.session['Emp_id']
     Fullname = request.session['Fullname']
     Dept = request.session['Department']
-    Dept_code = '410100001000300'
+    Dept_code = request.session['Dept_code']
     Cut_Dept_code = Dept_code[:5]
     print(Cut_Dept_code)
     check_km = List_Emp.objects.filter(E_ID = Emp_id,ref_course__PK_Course_D__range=(3,6)).exclude(ref_course='8').count()
@@ -90,7 +90,9 @@ def home(request):
         courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
 
     elif Cut_Dept_code == '41010' or Cut_Dept_code == '41020' or Cut_Dept_code == '41030':
-        courses = Course_D.objects.all().filter(PK_Course_D__range = (14,49) ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        courses = Course_D.objects.all().filter(PK_Course_D = 49 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+    elif Cut_Dept_code == '42010' or Cut_Dept_code == '42020' or Cut_Dept_code == '42030':
+        courses = Course_D.objects.all().filter(PK_Course_D = 50 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     else : 
         courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     
@@ -305,6 +307,75 @@ def course_KM(request, PK_Course_D):
 
     return render(request, 'course_KM.html', {'course': course,'profile':profile, 'Group1_Qset':Group1_Qset, 'Group2_Qset':Group2_Qset, 'Group3_Qset':Group3_Qset,'check_student':check_student,'massage':massage})
 
+def course_KM2(request, PK_Course_D):
+    Emp_id = request.session['Emp_id']
+    # Emp_id = '503710'
+    Fullname = request.session['Fullname']
+    Dept = request.session['Department']
+    Dept_code = request.session['Dept_code']
+    # Dept_code = '410200001000300'
+    Cut_Dept_code = Dept_code[:3]
+    Group1 = str(Cut_Dept_code)+str(10)
+    Group2 = str(Cut_Dept_code)+str(20)
+    Group3 = str(Cut_Dept_code)+str(30)
+    print(Group1)
+    Group1_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = Group1))
+    print(Group1_count)
+    Group2_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = Group2))
+    print(Group2_count)
+    Group3_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = Group3))
+    print(Group3_count)
+    check_student = ''
+
+
+    if  Group1 == '42010': 
+        if Group1_count < 10:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Group2 == '42020':
+        if Group2_count < 10:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Group3 == '42030':
+        if Group3_count < 10:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+
+    print(check_student)
+    Group1_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = Group1)
+    Group2_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = Group2)
+    Group3_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = Group3)
+
+    course = Course_D.objects.get(PK_Course_D=PK_Course_D)
+    profile = {
+            'Emp_id' : Emp_id,
+            'Fullname' : Fullname,
+            'Dept' : Dept,
+            'Dept_code' : Dept_code
+    }
+    massage = ''
+    if request.method == 'POST':
+        Emp_tel = request.POST.get('Emp_tel')
+        qs_check_user = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+        if qs_check_user == 0:
+            print('online')
+            print(PK_Course_D)
+            nameget = idm(Emp_id)
+            fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
+            employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=Dept_code , Tel = Emp_tel)
+            employee.save()
+            count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
+            print (count)
+            update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+            print(update_num_student)
+            massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
+        else :
+            massage = "ท่านได้ลงทะเบียนแล้ว"
+
+    return render(request, 'course_KM2.html', {'course': course,'profile':profile, 'Group1_Qset':Group1_Qset, 'Group2_Qset':Group2_Qset, 'Group3_Qset':Group3_Qset,'check_student':check_student,'massage':massage})
 
     
 # Create your views here.

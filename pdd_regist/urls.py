@@ -28,6 +28,7 @@ urlpatterns = [
     path('regist/<int:PK_Course_D>/', views.course_title, name='course_title'),
     path('detial/<int:PK_Course_D>/', views.course_detial, name='course_detial'),
     path('detail_km/<int:PK_Course_D>/', views.course_KM, name='course_KM'),
+    path('detail_km2/<int:PK_Course_D>/', views.course_KM2, name='course_KM2'),
     path('admin/', admin.site.urls),
 
 ]
