@@ -57,15 +57,21 @@ class List_Emp(models.Model):
     Position = models.CharField(max_length=20,null=True,default='หผ.')
     Level = models.CharField(max_length=2,null=True,default='08')
     Dep = models.CharField(max_length=100,null=True,blank=True)
+    Dept_code = models.CharField(max_length=20,null=True,blank=True,default='0000')
     Email = models.EmailField(blank=True,null=True,max_length=100)
     Tel = models.CharField(blank=True,null=True,max_length=15)
     Regist_Date = models.DateField(auto_now_add=True)
     status = models.IntegerField(default=1, null=True)
-    # status 1= on, 0 = offf
+    # status 1= on, 0 = off
 
     def __str__(self):
         return self.E_ID
 
+class Course_sub(models.Model):
+    title = models.CharField(max_length=100,null=True)
+    area = models.CharField(max_length=10,null=True)
+    number_student = models.IntegerField(default=0,null=True)
+    ref_course = models.ForeignKey(Course_D, related_name='Sub_Course_D',on_delete = models.CASCADE,null= True,default='0')
 
 
 

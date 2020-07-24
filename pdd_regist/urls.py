@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^datatable/$', views.UsersListJson, name='order_list_json'),
     path('regist/<int:PK_Course_D>/', views.course_title, name='course_title'),
     path('detial/<int:PK_Course_D>/', views.course_detial, name='course_detial'),
+    path('detail_km/<int:PK_Course_D>/', views.course_KM, name='course_KM'),
     path('admin/', admin.site.urls),
 
 ]
