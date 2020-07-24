@@ -91,6 +91,7 @@ def home(request):
 
     elif Cut_Dept_code == '41010' or Cut_Dept_code == '41020' or Cut_Dept_code == '41030':
         courses = Course_D.objects.all().filter(PK_Course_D = 49 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+
     elif Cut_Dept_code == '42010' or Cut_Dept_code == '42020' or Cut_Dept_code == '42030':
         courses = Course_D.objects.all().filter(PK_Course_D = 50 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     else : 
@@ -171,7 +172,7 @@ def course_title(request, PK_Course_D):
                 print(PK_Course_D)
                 nameget = idm(Emp_id)
                 fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
-                employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = Emp_email, Tel = Emp_tel)
+                employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'],Dept_code = nameget['DepartmentSap'], Email = Emp_email, Tel = Emp_tel)
                 employee.save()
                 count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
                 print (count)
@@ -299,7 +300,9 @@ def course_KM(request, PK_Course_D):
             employee.save()
             count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
             print (count)
-            update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+            update_num_student = Course_D.objects.get(PK_Course_D = PK_Course_D)
+            update_num_student.Number_People = count
+            update_num_student.save()
             print(update_num_student)
             massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
         else :
