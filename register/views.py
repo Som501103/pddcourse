@@ -90,16 +90,16 @@ def home(request):
         courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
 
     elif Cut_Dept_code == '41010' or Cut_Dept_code == '41020' or Cut_Dept_code == '41030':
-        courses = Course_D.objects.all().filter(PK_Course_D = 49 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        courses = Course_D.objects.all().filter(PK_Course_D = 49,status = 1 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
 
     elif Cut_Dept_code == '42010' or Cut_Dept_code == '42020' or Cut_Dept_code == '42030':
-        courses = Course_D.objects.all().filter(PK_Course_D = 50 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        courses = Course_D.objects.all().filter(PK_Course_D = 50,status = 1 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     
     elif Cut_Dept_code == '43010' or Cut_Dept_code == '43020' or Cut_Dept_code == '43030':
-        courses = Course_D.objects.all().filter(PK_Course_D = 51 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        courses = Course_D.objects.all().filter(PK_Course_D = 51,status = 1 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     
     elif Cut_Dept_code == '44010' or Cut_Dept_code == '44020' or Cut_Dept_code == '44030':
-        courses = Course_D.objects.all().filter(PK_Course_D = 52 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        courses = Course_D.objects.all().filter(PK_Course_D = 52,status = 1 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     
     else : 
         courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
