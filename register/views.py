@@ -268,9 +268,9 @@ def course_KM(request, PK_Course_D):
     if Emp_id == '501103' or  Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599':
         Dept_code = '41030111111'
     Cut_Dept_code = Dept_code[:3]
-    Group1 = str(Cut_Dept_code)+str(10)
-    Group2 = str(Cut_Dept_code)+str(20)
-    Group3 = str(Cut_Dept_code)+str(30)
+    Group1 = str(Cut_Dept_code)+str(1)
+    Group2 = str(Cut_Dept_code)+str(2)
+    Group3 = str(Cut_Dept_code)+str(3)
     print(Group1)
     Group1_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = Group1))
     print(Group1_count)
@@ -281,17 +281,17 @@ def course_KM(request, PK_Course_D):
     check_student = ''
 
 
-    if  Group1 == '41010': 
+    if  Group1 == '4101': 
         if Group1_count < 10:
             check_student = 'add'
         else :
             check_student = 'full'
-    elif Group2 == '41020':
+    elif Group2 == '4102':
         if Group2_count < 10:
             check_student = 'add'
         else :
             check_student = 'full'
-    elif Group3 == '41030':
+    elif Group3 == '4103':
         if Group3_count < 10:
             check_student = 'add'
         else :
@@ -340,9 +340,9 @@ def course_KM2(request, PK_Course_D):
     if Emp_id == '501103' or  Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599':
         Dept_code = '42030111111'
     Cut_Dept_code = Dept_code[:3]
-    Group1 = str(Cut_Dept_code)+str(10)
-    Group2 = str(Cut_Dept_code)+str(20)
-    Group3 = str(Cut_Dept_code)+str(30)
+    Group1 = str(Cut_Dept_code)+str(1)
+    Group2 = str(Cut_Dept_code)+str(2)
+    Group3 = str(Cut_Dept_code)+str(3)
     print(Group1)
     Group1_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = Group1))
     print(Group1_count)
@@ -353,17 +353,17 @@ def course_KM2(request, PK_Course_D):
     check_student = ''
 
 
-    if  Group1 == '42010': 
+    if  Group1 == '4201': 
         if Group1_count < 10:
             check_student = 'add'
         else :
             check_student = 'full'
-    elif Group2 == '42020':
+    elif Group2 == '4202':
         if Group2_count < 10:
             check_student = 'add'
         else :
             check_student = 'full'
-    elif Group3 == '42030':
+    elif Group3 == '4203':
         if Group3_count < 10:
             check_student = 'add'
         else :
@@ -412,9 +412,9 @@ def course_KM3(request, PK_Course_D):
     if Emp_id == '501103' or  Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599':
         Dept_code = '43030111111'
     Cut_Dept_code = Dept_code[:3]
-    Group1 = str(Cut_Dept_code)+str(10)
-    Group2 = str(Cut_Dept_code)+str(20)
-    Group3 = str(Cut_Dept_code)+str(30)
+    Group1 = str(Cut_Dept_code)+str(1)
+    Group2 = str(Cut_Dept_code)+str(2)
+    Group3 = str(Cut_Dept_code)+str(3)
     print(Group1)
     Group1_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = Group1))
     print(Group1_count)
@@ -425,17 +425,17 @@ def course_KM3(request, PK_Course_D):
     check_student = ''
 
 
-    if  Group1 == '43010': 
+    if  Group1 == '4301': 
         if Group1_count < 10:
             check_student = 'add'
         else :
             check_student = 'full'
-    elif Group2 == '43020':
+    elif Group2 == '4302':
         if Group2_count < 10:
             check_student = 'add'
         else :
             check_student = 'full'
-    elif Group3 == '43030':
+    elif Group3 == '4303':
         if Group3_count < 10:
             check_student = 'add'
         else :
@@ -484,9 +484,9 @@ def course_KM4(request, PK_Course_D):
     if Emp_id == '501103' or  Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599':
         Dept_code = '44030111111'
     Cut_Dept_code = Dept_code[:3]
-    Group1 = str(Cut_Dept_code)+str(10)
-    Group2 = str(Cut_Dept_code)+str(20)
-    Group3 = str(Cut_Dept_code)+str(30)
+    Group1 = str(Cut_Dept_code)+str(1)
+    Group2 = str(Cut_Dept_code)+str(2)
+    Group3 = str(Cut_Dept_code)+str(3)
     print(Group1)
     Group1_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = Group1))
     print(Group1_count)
@@ -497,17 +497,17 @@ def course_KM4(request, PK_Course_D):
     check_student = ''
 
 
-    if  Group1 == '44010': 
+    if  Group1 == '4401': 
         if Group1_count < 10:
             check_student = 'add'
         else :
             check_student = 'full'
-    elif Group2 == '44020':
+    elif Group2 == '4402':
         if Group2_count < 10:
             check_student = 'add'
         else :
             check_student = 'full'
-    elif Group3 == '44030':
+    elif Group3 == '4403':
         if Group3_count < 10:
             check_student = 'add'
         else :
