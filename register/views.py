@@ -89,18 +89,6 @@ def home(request):
     if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599':
         courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
 
-    elif Cut_Dept_code == '41010' or Cut_Dept_code == '41020' or Cut_Dept_code == '41030':
-        courses = Course_D.objects.all().filter(PK_Course_D = 49,status = 1 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-
-    elif Cut_Dept_code == '42010' or Cut_Dept_code == '42020' or Cut_Dept_code == '42030':
-        courses = Course_D.objects.all().filter(PK_Course_D = 50,status = 1 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-    
-    elif Cut_Dept_code == '43010' or Cut_Dept_code == '43020' or Cut_Dept_code == '43030':
-        courses = Course_D.objects.all().filter(PK_Course_D = 51,status = 1 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-    
-    elif Cut_Dept_code == '44010' or Cut_Dept_code == '44020' or Cut_Dept_code == '44030':
-        courses = Course_D.objects.all().filter(PK_Course_D = 52,status = 1 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-    
     else : 
         courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     
@@ -142,7 +130,7 @@ def course_title(request, PK_Course_D):
             student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1).order_by('-PK_List_Emp')
     massage = ''
     if request.method == 'POST':
-            Emp_email = request.POST.get('Emp_email')
+            # Emp_email = request.POST.get('Emp_email')
             Emp_tel = request.POST.get('Emp_tel')
             # print(Emp_id)
             # print(Emp_email)
@@ -192,7 +180,7 @@ def course_title(request, PK_Course_D):
                 print(PK_Course_D)
                 nameget = idm(Emp_id)
                 fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
-                employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'],Dept_code = nameget['DepartmentSap'], Email = Emp_email, Tel = Emp_tel)
+                employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'],Dept_code = nameget['DepartmentSap'], Tel = Emp_tel)
                 employee.save()
                 count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
                 print (count)
