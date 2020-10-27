@@ -130,7 +130,7 @@ def course_title(request, PK_Course_D):
             student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1).order_by('-PK_List_Emp')
 
     else:
-            course = Course_D.objects.get(PK_Course_D=PK_Course_D, status = 1)
+            course = Course_D.objects.get(PK_Course_D=PK_Course_D)
             student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1).order_by('-PK_List_Emp')
     massage = ''
     if request.method == 'POST':
