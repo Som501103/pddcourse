@@ -17,7 +17,7 @@ def login(request):
         if request.method == 'POST':
             Emp_id = request.POST.get('StaffID')
             Emp_pass = request.POST.get('StaffPS')
-            if Emp_id == '303270':
+            if Emp_id == '303270' or Emp_id == '501249' or Emp_id == '489343':
                 reposeMge = 'true'   
             else : 
                 check_ID = idm_login(Emp_id,Emp_pass)
