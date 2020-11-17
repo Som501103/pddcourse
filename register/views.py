@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import Http404
-from .models import MT_User, Course_D, List_Dept, List_Emp
+from .models import MT_User, Course_D, List_Dept, List_Emp, Course_Director
 from .forms import SaveForm
 from django.shortcuts import redirect
 import requests, xmltodict
@@ -17,7 +17,7 @@ def login(request):
         if request.method == 'POST':
             Emp_id = request.POST.get('StaffID')
             Emp_pass = request.POST.get('StaffPS')
-            if Emp_id == '303270' or Emp_id == '501249' or Emp_id == '489343':
+            if Emp_id == '303270' or Emp_id == '501249' or Emp_id == '489343' or Emp_id == '297916':
                 reposeMge = 'true'   
             else : 
                 check_ID = idm_login(Emp_id,Emp_pass)
@@ -86,21 +86,26 @@ def home(request):
     Fullname = request.session['Fullname']
     Dept = request.session['Department']
     Dept_code = request.session['Dept_code']
+    Position = request.session['Position']
     Cut_Dept_code = Dept_code[:5]
     print(Cut_Dept_code)
+    print(Dept_code)
+
+    check_SD = len(Course_Director.objects.filter(E_ID = Emp_id))
+
     check_km = List_Emp.objects.filter(E_ID = Emp_id,ref_course__PK_Course_D__range=(3,6)).exclude(ref_course='8').count()
     print(check_km)
     if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599':
         courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-
-    else : 
+    elif check_SD == 1:
         courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+    else : 
+        courses = Course_D.objects.all().filter(status = 1).exclude(PK_Course_D__range = (60,61)).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     
-    return render(request, 'home.html', {'courses': courses})
+    return render(request, 'home.html', {'courses': courses,'Cut_Dept_code':Cut_Dept_code})
 
 
 def course_title(request, PK_Course_D):
-
     Emp_id = request.session['Emp_id'] 
     Fullname = request.session['Fullname']
     Dept = request.session['Department']
@@ -109,6 +114,7 @@ def course_title(request, PK_Course_D):
             'Fullname' : Fullname,
             'Dept' : Dept
     }
+    
     if PK_Course_D == 14:
             course = Course_D.objects.get(PK_Course_D=PK_Course_D)
             student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1).order_by('-PK_List_Emp')
@@ -125,6 +131,10 @@ def course_title(request, PK_Course_D):
             course = Course_D.objects.get(PK_Course_D=PK_Course_D)
             student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1).order_by('-PK_List_Emp')
 
+    elif PK_Course_D == 52:
+            course = Course_D.objects.get(PK_Course_D=PK_Course_D)
+            student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1).order_by('-PK_List_Emp')
+    
     elif PK_Course_D == 52:
             course = Course_D.objects.get(PK_Course_D=PK_Course_D)
             student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1).order_by('-PK_List_Emp')
@@ -537,6 +547,185 @@ def course_KM4(request, PK_Course_D):
             massage = "ท่านได้ลงทะเบียนแล้ว"
 
     return render(request, 'course_KM4.html', {'course': course,'profile':profile, 'Group1_Qset':Group1_Qset, 'Group2_Qset':Group2_Qset, 'Group3_Qset':Group3_Qset,'check_student':check_student,'massage':massage})
+
+def course_SD_HQ(request, PK_Course_D):
+    Emp_id = request.session['Emp_id']
+    # Emp_id = '503710'
+    Fullname = request.session['Fullname']
+    Dept = request.session['Department']
+    Dept_code = request.session['Dept_code']
+    # Dept_code = '410200001000300'
+    if Emp_id == '501103' or  Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599':
+        Dept_code = '44030111111'
+    Cut_Dept_code = Dept_code[:2]
+    if Cut_Dept_code == '10':
+        Cut_Dept_code = Dept_code[:5]
+    # Group1 = str(Cut_Dept_code)+str(1)
+    # Group2 = str(Cut_Dept_code)+str(2)
+    # Group3 = str(Cut_Dept_code)+str(3)
+    # print(Group1)
+    check_paper = len(List_Emp.objects.filter(E_ID = Emp_id,ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
+    paper = ''
+    if check_paper > 0:
+        paper = 'open'
+    else :
+        paper = 'close'
+
+    Group1_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '63'))
+    print(Group1_count)
+    Group2_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '54'))
+    print(Group2_count)
+    Group3_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '31'))
+    print(Group3_count)
+    Group4_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '32'))
+    Group5_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '52'))
+    Group6_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '55'))
+    Group7_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '62'))
+    Group8_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '53'))
+    Group9_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '21'))
+    Group10_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '61'))
+    Group11_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '10010'))
+    Group12_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '10020'))
+    Group13_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '10050'))
+    Group14_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '41'))
+    Group15_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '42'))
+    Group16_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '43'))
+    Group17_count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '44'))
+
+    check_student = ''
+    if  Cut_Dept_code == '63': 
+        if Group1_count < 3:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Cut_Dept_code == '54':
+        if Group2_count < 3:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Cut_Dept_code == '31':
+        if Group3_count < 3:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Cut_Dept_code == '32':
+        if Group4_count < 2:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Cut_Dept_code == '52':
+        if Group5_count < 2:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Cut_Dept_code == '55':
+        if Group6_count < 2:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Cut_Dept_code == '62':
+        if Group7_count < 1:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Cut_Dept_code == '53':
+        if Group8_count < 1:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Cut_Dept_code == '21':
+        if Group9_count < 1:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Cut_Dept_code == '61':
+        if Group10_count < 1:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Cut_Dept_code == '10010':
+        if Group11_count < 1:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Cut_Dept_code == '10020':
+        if Group12_count < 1:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Cut_Dept_code == '10050':
+        if Group13_count < 1:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Cut_Dept_code == '41':
+        if Group14_count < 1:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Cut_Dept_code == '42':
+        if Group15_count < 1:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Cut_Dept_code == '43':
+        if Group16_count < 1:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+    elif Cut_Dept_code == '44':
+        if Group17_count < 1:
+            check_student = 'add'
+        else :
+            check_student = 'full'
+
+    # print(check_student)
+    Group1_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '63')
+    Group2_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '54')
+    Group3_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '31')
+    Group4_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '32')
+    Group5_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '52')
+    Group6_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '55')
+    Group7_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '62')
+    Group8_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '53')
+    Group9_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '21')
+    Group10_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '61')
+    Group11_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '10010')
+    Group12_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '10020')
+    Group13_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '10050')
+    Group14_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '41')
+    Group15_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '42')
+    Group16_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '43')
+    Group17_Qset = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1,Dept_code__startswith = '44')
+
+
+    course = Course_D.objects.get(PK_Course_D=PK_Course_D)
+    profile = {
+            'Emp_id' : Emp_id,
+            'Fullname' : Fullname,
+            'Dept' : Dept,
+            'Dept_code' : Dept_code
+    }
+    massage = ''
+    if request.method == 'POST':
+        Emp_tel = request.POST.get('Emp_tel')
+        qs_check_user = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+        if qs_check_user == 0:
+            print('online')
+            print(PK_Course_D)
+            nameget = idm(Emp_id)
+            fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
+            employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel)
+            employee.save()
+            count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
+            print (count)
+            update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+            print(update_num_student)
+            massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
+        else :
+            massage = "ท่านได้ลงทะเบียนแล้ว"
+
+    return render(request, 'course_SD_HQ.html', {'course': course,'profile':profile, 'Group1_Qset':Group1_Qset, 'Group2_Qset':Group2_Qset, 'Group3_Qset':Group3_Qset, 'Group4_Qset':Group4_Qset,'Group5_Qset':Group5_Qset,'Group6_Qset':Group6_Qset,'Group7_Qset':Group7_Qset, 'Group8_Qset':Group8_Qset, 'Group9_Qset':Group9_Qset,'Group10_Qset':Group10_Qset,'Group11_Qset':Group11_Qset,'Group12_Qset':Group12_Qset,'Group13_Qset':Group13_Qset,'Group14_Qset':Group14_Qset,'Group15_Qset':Group15_Qset,'Group16_Qset':Group16_Qset,'Group17_Qset':Group17_Qset,'check_student':check_student,'paper':paper,'massage':massage})
 
     
 # Create your views here.

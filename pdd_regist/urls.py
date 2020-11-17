@@ -31,6 +31,7 @@ urlpatterns = [
     path('detail_km2/<int:PK_Course_D>/', views.course_KM2, name='course_KM2'),
     path('detail_km3/<int:PK_Course_D>/', views.course_KM3, name='course_KM3'),
     path('detail_km4/<int:PK_Course_D>/', views.course_KM4, name='course_KM4'),
+    path('course_SD_HQ/<int:PK_Course_D>/', views.course_SD_HQ, name='course_SD_HQ'),
     path('admin/', admin.site.urls),
 
 ]

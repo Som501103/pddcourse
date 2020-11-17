@@ -73,6 +73,13 @@ class Course_sub(models.Model):
     number_student = models.IntegerField(default=0,null=True)
     ref_course = models.ForeignKey(Course_D, related_name='Sub_Course_D',on_delete = models.CASCADE,null= True,default='0')
 
+class Course_Director(models.Model):
+    E_ID = models.CharField(max_length=10,null=True,blank=True)
+    Position = models.CharField(max_length=20,null=True,default='อก.')
+    Dept_code = models.CharField(max_length=20,null=True,blank=True,default='0000')
+    Area = models.CharField(max_length=10,null=True,blank=True,default='สนญ.')
+    Year = models.DateField(auto_now_add=True)
+
 
 
 
