@@ -53,7 +53,7 @@
                                 {% elif course.PK_Course_D == 61 %}
                                     {% if Cut_Dept_code == '41011' or Cut_Dept_code == '41010' or Cut_Dept_code == '41021' or Cut_Dept_code == '41020' or Cut_Dept_code == '41031' or Cut_Dept_code == '41030' or Cut_Dept_code == '42011' or Cut_Dept_code == '42010' or Cut_Dept_code == '42021' or Cut_Dept_code == '42020' or Cut_Dept_code == '42031' or Cut_Dept_code == '42030' or Cut_Dept_code == '43011' or Cut_Dept_code == '43010' or Cut_Dept_code == '43021' or Cut_Dept_code == '43020' or Cut_Dept_code == '43031' or Cut_Dept_code == '43030' or Cut_Dept_code == '44011' or Cut_Dept_code == '44010' or Cut_Dept_code == '44021' or Cut_Dept_code == '44020' or Cut_Dept_code == '44031' or Cut_Dept_code == '44030' %}
                                         {% if course.Number_App > course.Number_People %}
-                                            <td class="align-middle"><a href="{% url 'course_SD_Re' course.PK_Course_D %}">ลงทะเบียน</a></td>
+                                            <td class="align-middle"><a href="{% url 'course_SD_RE' course.PK_Course_D %}">ลงทะเบียน</a></td>
                                         {% else %}
                                             <td class="align-middle">เต็ม</td>
                                         {% endif %}
