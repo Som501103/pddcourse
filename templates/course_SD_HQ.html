@@ -4,29 +4,12 @@
         <meta charset="utf-8">
         <title>ลงทะเบียนฝึกอบรม</title>
         <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-        <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+        <!-- <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script> -->
         <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
-        <script src="{% static 'js/datatable.js' %}"></script>
+        <!-- <script src="{% static 'js/datatable.js' %}"></script> -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <script type="text/javascript">
-        var USERS_LIST_JSON_URL = '{% url "order_list_json" %}';
-        var oLanguages = {
-                oPaginate:{
-                    sFirst:'<<',
-                    sLast: '>>',
-                    sNext: '>',
-                    sPrevious: '<'
-                },
-                sInfo:'{% trans "Showing _START_ to _END_ of _TOTAL_ entries" %}',
-                sInfoEmpty: '{% trans "No entries to show" %}',
-                sInfoFiltered: '{% trans "(filtered from _MAX_ total entries)" %}',
-                sLengthMenu:'{% trans "Show _MENU_ entries" %}',
-                sProcessing: '{% trans "Processing" %}',
-                sSearch: '{% trans "Filter records:" %}',
-                sZeroRecords: '{% trans "No data to show" %}'
-            }
-        </script>
+        
     </head>
     <body>
         <div class="container mt-5">
@@ -69,15 +52,10 @@
                             {% if paper == 'open' %}
                             <div class="row">
                                 <div class="col-sm-12 text-center">
-                                        <label class="text-danger"><b>ท่านได้ลงทะเบียนเรียบร้อยแล้ว สามารถดาวโหลดอนุมัติเข้าอบรมได้ที่นี่</b></label>
+                                        <label><b>ท่านได้ลงทะเบียนเรียบร้อยแล้ว</b></label> <a href="/static/doc/Smart_Director_HQ_no1.pdf" target="_blank">สามารถดาวโหลดอนุมัติเข้าอบรมได้ที่นี่</a>
                                 </div>
                             </div> 
-                            {% endif %}  
-                            <!-- <div class="row">
-                                <div class="col-sm-12 text-center">
-                                        <label class="text-danger">ทาง ผจค. จะส่ง link เข้าเรียน ผ่าน e-mail ของ pea ล่วงหน้า 2 วัน</label>
-                                </div>
-                            </div> -->
+                            {% endif %}
                             <div class="row">
                                 <div class="col-sm-12 text-center">
                                         <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ ผพผ. เบอร์ 02-590-5869 หรือ exepea5869@gmail.com</label>
