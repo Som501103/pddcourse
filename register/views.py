@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import Http404
-from .models import MT_User, Course_D, List_Dept, List_Emp, Course_Director
+from .models import MT_User, Course_D, List_Dept, List_Emp, Course_Director, Check_Loginerror
 from .forms import SaveForm
 from django.shortcuts import redirect
 import requests, xmltodict
@@ -17,7 +17,10 @@ def login(request):
         if request.method == 'POST':
             Emp_id = request.POST.get('StaffID')
             Emp_pass = request.POST.get('StaffPS')
-            if Emp_id == '303270' or Emp_id == '501249' or Emp_id == '489343' or Emp_id == '235859' or Emp_id == '444717':
+            check_error = len(Check_Loginerror.objects.filter(E_ID=Emp_id))
+
+            if check_error > 0 :
+            # Emp_id == '303270' or Emp_id == '501249' or Emp_id == '489343' or Emp_id == '235859' or Emp_id == '444717' or Emp_id == '444660':
                 reposeMge = 'true'   
             else : 
                 check_ID = idm_login(Emp_id,Emp_pass)

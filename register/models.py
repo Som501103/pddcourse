@@ -80,6 +80,11 @@ class Course_Director(models.Model):
     Area = models.CharField(max_length=10,null=True,blank=True,default='สนญ.')
     Year = models.DateField(auto_now_add=True)
 
+class Check_Loginerror(models.Model):
+    E_ID = models.CharField(max_length=10,null=True,blank=True)
+    Case = models.CharField(max_length=200,null=True,blank=True)
+    Date = models.DateField(auto_now_add=True)
+
 
 
 
