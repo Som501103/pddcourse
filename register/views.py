@@ -90,7 +90,7 @@ def home(request):
     Dept = request.session['Department']
     Dept_code = request.session['Dept_code']
     Position = request.session['Position']
-    Cut_Dept_code = Dept_code[:5]
+    Cut_Dept_code = Dept_code[:4]
     print(Cut_Dept_code)
     print(Dept_code)
 
