@@ -67,15 +67,11 @@
                                 </div>
                             </div>
                             </br>
-                                {% if course.PK_Course_D == 14 %}
+                                {% if course.PK_Course_D == 60 or course.PK_Course_D == 61 %}
+                                    
                                     <div class="row">
                                         <div class="col-sm-12 text-center">
-                                            <label class="text-danger">ทาง Admin จะส่ง link เข้าเรียน ผ่าน e-mail ที่ท่านแจ้งไว้ ล่วงหน้า 1 วัน</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12 text-center">
-                                            <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ ออย เบอร์ 02-590-5869 หรือ exepea5869@gmail.com</label>
+                                            <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ ผพผ. เบอร์ 02-590-5869 หรือ exepea5869@gmail.com</label>
                                         </div>
                                     </div>
 
@@ -105,52 +101,53 @@
                         {% endif %}
                     </form>
                 </div>
+                
                 <div>
-                <table class="table table-striped stylefont mt-5">
-                    <thead class="thead-light">
-                        <tr class="stylefont text-center">
-                            <th class="align-middle">ลำดับที่</th>
-                            <th class="align-middle">รหัสพนักงาน</th>
-                            <th class="align-middle">ชื่อ</th>
-                            <th class="align-middle">ตำแหน่ง</th>
-                            <th>สังกัด</th>
-                            <th>e-mail ที่ลงทะเบียน</th>
-                            <th>วันที่สมัคร</th>
-                        </tr>
-                    </thead>
-                        {% for student in student %}
+                    <table class="table table-striped stylefont mt-5">
+                        <thead class="thead-light">
                             <tr class="stylefont text-center">
-                                <td class="align-middle">{{ forloop.counter }}</td>
-                                <td class="align-middle">{{ student.E_ID }}</td>
-                                <td class="align-middle">{{ student.Fullname }}</td>
-                                <td class="align-middle">{{ student.Position }}
-                                                        {% if student.Level == "M1" %}
-                                                            </td>
-                                                        {% elif student.Level == "M2" %}
-                                                            </td>
-                                                        {% elif student.Level == "M3" %}
-                                                            </td> 
-                                                        {% elif student.Level == "M4" %}
-                                                            </td>
-                                                        {% elif student.Level == "M5" %}
-                                                            </td>
-                                                        {% elif student.Level == "M6" %}
-                                                            </td>  
-                                                        {% elif student.Level == "S1" %}
-                                                            </td> 
-                                                        {% elif student.Level == "S2" %}
-                                                            </td>                                                       
-                                                        {% else %}
-                                                            {{ student.Level }}</td>
-                                                        {% endif %}
-                                <td class="align-middle">{{ student.Dep }}</td>
-                                <td class="align-middle">{{ student.Email }}</td>
-                                <td class="align-middle">{{ student.Regist_Date }}</td>
+                                <th class="align-middle">ลำดับที่</th>
+                                <th class="align-middle">รหัสพนักงาน</th>
+                                <th class="align-middle">ชื่อ</th>
+                                <th class="align-middle">ตำแหน่ง</th>
+                                <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
+                                <th>วันที่สมัคร</th>
                             </tr>
-                            
-                        {% endfor %}
-                    <tbody>
-                </table>
+                        </thead>
+                            {% for student in student %}
+                                <tr class="stylefont text-center">
+                                    <td class="align-middle">{{ forloop.counter }}</td>
+                                    <td class="align-middle">{{ student.E_ID }}</td>
+                                    <td class="align-middle">{{ student.Fullname }}</td>
+                                    <td class="align-middle">{{ student.Position }}
+                                                            {% if student.Level == "M1" %}
+                                                                </td>
+                                                            {% elif student.Level == "M2" %}
+                                                                </td>
+                                                            {% elif student.Level == "M3" %}
+                                                                </td> 
+                                                            {% elif student.Level == "M4" %}
+                                                                </td>
+                                                            {% elif student.Level == "M5" %}
+                                                                </td>
+                                                            {% elif student.Level == "M6" %}
+                                                                </td>  
+                                                            {% elif student.Level == "S1" %}
+                                                                </td> 
+                                                            {% elif student.Level == "S2" %}
+                                                                </td>                                                       
+                                                            {% else %}
+                                                                {{ student.Level }}</td>
+                                                            {% endif %}
+                                    <td class="align-middle">{{ student.Dep }}</td>
+                                    <td class="align-middle">{{ student.Email }}</td>
+                                    <td class="align-middle">{{ student.Regist_Date }}</td>
+                                </tr>
+                                
+                            {% endfor %}
+                        <tbody>
+                    </table>
                 </div>
 
                 <!-- {% block content %}

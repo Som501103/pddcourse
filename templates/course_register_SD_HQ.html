@@ -4,12 +4,29 @@
         <meta charset="utf-8">
         <title>ลงทะเบียนฝึกอบรม</title>
         <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-        <!-- <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script> -->
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
         <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" />
-        <!-- <script src="{% static 'js/datatable.js' %}"></script> -->
+        <script src="{% static 'js/datatable.js' %}"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        
+        <script type="text/javascript">
+        var USERS_LIST_JSON_URL = '{% url "order_list_json" %}';
+        var oLanguages = {
+                oPaginate:{
+                    sFirst:'<<',
+                    sLast: '>>',
+                    sNext: '>',
+                    sPrevious: '<'
+                },
+                sInfo:'{% trans "Showing _START_ to _END_ of _TOTAL_ entries" %}',
+                sInfoEmpty: '{% trans "No entries to show" %}',
+                sInfoFiltered: '{% trans "(filtered from _MAX_ total entries)" %}',
+                sLengthMenu:'{% trans "Show _MENU_ entries" %}',
+                sProcessing: '{% trans "Processing" %}',
+                sSearch: '{% trans "Filter records:" %}',
+                sZeroRecords: '{% trans "No data to show" %}'
+            }
+        </script>
     </head>
     <body>
         <div class="container mt-5">
@@ -31,14 +48,15 @@
                     <h3>ลงทะเบียน</h3>
                     <form method="post">
                         {% csrf_token %}
-                        {% if check_student == 'add' %}
-                        <div class="form-group">
+                        {% if course.Number_App > course.Number_People %}
+                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-6"><label for="Emp_id"><b>ชื่อ</b> {{ profile.Fullname }}({{ profile.Emp_id }})</label></div>
                                 <div class="col-sm-6"><label for="Emp_id"><b>สังกัด</b> {{ profile.Dept }}</label></div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-4">
+                                
+                                <div class="col-sm-6">
                                     <input type="text" id="Emp_tel" name="Emp_tel" class="form-control" placeholder="เบอร์มือถือ" required>
                                 </div>
                             </div>
@@ -49,25 +67,33 @@
                                 </div>
                             </div>
                             </br>
-                            {% if paper == 'open' %}
-                            <div class="row">
-                                <div class="col-sm-12 text-center">
-                                        <label><b>ท่านได้ลงทะเบียนเรียบร้อยแล้ว</b></label> <a href="/static/doc/Smart_Director_HQ_no1.pdf" target="_blank">สามารถดาวโหลดอนุมัติเข้าอบรมได้ที่นี่</a>
-                                </div>
-                            </div> 
-                            {% endif %}
-                            <div class="row">
-                                <div class="col-sm-12 text-center">
-                                        <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ ผพผ. เบอร์ 02-590-5869 หรือ exepea5869@gmail.com</label>
-                                </div>
-                            </div>
+                                {% if course.PK_Course_D == 60 or course.PK_Course_D == 61 %}
+                                    
+                                    <div class="row">
+                                        <div class="col-sm-12 text-center">
+                                            <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ ผพผ. เบอร์ 02-590-5869 หรือ exepea5869@gmail.com</label>
+                                        </div>
+                                    </div>
 
+                                {% else %}
+                                    <div class="row">
+                                        <div class="col-sm-12 text-center">
+                                            <label class="text-danger">ทาง ผจค. จะส่ง link เข้าเรียน ผ่าน e-mail ที่ท่านแจ้งไว้ ล่วงหน้า 2 วัน</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 text-center">
+                                            <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ อัศวิน เบอร์ 02-590-5858 หรือ kmpea5858@gmail.com</label>
+                                        </div>
+                                    </div>
+
+                                {% endif %}
+                            
                             </br>
                             <div class="row">
                                 <div class="col-sm-12 text-center" ><label for="massage_error" class="text-danger text-center">{{ massage }}</label></div>
                             </div>
                         </div>
-                        
                         {% else %}
                         <div class="row">
                             <div class="col-sm-12 text-center" ><h4 for="Emp_id" class="text-danger text-center">หลักสูตรนี้ปิดการลงทะเบียนแล้ว</h4></div>
@@ -75,6 +101,7 @@
                         {% endif %}
                     </form>
                 </div>
+                
                 <div><label>สายงาน บก. (สูงสุดจำนวน 3 ท่าน)</label></div>
                 <div>
                 <table class="table table-striped stylefont">
@@ -85,6 +112,7 @@
                             <th class="align-middle">ชื่อ</th>
                             <th class="align-middle">ตำแหน่ง</th>
                             <th>สังกัด</th>
+                            <th>e-mail ที่ลงทะเบียน</th>
                             <th>วันที่สมัคร</th>
                         </tr>
                     </thead>
@@ -114,6 +142,7 @@
                                                             {{ student1.Level }}</td>
                                                         {% endif %}
                                 <td class="align-middle">{{ student1.Dep }}</td>
+                                <td class="align-middle">{{ student1.Email }}</td>
                                 <td class="align-middle">{{ student1.Regist_Date }}</td>
                             </tr>
                             
@@ -132,6 +161,7 @@
                                 <th class="align-middle">ชื่อ</th>
                                 <th class="align-middle">ตำแหน่ง</th>
                                 <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
                                 <th>วันที่สมัคร</th>
                             </tr>
                         </thead>
@@ -161,6 +191,7 @@
                                                                 {{ student2.Level }}</td>
                                                             {% endif %}
                                     <td class="align-middle">{{ student2.Dep }}</td>
+                                    <td class="align-middle">{{ student2.Email }}</td>
                                     <td class="align-middle">{{ student2.Regist_Date }}</td>
                                 </tr>
                                 
@@ -179,6 +210,7 @@
                                 <th class="align-middle">ชื่อ</th>
                                 <th class="align-middle">ตำแหน่ง</th>
                                 <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
                                 <th>วันที่สมัคร</th>
                             </tr>
                         </thead>
@@ -208,6 +240,7 @@
                                                                 {{ student3.Level }}</td>
                                                             {% endif %}
                                     <td class="align-middle">{{ student3.Dep }}</td>
+                                    <td class="align-middle">{{ student3.Email }}</td>
                                     <td class="align-middle">{{ student3.Regist_Date }}</td>
                                 </tr>
                                 
@@ -226,6 +259,7 @@
                                 <th class="align-middle">ชื่อ</th>
                                 <th class="align-middle">ตำแหน่ง</th>
                                 <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
                                 <th>วันที่สมัคร</th>
                             </tr>
                         </thead>
@@ -255,6 +289,7 @@
                                                                 {{ student4.Level }}</td>
                                                             {% endif %}
                                     <td class="align-middle">{{ student4.Dep }}</td>
+                                    <td class="align-middle">{{ student4.Email }}</td>
                                     <td class="align-middle">{{ student4.Regist_Date }}</td>
                                 </tr>
                                 
@@ -273,6 +308,7 @@
                                 <th class="align-middle">ชื่อ</th>
                                 <th class="align-middle">ตำแหน่ง</th>
                                 <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
                                 <th>วันที่สมัคร</th>
                             </tr>
                         </thead>
@@ -302,6 +338,7 @@
                                                                 {{ student5.Level }}</td>
                                                             {% endif %}
                                     <td class="align-middle">{{ student5.Dep }}</td>
+                                    <td class="align-middle">{{ student5.Email }}</td>
                                     <td class="align-middle">{{ student5.Regist_Date }}</td>
                                 </tr>
                                 
@@ -320,6 +357,7 @@
                                 <th class="align-middle">ชื่อ</th>
                                 <th class="align-middle">ตำแหน่ง</th>
                                 <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
                                 <th>วันที่สมัคร</th>
                             </tr>
                         </thead>
@@ -349,6 +387,7 @@
                                                                 {{ student6.Level }}</td>
                                                             {% endif %}
                                     <td class="align-middle">{{ student6.Dep }}</td>
+                                    <td class="align-middle">{{ student6.Email }}</td>
                                     <td class="align-middle">{{ student6.Regist_Date }}</td>
                                 </tr>
                                 
@@ -367,6 +406,7 @@
                                 <th class="align-middle">ชื่อ</th>
                                 <th class="align-middle">ตำแหน่ง</th>
                                 <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
                                 <th>วันที่สมัคร</th>
                             </tr>
                         </thead>
@@ -396,6 +436,7 @@
                                                                 {{ i.Level }}</td>
                                                             {% endif %}
                                     <td class="align-middle">{{ i.Dep }}</td>
+                                    <td class="align-middle">{{ i.Email }}</td>
                                     <td class="align-middle">{{ i.Regist_Date }}</td>
                                 </tr>
                                 
@@ -414,6 +455,7 @@
                                 <th class="align-middle">ชื่อ</th>
                                 <th class="align-middle">ตำแหน่ง</th>
                                 <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
                                 <th>วันที่สมัคร</th>
                             </tr>
                         </thead>
@@ -443,6 +485,7 @@
                                                                 {{ i.Level }}</td>
                                                             {% endif %}
                                     <td class="align-middle">{{ i.Dep }}</td>
+                                    <td class="align-middle">{{ i.Email }}</td>
                                     <td class="align-middle">{{ i.Regist_Date }}</td>
                                 </tr>
                                 
@@ -461,6 +504,7 @@
                                 <th class="align-middle">ชื่อ</th>
                                 <th class="align-middle">ตำแหน่ง</th>
                                 <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
                                 <th>วันที่สมัคร</th>
                             </tr>
                         </thead>
@@ -490,6 +534,7 @@
                                                                 {{ i.Level }}</td>
                                                             {% endif %}
                                     <td class="align-middle">{{ i.Dep }}</td>
+                                    <td class="align-middle">{{ i.Email }}</td>
                                     <td class="align-middle">{{ i.Regist_Date }}</td>
                                 </tr>
                                 
@@ -508,6 +553,7 @@
                                 <th class="align-middle">ชื่อ</th>
                                 <th class="align-middle">ตำแหน่ง</th>
                                 <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
                                 <th>วันที่สมัคร</th>
                             </tr>
                         </thead>
@@ -537,6 +583,7 @@
                                                                 {{ i.Level }}</td>
                                                             {% endif %}
                                     <td class="align-middle">{{ i.Dep }}</td>
+                                    <td class="align-middle">{{ i.Email }}</td>
                                     <td class="align-middle">{{ i.Regist_Date }}</td>
                                 </tr>
                                 
@@ -555,36 +602,38 @@
                                 <th class="align-middle">ชื่อ</th>
                                 <th class="align-middle">ตำแหน่ง</th>
                                 <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
                                 <th>วันที่สมัคร</th>
                             </tr>
                         </thead>
-                            {% for student11 in Group11_Qset %}
+                            {% for i in Group11_Qset %}
                                 <tr class="stylefont text-center">
                                     <td class="align-middle">{{ forloop.counter }}</td>
-                                    <td class="align-middle">{{ student11.E_ID }}</td>
-                                    <td class="align-middle">{{ student11.Fullname }}</td>
+                                    <td class="align-middle">{{ i.E_ID }}</td>
+                                    <td class="align-middle">{{ i.Fullname }}</td>
                                     <td class="align-middle">{{ i.Position }}
-                                                            {% if student11.Level == "M1" %}
+                                                            {% if i.Level == "M1" %}
                                                                 </td>
-                                                            {% elif student11.Level == "M2" %}
+                                                            {% elif i.Level == "M2" %}
                                                                 </td>
-                                                            {% elif student11.Level == "M3" %}
+                                                            {% elif i.Level == "M3" %}
                                                                 </td> 
-                                                            {% elif student11.Level == "M4" %}
+                                                            {% elif i.Level == "M4" %}
                                                                 </td>
-                                                            {% elif student11.Level == "M5" %}
+                                                            {% elif i.Level == "M5" %}
                                                                 </td>
-                                                            {% elif student11.Level == "M6" %}
+                                                            {% elif i.Level == "M6" %}
                                                                 </td>  
-                                                            {% elif student11.Level == "S1" %}
+                                                            {% elif i.Level == "S1" %}
                                                                 </td> 
-                                                            {% elif student11.Level == "S2" %}
+                                                            {% elif i.Level == "S2" %}
                                                                 </td>                                                       
                                                             {% else %}
-                                                                {{ student11.Level }}</td>
+                                                                {{ i.Level }}</td>
                                                             {% endif %}
-                                    <td class="align-middle">{{ student11.Dep }}</td>
-                                    <td class="align-middle">{{ student11.Regist_Date }}</td>
+                                    <td class="align-middle">{{ i.Dep }}</td>
+                                    <td class="align-middle">{{ i.Email }}</td>
+                                    <td class="align-middle">{{ i.Regist_Date }}</td>
                                 </tr>
                                 
                             {% endfor %}
@@ -602,6 +651,7 @@
                                 <th class="align-middle">ชื่อ</th>
                                 <th class="align-middle">ตำแหน่ง</th>
                                 <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
                                 <th>วันที่สมัคร</th>
                             </tr>
                         </thead>
@@ -631,6 +681,7 @@
                                                                 {{ i.Level }}</td>
                                                             {% endif %}
                                     <td class="align-middle">{{ i.Dep }}</td>
+                                    <td class="align-middle">{{ i.Email }}</td>
                                     <td class="align-middle">{{ i.Regist_Date }}</td>
                                 </tr>
                                 
@@ -649,6 +700,7 @@
                                 <th class="align-middle">ชื่อ</th>
                                 <th class="align-middle">ตำแหน่ง</th>
                                 <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
                                 <th>วันที่สมัคร</th>
                             </tr>
                         </thead>
@@ -678,6 +730,7 @@
                                                                 {{ i.Level }}</td>
                                                             {% endif %}
                                     <td class="align-middle">{{ i.Dep }}</td>
+                                    <td class="align-middle">{{ i.Email }}</td>
                                     <td class="align-middle">{{ i.Regist_Date }}</td>
                                 </tr>
                                 
@@ -696,6 +749,7 @@
                                 <th class="align-middle">ชื่อ</th>
                                 <th class="align-middle">ตำแหน่ง</th>
                                 <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
                                 <th>วันที่สมัคร</th>
                             </tr>
                         </thead>
@@ -725,6 +779,7 @@
                                                                 {{ i.Level }}</td>
                                                             {% endif %}
                                     <td class="align-middle">{{ i.Dep }}</td>
+                                    <td class="align-middle">{{ i.Email }}</td>
                                     <td class="align-middle">{{ i.Regist_Date }}</td>
                                 </tr>
                                 
@@ -743,6 +798,7 @@
                                 <th class="align-middle">ชื่อ</th>
                                 <th class="align-middle">ตำแหน่ง</th>
                                 <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
                                 <th>วันที่สมัคร</th>
                             </tr>
                         </thead>
@@ -772,6 +828,7 @@
                                                                 {{ i.Level }}</td>
                                                             {% endif %}
                                     <td class="align-middle">{{ i.Dep }}</td>
+                                    <td class="align-middle">{{ i.Email }}</td>
                                     <td class="align-middle">{{ i.Regist_Date }}</td>
                                 </tr>
                                 
@@ -790,6 +847,7 @@
                                 <th class="align-middle">ชื่อ</th>
                                 <th class="align-middle">ตำแหน่ง</th>
                                 <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
                                 <th>วันที่สมัคร</th>
                             </tr>
                         </thead>
@@ -819,6 +877,7 @@
                                                                 {{ i.Level }}</td>
                                                             {% endif %}
                                     <td class="align-middle">{{ i.Dep }}</td>
+                                    <td class="align-middle">{{ i.Email }}</td>
                                     <td class="align-middle">{{ i.Regist_Date }}</td>
                                 </tr>
                                 
@@ -837,42 +896,45 @@
                                 <th class="align-middle">ชื่อ</th>
                                 <th class="align-middle">ตำแหน่ง</th>
                                 <th>สังกัด</th>
+                                <th>e-mail ที่ลงทะเบียน</th>
                                 <th>วันที่สมัคร</th>
                             </tr>
                         </thead>
-                            {% for student17 in Group17_Qset %}
+                            {% for i in Group17_Qset %}
                                 <tr class="stylefont text-center">
                                     <td class="align-middle">{{ forloop.counter }}</td>
-                                    <td class="align-middle">{{ student17.E_ID }}</td>
-                                    <td class="align-middle">{{ student17.Fullname }}</td>
-                                    <td class="align-middle">{{ student17.Position }}
-                                                            {% if student17.Level == "M1" %}
+                                    <td class="align-middle">{{ i.E_ID }}</td>
+                                    <td class="align-middle">{{ i.Fullname }}</td>
+                                    <td class="align-middle">{{ i.Position }}
+                                                            {% if i.Level == "M1" %}
                                                                 </td>
-                                                            {% elif student17.Level == "M2" %}
+                                                            {% elif i.Level == "M2" %}
                                                                 </td>
-                                                            {% elif student17.Level == "M3" %}
+                                                            {% elif i.Level == "M3" %}
                                                                 </td> 
-                                                            {% elif student17.Level == "M4" %}
+                                                            {% elif i.Level == "M4" %}
                                                                 </td>
-                                                            {% elif student17.Level == "M5" %}
+                                                            {% elif i.Level == "M5" %}
                                                                 </td>
-                                                            {% elif student17.Level == "M6" %}
+                                                            {% elif i.Level == "M6" %}
                                                                 </td>  
-                                                            {% elif student17.Level == "S1" %}
+                                                            {% elif i.Level == "S1" %}
                                                                 </td> 
-                                                            {% elif student17.Level == "S2" %}
+                                                            {% elif i.Level == "S2" %}
                                                                 </td>                                                       
                                                             {% else %}
-                                                                {{ student17.Level }}</td>
+                                                                {{ i.Level }}</td>
                                                             {% endif %}
-                                    <td class="align-middle">{{ student17.Dep }}</td>
-                                    <td class="align-middle">{{ student17.Regist_Date }}</td>
+                                    <td class="align-middle">{{ i.Dep }}</td>
+                                    <td class="align-middle">{{ i.Email }}</td>
+                                    <td class="align-middle">{{ i.Regist_Date }}</td>
                                 </tr>
                                 
                             {% endfor %}
                         <tbody>
                     </table>
                 </div>
+
                 <!-- {% block content %}
                 <table class="datatable">
                     <thead>
