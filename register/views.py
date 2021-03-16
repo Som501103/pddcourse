@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import Http404
-from .models import MT_User, Course_D, List_Dept, List_Emp, Course_Director, Check_Loginerror
+from .models import MT_User, Course_D, List_Dept, List_Emp, Course_Director, Check_Loginerror,Check_Staff_End
 from .forms import SaveForm
 from django.shortcuts import redirect
 import requests, xmltodict
@@ -238,8 +238,8 @@ def idm(Emp_id):
     # print(o)
     jsonconvert=o["soap:Envelope"]['soap:Body']['GetEmployeeInfoByEmployeeId_SIResponse']['GetEmployeeInfoByEmployeeId_SIResult']['ResultObject']
     employeedata = dict(jsonconvert)
-    print(employeedata['FirstName'])
-    print(employeedata['NewOrganizationalCode'])
+    # print(employeedata['FirstName'])
+    # print(employeedata['NewOrganizationalCode'])
     return employeedata
 
 def checkStudent(Emp_id):
@@ -900,3 +900,32 @@ def course_register_SD_HQ(request, PK_Course_D):
 
     return render(request, 'course_register_SD_HQ.html', {'course': course,'Group1_Qset':Group1_Qset, 'Group2_Qset':Group2_Qset, 'Group3_Qset':Group3_Qset, 'Group4_Qset':Group4_Qset,'Group5_Qset':Group5_Qset,'Group6_Qset':Group6_Qset,'Group7_Qset':Group7_Qset, 'Group8_Qset':Group8_Qset, 'Group9_Qset':Group9_Qset,'Group10_Qset':Group10_Qset,'Group11_Qset':Group11_Qset,'Group12_Qset':Group12_Qset,'Group13_Qset':Group13_Qset,'Group14_Qset':Group14_Qset,'Group15_Qset':Group15_Qset,'Group16_Qset':Group16_Qset,'Group17_Qset':Group17_Qset})
 # Create your views here.
+
+def update_eng(request):
+    mgs = {
+                    'massage' : ' '
+                }
+    update_staff = Check_Staff_End.objects.all()
+    for x in update_staff:
+        nameget = idm(x.E_ID)
+        fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
+        position = nameget['PositionDescShort']
+        level = nameget['LevelCode']
+        Dept_code = nameget['NewOrganizationalCode']
+        DepartmentShort = nameget['DepartmentShort']
+        
+        update_staff = Check_Staff_End.objects.get(E_ID = x.E_ID)
+        update_staff.Name = fullname
+        update_staff.Position = position
+        update_staff.Level = level
+        update_staff.Dept_code = Dept_code
+        update_staff.Dept_Short = DepartmentShort
+        update_staff.save()
+        print('done')
+
+        # print(level)
+        mgs = {
+                    'massage' : 'done'
+                }
+
+    return render(request, 'update_eng.html', {'mgs':mgs})

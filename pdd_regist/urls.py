@@ -23,6 +23,7 @@ from register import views
 urlpatterns = [
     url(r'^$', views.login, name='login'),
     path('home/', views.home, name='home'),
+    path('update_eng/', views.update_eng, name='update_eng'),
     # url(r'^save_emp', views.save_emp),
     url(r'^datatable/$', views.UsersListJson, name='order_list_json'),
     path('regist/<int:PK_Course_D>/', views.course_title, name='course_title'),

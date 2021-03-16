@@ -36,7 +36,8 @@
         
         <div class="container mt-2">
             <div class="col-md-12">
-                <h3 class="text-center">หลักสูตร {{ course.Course_Name }} รุ่นที่ {{ course.Batch_Type }}</h3>
+                <h3 class="text-center">หลักสูตร {{ course.Course_Name }} {% if course.Batch_Type >= '1' %} รุ่นที่ {{ course.Batch_Type }} {% else %} <label></label> {% endif %}</h3>
+                  
                 <h3 class="text-center">วันที่เริ่ม {{course.Start_Date}}</h3>
                 <h3 class="text-center">วันที่สิ้นสุด {{course.End_Date}}</h3>
                 <h3 class="text-center">สถานที่จัด {{course.Location}}</h3>

@@ -16,11 +16,12 @@ class Course_D(models.Model):
     CourseType_ID = models.CharField(max_length=2,null=True)
     Batch_Type = models.CharField(max_length=1,null=True)
     Batch = models.CharField(max_length=300,null=True)
-    Start_Date = models.DateField(null=True)
-    End_Date = models.DateField(null=True)
+    Start_Date = models.DateField(null=True)   
+    End_Date = models.DateField(null=True)     #วันที่ปิดลงทะเบียน
     Duration = models.IntegerField(null=True)
     Location = models.CharField(max_length=300,null=True)
     Area_ID = models.CharField(max_length=3,null=True)
+    Course_Detail = models.CharField(max_length=500,null=True, default = 'รายละเอียด', blank=True)
     Number_App = models.IntegerField(null=True)
     Number_People = models.IntegerField(null=True)
     BudgetApp_1 = models.DecimalField(max_digits=13, decimal_places=2,null=True)
@@ -31,8 +32,8 @@ class Course_D(models.Model):
     Key_Date = models.DateField(auto_now_add=True)
     RegisterStatus = models.BooleanField(null=True)
     RegisterType = models.CharField(max_length=15,null=True)
-    Start_Time = models.DateTimeField(null=True)
-    End_Time = models.DateTimeField(null=True)
+    Open_Register = models.DateTimeField(null=True) #วันที่เปิดลงทะเบียน
+    End_Register = models.DateTimeField(null=True)  #วันที่ปิดลงทะเบียน
     status = models.IntegerField(null=True, default=1)
     def __str__(self):
         return self.Course_ID
@@ -87,6 +88,21 @@ class Check_Loginerror(models.Model):
     E_ID = models.CharField(max_length=10,null=True,blank=True)
     Case = models.CharField(max_length=200,null=True,blank=True)
     Date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.E_ID
+
+class Check_Staff_End(models.Model):
+    E_ID = models.CharField(max_length=10,null=True,blank=True)
+    Status = models.CharField(max_length=200,null=True,blank=True)
+    Exp_Date = models.CharField(max_length=100,null=True,blank=True)
+    Comment = models.CharField(max_length=100,null=True,blank=True)
+    Name = models.CharField(max_length=200,null=True,blank=True)
+    Position = models.CharField(max_length=20,null=True,default='อก.')
+    Level = models.CharField(max_length=20,null=True,default='อก.')
+    Dept_code = models.CharField(max_length=20,null=True,blank=True,default='0000')
+    Dept_Short = models.CharField(max_length=200,null=True,blank=True,default='0000')
+    Update_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.E_ID
