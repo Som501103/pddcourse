@@ -936,5 +936,18 @@ def update_eng(request):
 
     return render(request, 'update_eng.html', {'mgs':mgs})
 
-def course_base(request):
-    return render(request,'course_base.html')
+def course_base(request, PK_Course_D):
+    try:
+        course = Course_D.objects.get(PK_Course_D=PK_Course_D)
+        Emp_id = request.session['Emp_id'] 
+        Fullname = request.session['Fullname']
+        Dept = request.session['Department']
+        profile = {
+                'Emp_id' : Emp_id,
+                'Fullname' : Fullname,
+                'Dept' : Dept
+        }
+    except Course_D.DoesNotExist:
+        raise Http404
+
+    return render(request,'course_base.html',{'course': course,'profile':profile})
