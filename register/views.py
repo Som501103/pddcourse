@@ -101,9 +101,9 @@ def home(request):
     if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784':
         courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     elif check_SD == 1:
-        courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        courses = Course_D.objects.all().exclude(status = 0).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     else : 
-        courses = Course_D.objects.all().filter(status = 1).exclude(PK_Course_D__range = (60,61)).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        courses = Course_D.objects.all().exclude(PK_Course_D__range = (60,61),status = 0).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     
     return render(request, 'home.html', {'courses': courses,'Cut_Dept_code':Cut_Dept_code})
 

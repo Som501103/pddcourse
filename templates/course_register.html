@@ -62,11 +62,13 @@
                                 </div>
                             </div>
                             </br>
+                            {% if course.status == '1' or course.status == 1  %}
                             <div class="row">
                                 <div class="col-sm-12 text-center">
                                     <button type="submit" class="btn btn-success text-center">ลงทะเบียน</button>
                                 </div>
                             </div>
+                            {% endif %}
                             </br>
                                 {% if course.PK_Course_D == 60 or course.PK_Course_D == 61 %}
                                     
@@ -75,6 +77,22 @@
                                             <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ ผพผ. เบอร์ 02-590-5869 หรือ exepea5869@gmail.com</label>
                                         </div>
                                     </div>
+                                {% elif course.PK_Course_D == 66 %}
+                                <div class="row">
+                                    <div class="col-sm-12 text-center">
+                                        <p class="text-danger">{{ course.Course_Detail }}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 text-center">
+                                        <label class="text-danger">ทาง ผพผ. จะส่ง link เข้าเรียน ผ่าน e-mail ที่ท่านแจ้งไว้ ล่วงหน้า 2 วัน</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 text-center">
+                                        <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ ไปรยา เบอร์ 02-590-5869</label>
+                                    </div>
+                                </div>
 
                                 {% else %}
                                     <div class="row">
