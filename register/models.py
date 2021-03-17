@@ -51,9 +51,12 @@ class Competency(models.Model):
 class Subject(models.Model):
     Subject_ID = models.AutoField(primary_key=True)
     Subject_name = models.CharField(max_length=150,null = True)
-    Description = models.CharField(max_length=300,null = True)
+    Description = models.TextField(default='เนื้อหาที่จะเรียน', null=True)
     Url_location = models.CharField(max_length=100, blank = True)
     ref_cou = models.ForeignKey(Course_D, related_name='referrence_course',on_delete=models.CASCADE,null=True)
+    Learding = models.TextField(null = True,default='ทักษะที่จะได้รับ')
+    Img_location = models.CharField(max_length=100, blank = True)
+    Class_duration = models.CharField(max_length=150,null = True)
     #ref_comp = models.ForeignKey(Competency, related_name='Reference',on_delete = models.CASCADE,null=True)
     def __str__(self):
         return self.Subject_name

@@ -10,7 +10,14 @@
     <script src="{% static 'js/datatable.js' %}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" /> {% comment %} ตัวกล่อง {% endcomment %}
+
     <style>
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
         .container {
             width: 100%;
             margin: 0 auto;
@@ -20,10 +27,10 @@
         
         .grid-item {
             display: inline-block;
-            width: 350px;
-            height: 450px;
+            width: 500px;
+            height: 400px;
             font-size: 1rem;
-            vertical-align: top;
+            vertical-align: center;
             margin: 5px;
         }
         
@@ -31,6 +38,7 @@
             background-color: white;
         }
     </style>
+
     {% comment %} ตัวกล่อง {% endcomment %}
 </head>
 
@@ -43,126 +51,148 @@
         <div class="container mt-2">
             <div class="col-md-12">
                 <h3 class="text-center">หลักสูตร {{ course.Course_Name }} {% if course.Batch_Type >= '1' %} รุ่นที่ {{ course.Batch_Type }} {% else %} <label></label> {% endif %}</h3>
-                  
                 <h3 class="text-center">วันที่เริ่ม {{course.Start_Date|date:'d/m/Y'}}</h3>
                 <h3 class="text-center">วันที่สิ้นสุด {{course.End_Date|date:'d/m/Y'}}</h3>
                 <h3 class="text-center">สถานที่จัด {{course.Location}}</h3>
             </div>
         </div>
-        {% include "suggest.html" %}
+        {% for subject in subjects %}
+        <div class="grid-item box1">
+            <div class="card">
+                <h3>{{subject.Subject_name}}</h3>
+                <img src=/static/img/{{subject.Url_location}} class="center" style="width:300px;height:200px;"></img>
+                <span>{{subject.Description}}</span>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="card p-4">
+            <div class="col-md-12 mb-3">
+                <h3>เงื่อนไขการอบรม</h3>
+                <div class="col-md-12 mb-3">
+                    <div class="col-sm-6">1. เป็นพนักงาน PEA ระดับ 7-8</div>
+                    <div class="col-sm-6">2. รักในการเรียนรู้ และพัฒนาตนเอง</div>
+                    <div class="col-sm-6">3. สามารถจัดสรรเวลาเรียนได้</div>
+                    <div class="col-sm-6">4. เข้าเรียนวิชาหลักครบตามที่กำหนด</div>
+                    <div class="col-sm-6">5. มีอุปกรณ์การเรียน เช่น คอมพิวเตอร์, มือถือ, แท๊บเล็ต, อินเตอร์เน็ต</div>
+                </div>
+            </div>
+        </div>
+
+
         <div class="card p-4">
             <div class="col-md-12 mb-3">
                 <div class="col-md-12 mb-3">
                     <h3>ลงทะเบียน</h3>
+                    {{ course.Course_Name }}
                     <form method="post">
                         {% csrf_token %} {% if course.Number_App > course.Number_People %}
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-6"><label for="Emp_id"><b>ชื่อ</b> {{ profile.Fullname }}({{ profile.Emp_id }})</label></div>
-                                <div class="col-sm-6"><label for="Emp_id"><b>สังกัด</b> {{ profile.Dept }}</label></div>
-                            </div>
-                            <div class="row">
+                                <div class="col-sm-6"></div><label for="Emp_id"><b>สังกัด</b> {{ profile.Dept }}</label></div>
+                        </div>
+                        <div class="row">
 
-                                <div class="col-sm-6">
-                                    <input type="text" id="Emp_tel" name="Emp_tel" class="form-control" placeholder="เบอร์มือถือ" required>
-                                </div>
+                            <div class="col-sm-6">
+                                <input type="text" id="Emp_tel" name="Emp_tel" class="form-control" placeholder="เบอร์มือถือ" required>
                             </div>
-                            </br>
-                            {% if course.status == '1' or course.status == 1  %}
-                            <div class="row">
-                                <div class="col-sm-12 text-center">
-                                    <button type="submit" class="btn btn-success text-center">ลงทะเบียน</button>
-                                </div>
+                        </div>
+                        </br>
+                        {% if course.status == '1' or course.status == 1 %}
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <button type="submit" class="btn btn-success text-center">ลงทะเบียน</button>
                             </div>
-                            {% endif %}
-                            </br>
-                            {% if course.PK_Course_D == 60 or course.PK_Course_D == 61 %}
+                        </div>
+                        {% endif %}
+                        </br>
+                        {% if course.PK_Course_D == 60 or course.PK_Course_D == 61 %}
 
-                            <div class="row">
-                                <div class="col-sm-12 text-center">
-                                    <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ ผพผ. เบอร์ 02-590-5869 หรือ exepea5869@gmail.com</label>
-                                </div>
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ ผพผ. เบอร์ 02-590-5869 หรือ exepea5869@gmail.com</label>
                             </div>
-                            {% elif course.PK_Course_D == 66 %}
-                                <div class="row">
-                                    <div class="col-sm-12 text-center">
-                                        <p class="text-danger">{{ course.Course_Detail }}</p>
-                                    </div>
-                                </div>
-                            {% else %}
-                            <div class="row">
-                                <div class="col-sm-12 text-center">
-                                    <label class="text-danger">ทาง ผจค. จะส่ง link เข้าเรียน ผ่าน e-mail ที่ท่านแจ้งไว้ ล่วงหน้า 2 วัน</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 text-center">
-                                    <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ อัศวิน เบอร์ 02-590-5858 หรือ kmpea5858@gmail.com</label>
-                                </div>
-                            </div>
-                            {% endif %}
-                            </br>
-                            <div class="row">
-                                <div class="col-sm-12 text-center"><label for="massage_error" class="text-danger text-center">{{ massage }}</label></div>
+                        </div>
+                        {% elif course.PK_Course_D == 66 %}
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <p class="text-danger">{{ course.Course_Detail }}</p>
                             </div>
                         </div>
                         {% else %}
                         <div class="row">
                             <div class="col-sm-12 text-center">
-                                <h4 for="Emp_id" class="text-danger text-center">หลักสูตรนี้ปิดการลงทะเบียนแล้ว</h4>
+                                <label class="text-danger">ทาง ผจค. จะส่ง link เข้าเรียน ผ่าน e-mail ที่ท่านแจ้งไว้ ล่วงหน้า 2 วัน</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ อัศวิน เบอร์ 02-590-5858 หรือ kmpea5858@gmail.com</label>
                             </div>
                         </div>
                         {% endif %}
-                    </form>
+                        </br>
+                        <div class="row">
+                            <div class="col-sm-12 text-center"><label for="massage_error" class="text-danger text-center">{{ massage }}</label></div>
+                        </div>
                 </div>
+                {% else %}
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <h4 for="Emp_id" class="text-danger text-center">หลักสูตรนี้ปิดการลงทะเบียนแล้ว</h4>
+                    </div>
+                </div>
+                {% endif %}
+                </form>
+            </div>
 
-                <div>
-                    <table class="table table-striped stylefont mt-5">
-                        <thead class="thead-light">
-                            <tr class="stylefont text-center">
-                                <th class="align-middle">ลำดับที่</th>
-                                <th class="align-middle">รหัสพนักงาน</th>
-                                <th class="align-middle">ชื่อ</th>
-                                <th class="align-middle">ตำแหน่ง</th>
-                                <th>สังกัด</th>
-                                <th>e-mail ที่ลงทะเบียน</th>
-                                <th>วันที่สมัคร</th>
-                            </tr>
-                        </thead>
-                        {% for student in student %}
+            <div>
+                <table class="table table-striped stylefont mt-5">
+                    <thead class="thead-light">
                         <tr class="stylefont text-center">
-                            <td class="align-middle">{{ forloop.counter }}</td>
-                            <td class="align-middle">{{ student.E_ID }}</td>
-                            <td class="align-middle">{{ student.Fullname }}</td>
-                            <td class="align-middle">{{ student.Position }} {% if student.Level == "M1" %}
-                            </td>
-                            {% elif student.Level == "M2" %}
-                            </td>
-                            {% elif student.Level == "M3" %}
-                            </td>
-                            {% elif student.Level == "M4" %}
-                            </td>
-                            {% elif student.Level == "M5" %}
-                            </td>
-                            {% elif student.Level == "M6" %}
-                            </td>
-                            {% elif student.Level == "S1" %}
-                            </td>
-                            {% elif student.Level == "S2" %}
-                            </td>
-                            {% else %} {{ student.Level }}</td>
-                            {% endif %}
-                            <td class="align-middle">{{ student.Dep }}</td>
-                            <td class="align-middle">{{ student.Email }}</td>
-                            <td class="align-middle">{{ student.Regist_Date }}</td>
+                            <th class="align-middle">ลำดับที่</th>
+                            <th class="align-middle">รหัสพนักงาน</th>
+                            <th class="align-middle">ชื่อ</th>
+                            <th class="align-middle">ตำแหน่ง</th>
+                            <th>สังกัด</th>
+                            <th>e-mail ที่ลงทะเบียน</th>
+                            <th>วันที่สมัคร</th>
                         </tr>
+                    </thead>
+                    {% for student in student %}
+                    <tr class="stylefont text-center">
+                        <td class="align-middle">{{ forloop.counter }}</td>
+                        <td class="align-middle">{{ student.E_ID }}</td>
+                        <td class="align-middle">{{ student.Fullname }}</td>
+                        <td class="align-middle">{{ student.Position }} {% if student.Level == "M1" %}
+                        </td>
+                        {% elif student.Level == "M2" %}
+                        </td>
+                        {% elif student.Level == "M3" %}
+                        </td>
+                        {% elif student.Level == "M4" %}
+                        </td>
+                        {% elif student.Level == "M5" %}
+                        </td>
+                        {% elif student.Level == "M6" %}
+                        </td>
+                        {% elif student.Level == "S1" %}
+                        </td>
+                        {% elif student.Level == "S2" %}
+                        </td>
+                        {% else %} {{ student.Level }}</td>
+                        {% endif %}
+                        <td class="align-middle">{{ student.Dep }}</td>
+                        <td class="align-middle">{{ student.Email }}</td>
+                        <td class="align-middle">{{ student.Regist_Date }}</td>
+                    </tr>
 
-                        {% endfor %}
-                        <tbody>
-                    </table>
-                </div>
+                    {% endfor %}
+                    <tbody>
+                </table>
+            </div>
 
-                <!-- {% block content %}
+            <!-- {% block content %}
                 <table class="datatable">
                     <thead>
                         <th>{% trans "Fullname" %}</th>
@@ -173,8 +203,8 @@
                     </tbody>
                 </table>
                 {% endblock %} -->
-            </div>
         </div>
+    </div>
     </div>
 
     <ol class="breadcrumb my-4">

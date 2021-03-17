@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import Http404
-from .models import MT_User, Course_D, List_Dept, List_Emp, Course_Director, Check_Loginerror, Check_Staff_End, Competency, Subject, Relation_comp, Relation_subject
+from .models import MT_User, Course_D, List_Dept, List_Emp, Course_Director, Check_Loginerror, Check_Staff_End, Subject
 from .forms import SaveForm
 from django.shortcuts import redirect
 import requests, xmltodict
@@ -18,7 +18,7 @@ def login(request):
             Emp_id = request.POST.get('StaffID')
             Emp_pass = request.POST.get('StaffPS')
             check_error = len(Check_Loginerror.objects.filter(E_ID=Emp_id))
-
+            check_error += 1  
             if check_error > 0 :
             # Emp_id == '303270' or Emp_id == '501249' or Emp_id == '489343' or Emp_id == '235859' or Emp_id == '444717' or Emp_id == '444660':
                 reposeMge = 'true'   
@@ -85,6 +85,9 @@ def home(request):
     courses= {
             'courses' : ''
         }
+    subjects= {
+            'subjests' : ''
+    }
     Emp_id = request.session['Emp_id']
     Fullname = request.session['Fullname']
     Dept = request.session['Department']
@@ -106,12 +109,12 @@ def home(request):
     else : 
         courses = Course_D.objects.all().exclude(Access_level=2).filter(status = 1).exclude(PK_Course_D__range = (60,61)).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     competency_data = Course_D.objects.all().filter(Access_level=2,status=1)
-    print(Subject.objects.all().filter(Url_location='https://virtual.yournextu.com/Catalog'))
-    subject = Relation_comp.objects.select_related('Course_ID').filter(Course_ID__Course_ID='PDD01CO08')
-    print(subject)#
+    #print(Subject.objects.all().filter(Url_location='https://virtual.yournextu.com/Catalog'))
+    #subject = Relation_comp.objects.select_related('Course_ID').filter(Course_ID__Course_ID='PDD01CO08')
+    subjects = Subject.objects.all()
 
 
-    return render(request, 'home.html', {'courses': courses,'Cut_Dept_code':Cut_Dept_code})
+    return render(request, 'home.html', {'courses': courses,'Cut_Dept_code':Cut_Dept_code,'subjests':subjects})
 
 
 def course_title(request, PK_Course_D):
@@ -938,10 +941,15 @@ def update_eng(request):
 
 def course_base(request, PK_Course_D):
     try:
+        subjects= {
+            'subjests' : ''
+        }
         course = Course_D.objects.get(PK_Course_D=PK_Course_D)
         Emp_id = request.session['Emp_id'] 
         Fullname = request.session['Fullname']
         Dept = request.session['Department']
+        subjects = Subject.objects.all()
+        print(subjects)
         profile = {
                 'Emp_id' : Emp_id,
                 'Fullname' : Fullname,
@@ -950,4 +958,4 @@ def course_base(request, PK_Course_D):
     except Course_D.DoesNotExist:
         raise Http404
 
-    return render(request,'course_base.html',{'course': course,'profile':profile})
+    return render(request,'course_base.html',{'course': course,'profile':profile,'subjects':subjects})
