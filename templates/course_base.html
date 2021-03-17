@@ -25,10 +25,17 @@
             text-align: center;
         }
         
+        .container2 {
+            width: 100%;
+            margin: 0 auto;
+            font-size: 17;
+            text-align: left;
+        }
+        
         .grid-item {
             display: inline-block;
             width: 500px;
-            height: 400px;
+            height: 600px;
             font-size: 1rem;
             vertical-align: center;
             margin: 5px;
@@ -60,20 +67,25 @@
         <div class="grid-item box1">
             <div class="card">
                 <h3>{{subject.Subject_name}}</h3>
-                <img src=/static/img/{{subject.Url_location}} class="center" style="width:300px;height:200px;"></img>
-                <span>{{subject.Description}}</span>
+                <a href=https://virtual.yournextu.com/{{subject.Url_location}}>
+                    <img src=/static/img/{{subject.Img_location}} class="center" style="width:300px;height:200px;"></img>
+                </a>
+                <div class="col-sm-12">{{subject.Description}}</div>
+                <div class="col-sm-12">-------------------------------------------------------------------------</div>
+                <div class="col-sm-12">{{subject.Learding}}</div>
+                <div class="col-sm-12">{{subject.Class_duration}}</div>
             </div>
         </div>
         {% endfor %}
         <div class="card p-4">
             <div class="col-md-12 mb-3">
                 <h3>เงื่อนไขการอบรม</h3>
-                <div class="col-md-12 mb-3">
-                    <div class="col-sm-6">1. เป็นพนักงาน PEA ระดับ 7-8</div>
-                    <div class="col-sm-6">2. รักในการเรียนรู้ และพัฒนาตนเอง</div>
-                    <div class="col-sm-6">3. สามารถจัดสรรเวลาเรียนได้</div>
-                    <div class="col-sm-6">4. เข้าเรียนวิชาหลักครบตามที่กำหนด</div>
-                    <div class="col-sm-6">5. มีอุปกรณ์การเรียน เช่น คอมพิวเตอร์, มือถือ, แท๊บเล็ต, อินเตอร์เน็ต</div>
+                <div class="container2 mt-2">
+                    <div>1. เป็นพนักงาน PEA ระดับ 7-8</div>
+                    <div>2. รักในการเรียนรู้ และพัฒนาตนเอง</div>
+                    <div>3. สามารถจัดสรรเวลาเรียนได้</div>
+                    <div>4. เข้าเรียนวิชาหลักครบตามที่กำหนด</div>
+                    <div>5. มีอุปกรณ์การเรียน เช่น คอมพิวเตอร์, มือถือ, แท๊บเล็ต, อินเตอร์เน็ต</div>
                 </div>
             </div>
         </div>
