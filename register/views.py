@@ -93,9 +93,11 @@ def home(request):
     Dept = request.session['Department']
     Dept_code = request.session['Dept_code']
     Position = request.session['Position']
+    LevelCode = request.session['LevelCode']
     Cut_Dept_code = Dept_code[:4]
     print(Cut_Dept_code)
     print(Dept_code)
+    print(LevelCode)
 
     check_SD = len(Course_Director.objects.filter(E_ID = Emp_id))
 
