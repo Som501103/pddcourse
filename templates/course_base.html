@@ -103,6 +103,7 @@
                     {{ course.Course_Name }}
                     <form method="post">
                         {% csrf_token %} {% if course.Number_App > course.Number_People %}
+                        {% if course.status == '1' or course.status == 1 %}
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-6"><label for="Emp_id"><b>ชื่อ</b> {{ profile.Fullname }}({{ profile.Emp_id }})</label></div>
@@ -115,7 +116,7 @@
                             </div>
                         </div>
                         </br>
-                        {% if course.status == '1' or course.status == 1 %}
+                        
                         <div class="row">
                             <div class="col-sm-12 text-center">
                                 <button type="submit" class="btn btn-success text-center">ลงทะเบียน</button>
