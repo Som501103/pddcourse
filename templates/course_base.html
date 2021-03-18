@@ -121,6 +121,12 @@
                                 <button type="submit" class="btn btn-success text-center">ลงทะเบียน</button>
                             </div>
                         </div>
+                        {% else %}
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <h3 class="text-center text-danger">เปิดให้ลงทะเบียนวันจันทร์ที่ 22 มีนาคม 2564 เวลา 9.30 น.</h3>
+                            </div>
+                        </div>
                         {% endif %}
                         </br>
                         {% if course.PK_Course_D == 60 or course.PK_Course_D == 61 %}
