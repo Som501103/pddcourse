@@ -109,7 +109,7 @@ def home(request):
     elif LevelCode == '07' or LevelCode == '08' or LevelCode == 'M1' or LevelCode == 'M2': # เช็คระดับของนักศึกษา ระดับ7-8
         courses = Course_D.objects.all().filter(status = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     else : 
-        courses = Course_D.objects.all().exclude(Access_level=2).filter(status = 1).exclude(PK_Course_D__range = (60,61)).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        courses = Course_D.objects.all().exclude(status = 0).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     competency_data = Course_D.objects.all().filter(Access_level=2,status=1)
     #print(Subject.objects.all().filter(Url_location='https://virtual.yournextu.com/Catalog'))
     #subject = Relation_comp.objects.select_related('Course_ID').filter(Course_ID__Course_ID='PDD01CO08')
