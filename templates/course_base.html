@@ -102,7 +102,8 @@
                     <h3>ลงทะเบียน</h3>
                     {{ course.Course_Name }}
                     <form method="post">
-                        {% csrf_token %} {% if course.Number_App > course.Number_People %}
+                        {% csrf_token %} 
+                        {% if course.Number_App > course.Number_People %}
                         {% if course.status == '1' or course.status == 1 %}
                         <div class="form-group">
                             <div class="row">

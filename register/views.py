@@ -296,13 +296,15 @@ def course_base(request, PK_Course_D):
     Emp_id = request.session['Emp_id'] 
     Fullname = request.session['Fullname']
     Dept = request.session['Department']
+    LevelCode = request.session['LevelCode']
     subjects = Subject.objects.all()
     student = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D))
     # print(subjects)
     profile = {
             'Emp_id' : Emp_id,
             'Fullname' : Fullname,
-            'Dept' : Dept
+            'Dept' : Dept,
+            'LevelCode' : LevelCode
     }
     if request.method == 'POST':
         Emp_tel = request.POST.get('Emp_tel')
@@ -312,11 +314,11 @@ def course_base(request, PK_Course_D):
             fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
             if nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2':
                 employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel)
-                employee.save()
+                # employee.save()
                 count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
-                # print (count)
-                update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
-                # print(update_num_student)
+               
+                # update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                
                 massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
             else :
                 massage = "ท่านไม่ได้อยู่ในกลุ่มระดับ 7-8 ที่หลักสูตรกำหนด"
