@@ -57,7 +57,7 @@
 
         <div class="container mt-2">
             <div class="col-md-12">
-                <h3 class="text-center">หลักสูตร {{ course.Course_Name }} {% if course.Batch_Type >= '1' %} รุ่นที่ {{ course.Batch_Type }} {% else %} <label></label> {% endif %}</h3>
+                <h3 class="text-center">หลักสูตร {{ course.Course_Name }} {% if course.Batch_Type >= '1' %} รอบที่ {{ course.Batch_Type }} {% else %} <label></label> {% endif %}</h3>
                 <h3 class="text-center">วันที่เริ่ม {{course.Start_Date|date:'d/m/Y'}}</h3>
                 <h3 class="text-center">วันที่สิ้นสุด {{course.End_Date|date:'d/m/Y'}}</h3>
                 <h3 class="text-center">สถานที่จัด {{course.Location}}</h3>
@@ -109,7 +109,8 @@
                             {% if profile.LevelCode == '07' or profile.LevelCode == '08' or profile.LevelCode == 'M1' or profile.LevelCode == 'M2' %}
                             <div class="row">
                                     <div class="col-sm-6"><label for="Emp_id"><b>ชื่อ</b> {{ profile.Fullname }}({{ profile.Emp_id }})</label></div>
-                                    <div class="col-sm-6"></div><label for="Emp_id"><b>สังกัด</b> {{ profile.Dept }}</label></div>
+                                    <div class="col-sm-6"><label for="Emp_id"><b>สังกัด</b> {{ profile.Dept }}</label></div>
+                                    <div class="col-sm-6"><label for="Emp_id"><b>e-mail</b> {{ profile.Email }}</label></div>
                             </div>
                             <div class="row">
 
@@ -139,32 +140,7 @@
                             </div>
                         </div>
                         {% endif %}
-                        </br>
-                        {% if course.PK_Course_D == 60 or course.PK_Course_D == 61 %}
-
-                        <div class="row">
-                            <div class="col-sm-12 text-center">
-                                <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ ผพผ. เบอร์ 02-590-5869 หรือ exepea5869@gmail.com</label>
-                            </div>
-                        </div>
-                        {% elif course.PK_Course_D == 66 %}
-                        <div class="row">
-                            <div class="col-sm-12 text-center">
-                                <p class="text-danger">{{ course.Course_Detail }}</p>
-                            </div>
-                        </div>
-                        {% else %}
-                        <div class="row">
-                            <div class="col-sm-12 text-center">
-                                <label class="text-danger">ทาง ผจค. จะส่ง link เข้าเรียน ผ่าน e-mail ที่ท่านแจ้งไว้ ล่วงหน้า 2 วัน</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12 text-center">
-                                <label>ติดต่อสอบถามรายละเอียดเพิ่มเติม ได้ที่ อัศวิน เบอร์ 02-590-5858 หรือ kmpea5858@gmail.com</label>
-                            </div>
-                        </div>
-                        {% endif %}
+                        
                         </br>
                         <div class="row">
                             <div class="col-sm-12 text-center"><label for="massage_error" class="text-danger text-center">{{ massage }}</label></div>
@@ -259,7 +235,7 @@
     </div> {% endcomment %}
     <script>
         function myFunction() {
-          alert("ท่านได้ลงทะเบียนเรียบร้อย" );
+          alert("ท่านได้ลงทะเบียนเรียบร้อย กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext" );
         }
     </script>
 </body>
