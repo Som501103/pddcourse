@@ -314,10 +314,10 @@ def course_base(request, PK_Course_D):
             fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
             if nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2':
                 employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel)
-                employee.save()
+                # employee.save()
                 count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
                
-                update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                # update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
                 
                 massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
             else :
