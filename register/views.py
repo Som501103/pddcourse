@@ -115,8 +115,7 @@ def home(request):
     #subject = Relation_comp.objects.select_related('Course_ID').filter(Course_ID__Course_ID='PDD01CO08')
     subjects = Subject.objects.all()
 
-
-    return render(request, 'home.html', {'courses': courses,'Cut_Dept_code':Cut_Dept_code,'subjests':subjects})
+    return render(request, 'home.html', {'courses': courses,'Cut_Dept_code':Cut_Dept_code,'subjests':subjects,'Fullname':Fullname})
 
 
 def course_title(request, PK_Course_D):
@@ -951,6 +950,7 @@ def course_base(request, PK_Course_D):
         Fullname = request.session['Fullname']
         Dept = request.session['Department']
         subjects = Subject.objects.all()
+        student = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D))
         # print(subjects)
         profile = {
                 'Emp_id' : Emp_id,
@@ -964,10 +964,10 @@ def course_base(request, PK_Course_D):
                 nameget = idm(Emp_id)
                 fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
                 employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel)
-                # employee.save()
+                employee.save()
                 count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
                 # print (count)
-                # update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
                 # print(update_num_student)
                 massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
             else :
@@ -975,4 +975,4 @@ def course_base(request, PK_Course_D):
     except Course_D.DoesNotExist:
         raise Http404
 
-    return render(request,'course_base.html',{'course': course,'profile':profile,'subjects':subjects})
+    return render(request,'course_base.html',{'course': course,'profile':profile,'subjects':subjects,'student':student})
