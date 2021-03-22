@@ -95,7 +95,7 @@
         {% endfor %}
 
 
-
+        {% if course.status == '1' or course.status == 1 %}
         <div class="card p-4">
             <div class="col-md-12 mb-3">
                 <div class="col-md-12 mb-3">
@@ -121,7 +121,7 @@
                             
                             <div class="row">
                                 <div class="col-sm-12 text-center">
-                                    <button type="submit" class="btn btn-success text-center">ลงทะเบียน</button>
+                                    <button type="submit" class="btn btn-success text-center" onclick="myFunction()">ลงทะเบียน</button>
                                 </div>
                             </div>
                             {% else %}
@@ -227,6 +227,7 @@
             </div>
 
         </div>
+        {% endif %}
     </div>
     </div>
 
@@ -256,6 +257,11 @@
             <li class="breadcrumb-item active">กองพัฒนาบุคลากร แผนกจัดการความรู้ ติดต่อ 5858</li>
         </ol>
     </div> {% endcomment %}
+    <script>
+        function myFunction() {
+          alert("ท่านได้ลงทะเบียนเรียบร้อย" );
+        }
+    </script>
 </body>
 
 </html>
