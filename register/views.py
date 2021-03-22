@@ -112,7 +112,8 @@ def home(request):
     #print(Subject.objects.all().filter(Url_location='https://virtual.yournextu.com/Catalog'))
     #subject = Relation_comp.objects.select_related('Course_ID').filter(Course_ID__Course_ID='PDD01CO08')
     subjects = Subject.objects.all()
-
+    open_course = len(Course_D.objects.filter(PK_Course_D =75,status = 1))
+    print("open_course",open_course)
     return render(request, 'home.html', {'courses': courses,'Cut_Dept_code':Cut_Dept_code,'subjests':subjects,'Fullname':Fullname})
 
 
