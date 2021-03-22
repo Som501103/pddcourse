@@ -6,7 +6,6 @@ from .forms import SaveForm
 from django.shortcuts import redirect
 import requests, xmltodict
 import string
-# from django_datatables_view.base_datatable_view import BaseDatatableView
 from django.db.models import Q, F
 
 def login(request):
