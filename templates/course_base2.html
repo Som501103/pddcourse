@@ -112,19 +112,20 @@
                                     <div class="col-sm-6"><label for="Emp_id"><b>สังกัด</b> {{ profile.Dept }}</label></div>
                                     <div class="col-sm-6"><label for="Emp_id"><b>e-mail</b> {{ profile.Email }}</label></div>
                             </div>
-                            <div class="row">
-
-                                <div class="col-sm-6">
-                                    <input type="text" id="Emp_tel" name="Emp_tel" class="form-control" placeholder="เบอร์มือถือ" required>
+                                {% if qs_check_register == 0 %}
+                                <div class="row">
+                                    <div class="col-sm-6 text-center">
+                                        <input type="text" id="Emp_tel" name="Emp_tel" class="form-control" placeholder="เบอร์มือถือ" required>
+                                    </div>
                                 </div>
-                            </div>
-                            </br>
-                            
-                            <div class="row">
-                                <div class="col-sm-12 text-center">
-                                    <button type="submit" class="btn btn-success text-center" onclick="myFunction()">ลงทะเบียน</button>
+                                </br>
+                                
+                                <div class="row">
+                                    <div class="col-sm-12 text-center">
+                                        <button type="submit" class="btn btn-success text-center">ลงทะเบียน</button>
+                                    </div>
                                 </div>
-                            </div>
+                                {% endif %}
                             {% else %}
                             <div class="row">
                                 <div class="col-sm-12 text-center">
@@ -233,11 +234,7 @@
             <li class="breadcrumb-item active">กองพัฒนาบุคลากร แผนกจัดการความรู้ ติดต่อ 5858</li>
         </ol>
     </div> {% endcomment %}
-    <script>
-        function myFunction() {
-          alert("ท่านได้ลงทะเบียนเรียบร้อย กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext" );
-        }
-    </script>
+    
 </body>
 
 </html>

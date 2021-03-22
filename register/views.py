@@ -114,7 +114,7 @@ def home(request):
     subjects = Subject.objects.all()
     open_course = len(Course_D.objects.filter(PK_Course_D =75,status = 1))
     print("open_course",open_course)
-    return render(request, 'home.html', {'courses': courses,'Cut_Dept_code':Cut_Dept_code,'subjests':subjects,'Fullname':Fullname})
+    return render(request, 'home.html', {'courses': courses,'Cut_Dept_code':Cut_Dept_code,'subjests':subjects,'Fullname':Fullname,'open_course':open_course})
 
 
 def course_title(request, PK_Course_D):
@@ -291,7 +291,7 @@ def update_eng(request):
     return render(request, 'update_eng.html', {'mgs':mgs})
 
 def course_base(request, PK_Course_D):
-  
+    massage=''
     subjects= {
         'subjests' : ''
     }
@@ -334,7 +334,7 @@ def course_base(request, PK_Course_D):
 
 
 def course_base2(request, PK_Course_D):
-  
+    massage=''
     subjects= {
         'subjests' : ''
     }
@@ -346,6 +346,9 @@ def course_base2(request, PK_Course_D):
     Email = request.session['Email']
     subjects = Subject.objects.all()
     student = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D))
+    qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+    if qs_check_register > 0:
+        massage = "ท่านได้ลงทะเบียนแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
     # print(subjects)
     profile = {
             'Emp_id' : Emp_id,
@@ -358,22 +361,26 @@ def course_base2(request, PK_Course_D):
         if course.Number_App > course.Number_People:
             Emp_tel = request.POST.get('Emp_tel')
             qs_check_user = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+            
             if qs_check_user == 0:
                 nameget = idm(Emp_id)
                 fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
                 if nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2':
                     employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
-                    # employee.save()
-                    count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
-                
-                    # update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
-                    
-                    massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
+                    if course.status == '1' or course.status == 1:
+                        employee.save()
+                        count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
+                        update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                        qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+                        massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
+
+                    else :
+                        massage = "ยังไม่เปิดให้ลงทะเบียน"
                 else :
                     massage = "ท่านไม่ได้อยู่ในกลุ่มระดับ 7-8 ที่หลักสูตรกำหนด"
             else :
-                massage = "ท่านได้ลงทะเบียนแล้ว"
+                massage = "ท่านได้ลงทะเบียนแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
         else:
             massage = "มีผู้ลงทะเบียนครบแล้ว"
 
-    return render(request,'course_base2.html',{'course': course,'profile':profile,'subjects':subjects,'student':student})
+    return render(request,'course_base2.html',{'course': course,'profile':profile,'subjects':subjects,'student':student,'massage':massage,'qs_check_register':qs_check_register})
