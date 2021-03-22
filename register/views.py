@@ -17,7 +17,6 @@ def login(request):
         Emp_id = request.POST.get('StaffID')
         Emp_pass = request.POST.get('StaffPS')
         check_error = len(Check_Loginerror.objects.filter(E_ID=Emp_id))
-        check_error += 1  
         if check_error > 0 :
         # Emp_id == '303270' or Emp_id == '501249' or Emp_id == '489343' or Emp_id == '235859' or Emp_id == '444717' or Emp_id == '444660':
             reposeMge = 'true'   
@@ -308,23 +307,24 @@ def course_base(request, PK_Course_D):
             'LevelCode' : LevelCode
     }
     if request.method == 'POST':
-        Emp_tel = request.POST.get('Emp_tel')
-        qs_check_user = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
-        if qs_check_user == 0:
-            nameget = idm(Emp_id)
-            fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
-            if nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2':
-                employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel)
-                # employee.save()
-                count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
-               
-                # update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+        if course.Number_App > course.Number_People:
+            Emp_tel = request.POST.get('Emp_tel')
+            qs_check_user = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+            if qs_check_user == 0:
+                nameget = idm(Emp_id)
+                fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
+                if nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2':
+                    employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
+                    # employee.save()
+                    count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
                 
-                massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
+                    # update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                    
+                    massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
+                else :
+                    massage = "ท่านไม่ได้อยู่ในกลุ่มระดับ 7-8 ที่หลักสูตรกำหนด"
             else :
-                massage = "ท่านไม่ได้อยู่ในกลุ่มระดับ 7-8 ที่หลักสูตรกำหนด"
-        else :
-            massage = "ท่านได้ลงทะเบียนแล้ว"
+                massage = "ท่านได้ลงทะเบียนแล้ว"
     
 
     return render(request,'course_base.html',{'course': course,'profile':profile,'subjects':subjects,'student':student})
@@ -356,7 +356,7 @@ def course_base2(request, PK_Course_D):
             nameget = idm(Emp_id)
             fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
             if nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2':
-                employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel)
+                employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
                 # employee.save()
                 count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
                
