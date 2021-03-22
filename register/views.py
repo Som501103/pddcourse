@@ -293,38 +293,37 @@ def update_eng(request):
     return render(request, 'update_eng.html', {'mgs':mgs})
 
 def course_base(request, PK_Course_D):
-    try:
-        subjects= {
-            'subjests' : ''
-        }
-        course = Course_D.objects.get(PK_Course_D=PK_Course_D)
-        Emp_id = request.session['Emp_id'] 
-        Fullname = request.session['Fullname']
-        Dept = request.session['Department']
-        subjects = Subject.objects.all()
-        student = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D))
-        # print(subjects)
-        profile = {
-                'Emp_id' : Emp_id,
-                'Fullname' : Fullname,
-                'Dept' : Dept
-        }
-        if request.method == 'POST':
-            Emp_tel = request.POST.get('Emp_tel')
-            qs_check_user = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
-            if qs_check_user == 0:
-                nameget = idm(Emp_id)
-                fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
-                employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel)
-                employee.save()
-                count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
-                # print (count)
-                update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
-                # print(update_num_student)
-                massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
-            else :
-                massage = "ท่านได้ลงทะเบียนแล้ว"
-    except Course_D.DoesNotExist:
-        raise Http404
+  
+    subjects= {
+        'subjests' : ''
+    }
+    course = Course_D.objects.get(PK_Course_D=PK_Course_D)
+    Emp_id = request.session['Emp_id'] 
+    Fullname = request.session['Fullname']
+    Dept = request.session['Department']
+    subjects = Subject.objects.all()
+    student = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D))
+    # print(subjects)
+    profile = {
+            'Emp_id' : Emp_id,
+            'Fullname' : Fullname,
+            'Dept' : Dept
+    }
+    if request.method == 'POST':
+        Emp_tel = request.POST.get('Emp_tel')
+        qs_check_user = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+        if qs_check_user == 0:
+            nameget = idm(Emp_id)
+            fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
+            employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel)
+            employee.save()
+            count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
+            # print (count)
+            update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+            # print(update_num_student)
+            massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
+        else :
+            massage = "ท่านได้ลงทะเบียนแล้ว"
+    
 
     return render(request,'course_base.html',{'course': course,'profile':profile,'subjects':subjects,'student':student})
