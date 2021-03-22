@@ -94,13 +94,14 @@ def home(request):
     print(Cut_Dept_code)
     print(Dept_code)
     print(LevelCode)
+    print(Fullname)
 
     check_SD = len(Course_Director.objects.filter(E_ID = Emp_id))
 
     check_km = List_Emp.objects.filter(E_ID = Emp_id,ref_course__PK_Course_D__range=(3,6)).exclude(ref_course='8').count()
     
     print(check_km)
-    if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784':
+    if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951':
         courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     elif LevelCode == '07' or LevelCode == '08' or LevelCode == 'M1' or LevelCode == 'M2': # เช็คระดับของนักศึกษา ระดับ7-8
         courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
@@ -327,3 +328,45 @@ def course_base(request, PK_Course_D):
     
 
     return render(request,'course_base.html',{'course': course,'profile':profile,'subjects':subjects,'student':student})
+
+
+def course_base2(request, PK_Course_D):
+  
+    subjects= {
+        'subjests' : ''
+    }
+    course = Course_D.objects.get(PK_Course_D=PK_Course_D)
+    Emp_id = request.session['Emp_id'] 
+    Fullname = request.session['Fullname']
+    Dept = request.session['Department']
+    LevelCode = request.session['LevelCode']
+    subjects = Subject.objects.all()
+    student = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D))
+    # print(subjects)
+    profile = {
+            'Emp_id' : Emp_id,
+            'Fullname' : Fullname,
+            'Dept' : Dept,
+            'LevelCode' : LevelCode
+    }
+    if request.method == 'POST':
+        Emp_tel = request.POST.get('Emp_tel')
+        qs_check_user = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+        if qs_check_user == 0:
+            nameget = idm(Emp_id)
+            fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
+            if nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2':
+                employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel)
+                # employee.save()
+                count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
+               
+                # update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                
+                massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
+            else :
+                massage = "ท่านไม่ได้อยู่ในกลุ่มระดับ 7-8 ที่หลักสูตรกำหนด"
+        else :
+            massage = "ท่านได้ลงทะเบียนแล้ว"
+    
+
+    return render(request,'course_base2.html',{'course': course,'profile':profile,'subjects':subjects,'student':student})
