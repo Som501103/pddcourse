@@ -82,7 +82,7 @@
                                     {% if course.Number_App > course.Number_People %}
                                         <td class="align-middle"><a href="{% url 'course_base' course.PK_Course_D %}">ลงทะเบียน</a></td>
                                     {% else %}
-                                        <td class="align-middle"><a href="{% url 'course_title' course.PK_Course_D %}">รายชื่อ</td>
+                                        <td class="align-middle">-</td>
                                     {% endif %}
                                 {% else %}
                                     {% if course.Number_App > course.Number_People %}
