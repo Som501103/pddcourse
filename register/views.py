@@ -103,9 +103,9 @@ def home(request):
     if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784':
         courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     elif LevelCode == '07' or LevelCode == '08' or LevelCode == 'M1' or LevelCode == 'M2': # เช็คระดับของนักศึกษา ระดับ7-8
-        courses = Course_D.objects.all().filter(status = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     else : 
-        courses = Course_D.objects.all().filter(status = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     competency_data = Course_D.objects.all().filter(Access_level=2,status=1)
     #print(Subject.objects.all().filter(Url_location='https://virtual.yournextu.com/Catalog'))
     #subject = Relation_comp.objects.select_related('Course_ID').filter(Course_ID__Course_ID='PDD01CO08')
@@ -314,10 +314,10 @@ def course_base(request, PK_Course_D):
             fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
             if nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2':
                 employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel)
-                # employee.save()
+                employee.save()
                 count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
                
-                # update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
                 
                 massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว"
             else :
