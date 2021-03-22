@@ -10,49 +10,46 @@ import string
 from django.db.models import Q, F
 
 def login(request):
-    try:
-        mgs = {
-                    'massage' : ' '
-                }
-        if request.method == 'POST':
-            Emp_id = request.POST.get('StaffID')
-            Emp_pass = request.POST.get('StaffPS')
-            check_error = len(Check_Loginerror.objects.filter(E_ID=Emp_id))
-            check_error += 1  
-            if check_error > 0 :
-            # Emp_id == '303270' or Emp_id == '501249' or Emp_id == '489343' or Emp_id == '235859' or Emp_id == '444717' or Emp_id == '444660':
-                reposeMge = 'true'   
-            else : 
-                check_ID = idm_login(Emp_id,Emp_pass)
-                # print(check_ID)
-                reposeMge = check_ID
+   
+    mgs = {
+                'massage' : ' '
+            }
+    if request.method == 'POST':
+        Emp_id = request.POST.get('StaffID')
+        Emp_pass = request.POST.get('StaffPS')
+        check_error = len(Check_Loginerror.objects.filter(E_ID=Emp_id))
+        check_error += 1  
+        if check_error > 0 :
+        # Emp_id == '303270' or Emp_id == '501249' or Emp_id == '489343' or Emp_id == '235859' or Emp_id == '444717' or Emp_id == '444660':
+            reposeMge = 'true'   
+        else : 
+            check_ID = idm_login(Emp_id,Emp_pass)
+            # print(check_ID)
+            reposeMge = check_ID
 
-            if reposeMge == 'true':
-                nameget = idm(Emp_id)
-                # print(nameget)
-                Fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
-                Position = nameget['PositionDescShort']
-                LevelCode = nameget['LevelCode']
-                Dept = nameget['DepartmentShort']
-                Dept_code = nameget['NewOrganizationalCode']
-                RegionCode = nameget['RegionCode']
-                request.session['Emp_id'] = Emp_id
-                request.session['Fullname'] = Fullname
-                request.session['Position'] = Position
-                request.session['LevelCode'] = LevelCode
-                request.session['Department'] = Dept
-                request.session['Dept_code'] = Dept_code
-                request.session['RegionCode'] = RegionCode 
+        if reposeMge == 'true':
+            nameget = idm(Emp_id)
+            # print(nameget)
+            Fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
+            Position = nameget['PositionDescShort']
+            LevelCode = nameget['LevelCode']
+            Dept = nameget['DepartmentShort']
+            Dept_code = nameget['NewOrganizationalCode']
+            RegionCode = nameget['RegionCode']
+            request.session['Emp_id'] = Emp_id
+            request.session['Fullname'] = Fullname
+            request.session['Position'] = Position
+            request.session['LevelCode'] = LevelCode
+            request.session['Department'] = Dept
+            request.session['Dept_code'] = Dept_code
+            request.session['RegionCode'] = RegionCode 
 
-                return redirect('home')
-            else:
-                mgs = {
-                    'massage' : 'รหัสพนักงานหรือรหัสผ่านไม่ถูกต้อง....'
-                }
-                # return redirect('login',{'mgs':mgs})
-            
-    except Course_D.DoesNotExist:
-        raise Http404
+            return redirect('home')
+        else:
+            mgs = {
+                'massage' : 'รหัสพนักงานหรือรหัสผ่านไม่ถูกต้อง....'
+            }
+            # return redirect('login',{'mgs':mgs})
 
     return render(request, 'login.html', {'mgs':mgs})
 
@@ -221,11 +218,10 @@ def course_title(request, PK_Course_D):
     return render(request, 'course_register.html', {'course': course,'student':student,'massage':massage,'profile':profile})
 
 def course_detial(request, PK_Course_D):
-    try:
-        course = Course_D.objects.get(PK_Course_D=PK_Course_D)
-        student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1)
-    except Course_D.DoesNotExist:
-        raise Http404
+
+    course = Course_D.objects.get(PK_Course_D=PK_Course_D)
+    student = List_Emp.objects.filter(ref_course=PK_Course_D, status= 1)
+  
 
     return render(request, 'course_register.html', {'course': course,'student':student})
 
