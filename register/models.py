@@ -89,6 +89,7 @@ class List_Emp(models.Model):
     Position = models.CharField(max_length=20,null=True,default='หผ.')
     Level = models.CharField(max_length=2,null=True,default='08')
     Dep = models.CharField(max_length=100,null=True,blank=True)
+    Gender = models.CharField(max_length=10,null=True,blank=True)
     Dept_code = models.CharField(max_length=20,null=True,blank=True,default='0000')
     Email = models.EmailField(blank=True,null=True,max_length=100)
     Tel = models.CharField(blank=True,null=True,max_length=15)
