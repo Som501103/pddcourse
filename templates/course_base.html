@@ -102,27 +102,35 @@
                     <h3>ลงทะเบียน</h3>
                     {{ course.Course_Name }}
                     <form method="post">
-                        {% csrf_token %} 
-                        {% if course.Number_App > course.Number_People %}
+                    {% csrf_token %} 
+                    {% if course.Number_App > course.Number_People %}
                         {% if course.status == '1' or course.status == 1 %}
                         <div class="form-group">
+                            {% if profile.LevelCode == '07' or profile.LevelCode == '08' or profile.LevelCode == 'M1' or profile.LevelCode == 'M2' %}
                             <div class="row">
-                                <div class="col-sm-6"><label for="Emp_id"><b>ชื่อ</b> {{ profile.Fullname }}({{ profile.Emp_id }})</label></div>
-                                <div class="col-sm-6"></div><label for="Emp_id"><b>สังกัด</b> {{ profile.Dept }}</label></div>
-                        </div>
-                        <div class="row">
+                                    <div class="col-sm-6"><label for="Emp_id"><b>ชื่อ</b> {{ profile.Fullname }}({{ profile.Emp_id }})</label></div>
+                                    <div class="col-sm-6"></div><label for="Emp_id"><b>สังกัด</b> {{ profile.Dept }}</label></div>
+                            </div>
+                            <div class="row">
 
-                            <div class="col-sm-6">
-                                <input type="text" id="Emp_tel" name="Emp_tel" class="form-control" placeholder="เบอร์มือถือ" required>
+                                <div class="col-sm-6">
+                                    <input type="text" id="Emp_tel" name="Emp_tel" class="form-control" placeholder="เบอร์มือถือ" required>
+                                </div>
                             </div>
-                        </div>
-                        </br>
-                        
-                        <div class="row">
-                            <div class="col-sm-12 text-center">
-                                <button type="submit" class="btn btn-success text-center">ลงทะเบียน</button>
+                            </br>
+                            
+                            <div class="row">
+                                <div class="col-sm-12 text-center">
+                                    <button type="submit" class="btn btn-success text-center">ลงทะเบียน</button>
+                                </div>
                             </div>
-                        </div>
+                            {% else %}
+                            <div class="row">
+                                <div class="col-sm-12 text-center">
+                                    <label>หลักสูตรเฉพาะระดับ 7-8 เท่านั้น</label>
+                                </div>
+                            </div>
+                            {% endif %}
                         {% else %}
                         <div class="row">
                             <div class="col-sm-12 text-center">
@@ -161,14 +169,14 @@
                         <div class="row">
                             <div class="col-sm-12 text-center"><label for="massage_error" class="text-danger text-center">{{ massage }}</label></div>
                         </div>
-                </div>
-                {% else %}
-                <div class="row">
-                    <div class="col-sm-12 text-center">
-                        <h4 for="Emp_id" class="text-danger text-center">หลักสูตรนี้ปิดการลงทะเบียนแล้ว</h4>
                     </div>
-                </div>
-                {% endif %}
+                    {% else %}
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <h4 for="Emp_id" class="text-danger text-center">หลักสูตรนี้ปิดการลงทะเบียนแล้ว</h4>
+                        </div>
+                    </div>
+                    {% endif %}
                 </form>
             </div>
 
