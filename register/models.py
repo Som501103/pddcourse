@@ -57,6 +57,7 @@ class Subject(models.Model):
     Learding = models.TextField(null = True,default='ทักษะที่จะได้รับ')
     Img_location = models.CharField(max_length=100, blank = True)
     Class_duration = models.CharField(max_length=150,null = True)
+    Sub_level = models.IntegerField(default=1, null=True)
     #ref_comp = models.ForeignKey(Competency, related_name='Reference',on_delete = models.CASCADE,null=True)
     def __str__(self):
         return self.Subject_name
