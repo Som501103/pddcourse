@@ -17,6 +17,7 @@ def login(request):
         Emp_id = request.POST.get('StaffID')
         Emp_pass = request.POST.get('StaffPS')
         check_error = len(Check_Loginerror.objects.filter(E_ID=Emp_id))
+        check_error += 1 #bypass
         if check_error > 0 :
         # Emp_id == '303270' or Emp_id == '501249' or Emp_id == '489343' or Emp_id == '235859' or Emp_id == '444717' or Emp_id == '444660':
             reposeMge = 'true'   
@@ -300,7 +301,7 @@ def course_base(request, PK_Course_D):
     Fullname = request.session['Fullname']
     Dept = request.session['Department']
     LevelCode = request.session['LevelCode']
-    subjects = Subject.objects.all()
+    subjects = Subject.objects.all().filter(Sub_level=1)
     student = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D))
     # print(subjects)
     profile = {
@@ -344,7 +345,7 @@ def course_base2(request, PK_Course_D):
     Dept = request.session['Department']
     LevelCode = request.session['LevelCode']
     Email = request.session['Email']
-    subjects = Subject.objects.all()
+    subjects = Subject.objects.all().filter(Sub_level=1)
     student = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D))
     qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
     if qs_check_register > 0:
@@ -384,3 +385,61 @@ def course_base2(request, PK_Course_D):
             massage = "มีผู้ลงทะเบียนครบแล้ว"
 
     return render(request,'course_base2.html',{'course': course,'profile':profile,'subjects':subjects,'student':student,'massage':massage,'qs_check_register':qs_check_register})
+
+def course_base3(request, PK_Course_D):
+    massage=''
+    subjects= {
+        'subjests' : ''
+    }
+    course = Course_D.objects.get(PK_Course_D=PK_Course_D)
+    Emp_id = request.session['Emp_id'] 
+    Fullname = request.session['Fullname']
+    Dept = request.session['Department']
+    LevelCode = request.session['LevelCode']
+    Email = request.session['Email']
+
+    student = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D))
+    qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+    if qs_check_register > 0:
+        massage = "ท่านได้ลงทะเบียนแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
+    # print(subjects)
+    profile = {
+            'Emp_id' : Emp_id,
+            'Fullname' : Fullname,
+            'Dept' : Dept,
+            'LevelCode' : LevelCode,
+            'Email' : Email
+    }
+    if LevelCode == '07' or LevelCode == '08' or LevelCode == 'M1' or LevelCode == 'M2': # เช็คระดับของนักศึกษา ระดับ7-8
+        courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        subjects = Subject.objects.all().filter(Sub_level=1)
+    elif LevelCode == '09' or LevelCode == '10'  or LevelCode == '11' or LevelCode == 'M3' or LevelCode == 'M4' or LevelCode == 'M5' or LevelCode == 'M6': # เช็คระดับของนักศึกษา ระดับ7-8
+        courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        subjects = Subject.objects.all().filter(Sub_level=2)
+    if request.method == 'POST':
+        if course.Number_App > course.Number_People:
+            Emp_tel = request.POST.get('Emp_tel')
+            qs_check_user = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+            
+            if qs_check_user == 0:
+                nameget = idm(Emp_id)
+                fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
+                if nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2':
+                    employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
+                    if course.status == '1' or course.status == 1:
+                        employee.save()
+                        count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
+                        update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                        qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+                        massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
+
+                    else :
+                        massage = "ยังไม่เปิดให้ลงทะเบียน"
+                else :
+                    massage = "ท่านไม่ได้อยู่ในกลุ่มระดับ 7-8 ที่หลักสูตรกำหนด"
+            else :
+                massage = "ท่านได้ลงทะเบียนแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
+        else:
+            massage = "มีผู้ลงทะเบียนครบแล้ว"
+
+    return render(request,'course_base3.html',{'course': course,'profile':profile,'subjects':subjects,'student':student,'massage':massage,'qs_check_register':qs_check_register})
