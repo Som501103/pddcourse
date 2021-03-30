@@ -11,6 +11,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" /> {% comment %} ตัวกล่อง {% endcomment %}
 
+    <!-- นำเข้า  CSS จาก dataTables -->
+    <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
+
+    <!-- นำเข้า  Javascript จาก  Jquery -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- นำเข้า  Javascript  จาก   dataTables -->
+    <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
+
+    <script type="text/javascript">
+        //คำสั่ง Jquery เริ่มทำงาน เมื่อ โหลดหน้า Page เสร็จ 
+        $(function() {
+            //กำหนดให้  Plug-in dataTable ทำงาน ใน ตาราง Html ที่มี id เท่ากับ example
+            $('#example').dataTable();
+        });
+    </script>
+
     <style>
         img {
             display: block;
@@ -173,6 +189,11 @@
                     {% else %}
                     <div class="row">
                         <div class="col-sm-12 text-center">
+                            {% for student in student %}
+                                {% if student.E_ID == profile.Emp_id %}
+                                    <h4>{{student.Fullname}} ได้ลงทะเบียนเรียนในวิชานี้แล้ว</h4>
+                                {% endif %}
+                            {% endfor %}
                             <h4 for="Emp_id" class="text-danger text-center">หลักสูตรนี้ปิดการลงทะเบียนแล้ว</h4>
                         </div>
                     </div>
@@ -180,51 +201,49 @@
                 </form>
             </div>
 
-            <div>
-                <table class="table table-striped stylefont mt-5">
-                    <thead class="thead-light">
-                        <tr class="stylefont text-center">
-                            <th class="align-middle">ลำดับที่</th>
-                            <th class="align-middle">รหัสพนักงาน</th>
-                            <th class="align-middle">ชื่อ</th>
-                            <th class="align-middle">ตำแหน่ง</th>
-                            <th>สังกัด</th>
-                            <th>e-mail ที่ลงทะเบียน</th>
-                            <th>วันที่สมัคร</th>
-                        </tr>
-                    </thead>
-                    {% for student in student %}
+            <table class="table table-bordered" id="example">
+                <thead class="thead-light">
                     <tr class="stylefont text-center">
-                        <td class="align-middle">{{ forloop.counter }}</td>
-                        <td class="align-middle">{{ student.E_ID }}</td>
-                        <td class="align-middle">{{ student.Fullname }}</td>
-                        <td class="align-middle">{{ student.Position }} {% if student.Level == "M1" %}
-                        </td>
-                        {% elif student.Level == "M2" %}
-                        </td>
-                        {% elif student.Level == "M3" %}
-                        </td>
-                        {% elif student.Level == "M4" %}
-                        </td>
-                        {% elif student.Level == "M5" %}
-                        </td>
-                        {% elif student.Level == "M6" %}
-                        </td>
-                        {% elif student.Level == "S1" %}
-                        </td>
-                        {% elif student.Level == "S2" %}
-                        </td>
-                        {% else %} {{ student.Level }}</td>
-                        {% endif %}
-                        <td class="align-middle">{{ student.Dep }}</td>
-                        <td class="align-middle">{{ student.Email }}</td>
-                        <td class="align-middle">{{ student.Regist_Date }}</td>
+                        <th class="align-middle">ลำดับที่</th>
+                        <th class="align-middle">รหัสพนักงาน</th>
+                        <th class="align-middle">ชื่อ</th>
+                        <th class="align-middle">ตำแหน่ง</th>
+                        <th class="align-middle">สังกัด</th>
+                        <th class="align-middle">e-mail ที่ลงทะเบียน</th>
+                        <th class="align-middle">วันที่สมัคร</th>
                     </tr>
-
-                    {% endfor %}
-                    <tbody>
-                </table>
-            </div>
+                </thead>
+                <tbody>
+                {% for student in student %}
+                <tr class="stylefont text-center">
+                    <td class="align-middle">{{ forloop.counter }}</td>
+                    <td class="align-middle">{{ student.E_ID }}</td>
+                    <td class="align-middle">{{ student.Fullname }}</td>
+                    <td class="align-middle">{{ student.Position }} {% if student.Level == "M1" %}
+                    </td>
+                    {% elif student.Level == "M2" %}
+                    </td>
+                    {% elif student.Level == "M3" %}
+                    </td>
+                    {% elif student.Level == "M4" %}
+                    </td>
+                    {% elif student.Level == "M5" %}
+                    </td>
+                    {% elif student.Level == "M6" %}
+                    </td>
+                    {% elif student.Level == "S1" %}
+                    </td>
+                    {% elif student.Level == "S2" %}
+                    </td>
+                    {% else %} {{ student.Level }}</td>
+                    {% endif %}
+                    <td class="align-middle">{{ student.Dep }}</td>
+                    <td class="align-middle">{{ student.Email }}</td>
+                    <td class="align-middle">{{ student.Regist_Date }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
         </div>
         {% endif %}
