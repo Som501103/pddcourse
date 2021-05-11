@@ -16,7 +16,7 @@ def login(request):
         Emp_id = request.POST.get('StaffID')
         Emp_pass = request.POST.get('StaffPS')
         check_error = len(Check_Loginerror.objects.filter(E_ID=Emp_id))
-        check_error += 1 #bypass
+        check_error = 1 #bypass
         if check_error > 0 :
         # Emp_id == '303270' or Emp_id == '501249' or Emp_id == '489343' or Emp_id == '235859' or Emp_id == '444717' or Emp_id == '444660':
             reposeMge = 'true'   
@@ -91,8 +91,9 @@ def home(request):
     Position = request.session['Position']
     LevelCode = request.session['LevelCode']
     Cut_Dept_code = Dept_code[:4]
+    Cut_Dept_code2 = Dept[:3]
     get_dept = Dept[5:8]
-    print(Cut_Dept_code)
+    print(Cut_Dept_code2,"fubukai")
     print(Dept_code)
     print(LevelCode)
     print(Fullname)
@@ -105,18 +106,39 @@ def home(request):
     current_time = now.strftime("%H")
     mini = now.strftime("%M")
     print("Current Time =", current_time)
-    if current_time == "09" and int(mini) <= 30 and get_dept == "ฝพบ" :
+    if current_time == "09" and int(mini) <= 30 :
+        open1 = Course_D.objects.get(PK_Course_D = 109)
+        open1.status = 1
+        open1.save()
+    elif current_time == "09" and int(mini) <= 59 and int(mini) >= 30 :
+        open2 = Course_D.objects.get(PK_Course_D = 110)
+        open2.status = 1
+        open2.save()
+    elif current_time == "10" and int(mini) <= 59 and int(mini) >= 30 :
+        open3 = Course_D.objects.get(PK_Course_D = 111)
+        open3.status = 1
+        open3.save()
+    elif current_time == "11" and int(mini) <= 30 : 
+        open4 = Course_D.objects.get(PK_Course_D = 112)
+        open4.status = 1
+        open4.save()
+    elif current_time == "11" and int(mini) <= 59 and int(mini) >= 30 :
+        open5 = Course_D.objects.get(PK_Course_D = 113)
+        open5.status = 1
+        open5.save()
+
+    if get_dept == "ฝพบ" or Cut_Dept_code2 ==  "ฝพบ" :
         courses = Course_D.objects.all().exclude( PK_Course_D = 110 ).exclude(PK_Course_D = 111).exclude( PK_Course_D = 112).exclude( PK_Course_D = 113).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-    elif current_time == "09" and int(mini) <= 59 and int(mini) >= 30 and get_dept == "กพค" :
+    elif get_dept == "กพค" or Cut_Dept_code2 ==  "กพค":
         courses = Course_D.objects.all().exclude( PK_Course_D = 109).exclude(PK_Course_D = 111).exclude( PK_Course_D = 112).exclude( PK_Course_D = 113).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-    elif current_time == "10" and int(mini) <= 59 and int(mini) >= 30 and get_dept == "ศฝฟ" :
+    elif get_dept == "ศฝฟ" or Cut_Dept_code2 == "ศฝฟ":
         courses = Course_D.objects.all().exclude(PK_Course_D = 109).exclude( PK_Course_D = 110).exclude( PK_Course_D = 112).exclude( PK_Course_D = 113).filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-    elif current_time == "11" and int(mini) <= 30 and get_dept == "กฝช" : 
+    elif get_dept == "กฝช" or Cut_Dept_code2 ==  "กฝช": 
         courses = Course_D.objects.all().exclude(PK_Course_D = 109).exclude( PK_Course_D = 110).exclude( PK_Course_D = 111).exclude( PK_Course_D = 113).filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-    elif current_time == "11" and int(mini) <= 59 and int(mini) >= 30 and get_dept == "รรช" :
+    elif get_dept == "รรช" or Cut_Dept_code2 ==  "รรช":
         courses = Course_D.objects.all().exclude(PK_Course_D = 109).exclude( PK_Course_D = 110).exclude( PK_Course_D = 111).exclude( PK_Course_D = 112).filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     else:  
-        if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951':
+        if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' :
             courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
         elif LevelCode == '07' or LevelCode == '08' or LevelCode == 'M1' or LevelCode == 'M2': # เช็คระดับของนักศึกษา ระดับ7-8
             courses = Course_D.objects.all().exclude( PK_Course_D = 109 ).exclude( PK_Course_D = 110 ).exclude(PK_Course_D = 111).exclude( PK_Course_D = 112).exclude( PK_Course_D = 113).filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
