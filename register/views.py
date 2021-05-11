@@ -93,12 +93,12 @@ def home(request):
     Cut_Dept_code = Dept_code[:4]
     Cut_Dept_code2 = Dept[:3]
     get_dept = Dept[5:8]
-    print(Cut_Dept_code2,"fubukai")
     print(Dept_code)
     print(LevelCode)
     print(Fullname)
     print(Dept)
     print(get_dept)
+    print(Cut_Dept_code2)
     check_SD = len(Course_Director.objects.filter(E_ID = Emp_id))
     check_km = List_Emp.objects.filter(E_ID = Emp_id,ref_course__PK_Course_D__range=(3,6)).exclude(ref_course='8').count()
     print(check_km)
@@ -434,7 +434,7 @@ def course_base3(request, PK_Course_D):
     Dept = request.session['Department']
     LevelCode = request.session['LevelCode']
     Email = request.session['Email']
-    print(course.PK_Course_D)
+    print(PK_Course_D)
     student = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D))
     qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
     if qs_check_register > 0:
@@ -448,6 +448,7 @@ def course_base3(request, PK_Course_D):
             'Email' : Email
     }
     if course.PK_Course_D == 109 or course.PK_Course_D == 110 or course.PK_Course_D == 111 or course.PK_Course_D == 112 or course.PK_Course_D == 113 :
+
         courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
         subjects = Subject.objects.all().exclude(Subject_name = 'Managing and Coaching Teams').filter(Sub_level=3)
         if LevelCode == '07' or LevelCode == '08' or LevelCode == 'M1' or LevelCode == 'M2':
@@ -467,7 +468,7 @@ def course_base3(request, PK_Course_D):
             if qs_check_user == 0:
                 nameget = idm(Emp_id)
                 fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
-                if nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2':
+                if nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2' or course.PK_Course_D == 109 or course.PK_Course_D == 110 or course.PK_Course_D == 111 or course.PK_Course_D == 112 or course.PK_Course_D == 113:
                     employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
                     if course.status == '1' or course.status == 1:
                         employee.save()
