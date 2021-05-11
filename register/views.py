@@ -132,9 +132,9 @@ def home(request):
     if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' :
             courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     elif Cut_Dept_code2 ==  "ฝพบ" :
-        courses = Course_D.objects.all().exclude( PK_Course_D = 110 ).exclude( PK_Course_D = 112).exclude( PK_Course_D = 113).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        courses = Course_D.objects.all().exclude( PK_Course_D = 110 ).exclude( PK_Course_D = 111 ).exclude( PK_Course_D = 112).exclude( PK_Course_D = 113).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     elif get_dept == "กพค" or Cut_Dept_code2 ==  "กพค":
-        courses = Course_D.objects.all().exclude( PK_Course_D = 109).exclude( PK_Course_D = 112).exclude( PK_Course_D = 113).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        courses = Course_D.objects.all().exclude( PK_Course_D = 109).exclude( PK_Course_D = 111 ).exclude( PK_Course_D = 112).exclude( PK_Course_D = 113).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     elif get_dept == "ศฝฟ" or Cut_Dept_code2 == "ศฝฟ":
         courses = Course_D.objects.all().exclude(PK_Course_D = 109).exclude( PK_Course_D = 110).exclude( PK_Course_D = 112).exclude( PK_Course_D = 113).filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     elif get_dept == "กฝช" or Cut_Dept_code2 ==  "กฝช": 
@@ -449,7 +449,7 @@ def course_base3(request, PK_Course_D):
             'LevelCode' : LevelCode,
             'Email' : Email
     }
-    if course.PK_Course_D == 109 or course.PK_Course_D == 110 or course.PK_Course_D == 111 or course.PK_Course_D == 112 or course.PK_Course_D == 113 :
+    if course.PK_Course_D == 109 or course.PK_Course_D == 110 or course.PK_Course_D == 111 or course.PK_Course_D == 112 or course.PK_Course_D == 113 or course.PK_Course_D == 114 :
 
         courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
         subjects = Subject.objects.all().exclude(Subject_name = 'Managing and Coaching Teams').filter(Sub_level=3)
