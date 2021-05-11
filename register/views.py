@@ -127,7 +127,7 @@ def home(request):
         open5.status = 1
         open5.save()
 
-    if get_dept == "ฝพบ" or Cut_Dept_code2 ==  "ฝพบ" :
+    if Cut_Dept_code2 ==  "ฝพบ" :
         courses = Course_D.objects.all().exclude( PK_Course_D = 110 ).exclude(PK_Course_D = 111).exclude( PK_Course_D = 112).exclude( PK_Course_D = 113).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     elif get_dept == "กพค" or Cut_Dept_code2 ==  "กพค":
         courses = Course_D.objects.all().exclude( PK_Course_D = 109).exclude(PK_Course_D = 111).exclude( PK_Course_D = 112).exclude( PK_Course_D = 113).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
