@@ -16,7 +16,7 @@ def login(request):
         Emp_id = request.POST.get('StaffID')
         Emp_pass = request.POST.get('StaffPS')
         check_error = len(Check_Loginerror.objects.filter(E_ID=Emp_id))
-        #check_error = 1 #bypass
+        check_error = 1 #bypass
         if check_error > 0 :
         # Emp_id == '303270' or Emp_id == '501249' or Emp_id == '489343' or Emp_id == '235859' or Emp_id == '444717' or Emp_id == '444660':
             reposeMge = 'true'   
@@ -470,7 +470,7 @@ def course_base3(request, PK_Course_D):
             if qs_check_user == 0:
                 nameget = idm(Emp_id)
                 fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
-                if nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2' or course.PK_Course_D == 109 or course.PK_Course_D == 110 or course.PK_Course_D == 111 or course.PK_Course_D == 112 or course.PK_Course_D == 113:
+                if nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2' or course.PK_Course_D == 109 or course.PK_Course_D == 110 or course.PK_Course_D == 111 or course.PK_Course_D == 112 or course.PK_Course_D == 113 or course.PK_Course_D == 114:
                     employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
                     if course.status == '1' or course.status == 1:
                         employee.save()
