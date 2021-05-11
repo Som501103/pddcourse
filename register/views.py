@@ -127,7 +127,9 @@ def home(request):
         open5.status = 1
         open5.save()
 
-    if Cut_Dept_code2 ==  "ฝพบ" :
+    if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' :
+            courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+    elif Cut_Dept_code2 ==  "ฝพบ" :
         courses = Course_D.objects.all().exclude( PK_Course_D = 110 ).exclude(PK_Course_D = 111).exclude( PK_Course_D = 112).exclude( PK_Course_D = 113).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     elif get_dept == "กพค" or Cut_Dept_code2 ==  "กพค":
         courses = Course_D.objects.all().exclude( PK_Course_D = 109).exclude(PK_Course_D = 111).exclude( PK_Course_D = 112).exclude( PK_Course_D = 113).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
