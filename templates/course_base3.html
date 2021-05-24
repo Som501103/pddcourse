@@ -10,7 +10,7 @@
     <script src="{% static 'js/datatable.js' %}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" /> {% comment %} ตัวกล่อง {% endcomment %}
-    
+
     <!-- นำเข้า  CSS จาก dataTables -->
     <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
 
@@ -97,7 +97,7 @@
                 <h3 class="align-middle">วิชาที่ {{ forloop.counter }}</h3>
                 <h3>{{subject.Subject_name}}</h3>
                 <a href=https://virtual.yournextu.com/{{subject.Url_location}}>
-                    <img src=/static/img/{{subject.Img_location}} class="center" style="width:300px;height:200px;"></img>
+                    <img src=/static/img/{{subject.Img_location}} class="center" style="width:80% ;height:200;"></img>
                 </a>
                 <div class="col-sm-12">{{subject.Description}}</div>
                 <div class="col-sm-12">-------------------------------------------------------------------------</div>
@@ -105,37 +105,32 @@
                 <div class="col-sm-12">{{subject.Class_duration}}</div>
             </div>
         </div>
-        {% endfor %}
-
-
-        {% if course.status == '1' or course.status == 1 %}
+        {% endfor %} {% if course.status == '1' or course.status == 1 %}
         <div class="card p-4">
             <div class="col-md-12 mb-3">
                 <div class="col-md-12 mb-3">
                     <h3>ลงทะเบียน</h3>
                     {{ course.Course_Name }}
                     <form method="post">
-                    {% csrf_token %} 
-                    {% if course.Number_App > course.Number_People %}
-                        {% if course.status == '1' or course.status == 1 %}
+                        {% csrf_token %} {% if course.Number_App > course.Number_People %} {% if course.status == '1' or course.status == 1 %}
                         <div class="form-group">
                             <div class="row">
-                                    <div class="col-sm-6"><label for="Emp_id"><b>ชื่อ</b> {{ profile.Fullname }}({{ profile.Emp_id }})</label></div>
-                                    <div class="col-sm-6"></div><label for="Emp_id"><b>สังกัด</b> {{ profile.Dept }}</label></div>
-                            </div>
-                            <div class="row">
+                                <div class="col-sm-6"><label for="Emp_id"><b>ชื่อ</b> {{ profile.Fullname }}({{ profile.Emp_id }})</label></div>
+                                <div class="col-sm-6"></div><label for="Emp_id"><b>สังกัด</b> {{ profile.Dept }}</label></div>
+                        </div>
+                        <div class="row">
 
-                                <div class="col-sm-6">
-                                    <input type="text" id="Emp_tel" name="Emp_tel" class="form-control" placeholder="เบอร์มือถือ" required>
-                                </div>
+                            <div class="col-sm-6">
+                                <input type="text" id="Emp_tel" name="Emp_tel" class="form-control" placeholder="เบอร์มือถือ" required>
                             </div>
-                            </br>
-                            
-                            <div class="row">
-                                <div class="col-sm-12 text-center">
-                                    <button type="submit" class="btn btn-success text-center" onclick="myFunction()">ลงทะเบียน</button>
-                                </div>
+                        </div>
+                        </br>
+
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <button type="submit" class="btn btn-success text-center" onclick="myFunction()">ลงทะเบียน</button>
                             </div>
+                        </div>
                         {% else %}
                         <div class="row">
                             <div class="col-sm-12 text-center">
@@ -174,19 +169,17 @@
                         <div class="row">
                             <div class="col-sm-12 text-center"><label for="massage_error" class="text-danger text-center">{{ massage }}</label></div>
                         </div>
+                </div>
+                {% else %}
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        {% for student in student %} {% if student.E_ID == profile.Emp_id %}
+                        <h4>{{student.Fullname}} ได้ลงทะเบียนเรียนในวิชานี้แล้ว</h4>
+                        {% endif %} {% endfor %}
+                        <h4 for="Emp_id" class="text-danger text-center">หลักสูตรนี้ปิดการลงทะเบียนแล้ว</h4>
                     </div>
-                    {% else %}
-                    <div class="row">
-                        <div class="col-sm-12 text-center">
-                            {% for student in student %}
-                                {% if student.E_ID == profile.Emp_id %}
-                                    <h4>{{student.Fullname}} ได้ลงทะเบียนเรียนในวิชานี้แล้ว</h4>
-                                {% endif %}
-                            {% endfor %}
-                            <h4 for="Emp_id" class="text-danger text-center">หลักสูตรนี้ปิดการลงทะเบียนแล้ว</h4>
-                        </div>
-                    </div>
-                    {% endif %}
+                </div>
+                {% endif %}
                 </form>
             </div>
 
@@ -203,34 +196,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for student in student %}
-                <tr class="stylefont text-center">
-                    <td class="align-middle">{{ forloop.counter }}</td>
-                    <td class="align-middle">{{ student.E_ID }}</td>
-                    <td class="align-middle">{{ student.Fullname }}</td>
-                    <td class="align-middle">{{ student.Position }} {% if student.Level == "M1" %}
-                    </td>
-                    {% elif student.Level == "M2" %}
-                    </td>
-                    {% elif student.Level == "M3" %}
-                    </td>
-                    {% elif student.Level == "M4" %}
-                    </td>
-                    {% elif student.Level == "M5" %}
-                    </td>
-                    {% elif student.Level == "M6" %}
-                    </td>
-                    {% elif student.Level == "S1" %}
-                    </td>
-                    {% elif student.Level == "S2" %}
-                    </td>
-                    {% else %} {{ student.Level }}</td>
-                    {% endif %}
-                    <td class="align-middle">{{ student.Dep }}</td>
-                    <td class="align-middle">{{ student.Email }}</td>
-                    <td class="align-middle">{{ student.Regist_Date }}</td>
-                </tr>
-                {% endfor %}
+                    {% for student in student %}
+                    <tr class="stylefont text-center">
+                        <td class="align-middle">{{ forloop.counter }}</td>
+                        <td class="align-middle">{{ student.E_ID }}</td>
+                        <td class="align-middle">{{ student.Fullname }}</td>
+                        <td class="align-middle">{{ student.Position }} {% if student.Level == "M1" %}
+                        </td>
+                        {% elif student.Level == "M2" %}
+                        </td>
+                        {% elif student.Level == "M3" %}
+                        </td>
+                        {% elif student.Level == "M4" %}
+                        </td>
+                        {% elif student.Level == "M5" %}
+                        </td>
+                        {% elif student.Level == "M6" %}
+                        </td>
+                        {% elif student.Level == "S1" %}
+                        </td>
+                        {% elif student.Level == "S2" %}
+                        </td>
+                        {% else %} {{ student.Level }}</td>
+                        {% endif %}
+                        <td class="align-middle">{{ student.Dep }}</td>
+                        <td class="align-middle">{{ student.Email }}</td>
+                        <td class="align-middle">{{ student.Regist_Date }}</td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
 
@@ -267,8 +260,9 @@
     </div> {% endcomment %}
     <script>
         function myFunction() {
-          alert("ท่านได้ลงทะเบียนเรียบร้อย" );
+            alert("ท่านได้ลงทะเบียนเรียบร้อย");
         }
+
         function Search_name() {
             var input, filter, ul, li, a, i, txtValue;
             input = document.getElementById("myInput");
