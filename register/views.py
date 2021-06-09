@@ -1,3 +1,4 @@
+from os import access
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import Http404
@@ -84,6 +85,9 @@ def home(request):
     subjects= {
             'subjests' : ''
     }
+    openorclose = {
+            'openorclose' : ''
+    }
     Emp_id = request.session['Emp_id']
     Fullname = request.session['Fullname']
     Dept = request.session['Department']
@@ -103,10 +107,12 @@ def home(request):
     current_time = now.strftime("%H")
     mini = now.strftime("%M")
     print("Current Time =", current_time)'''
-    
+    massage = ""
     if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951':
-            courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        openorclose = Course_D.objects.get(Course_ID = 'PDD01CO01')
+        courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     else:  
+        openorclose = Course_D.objects.get(Course_ID = 'PDD01CO01')
         if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951':
             courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
         elif LevelCode == '07' or LevelCode == '08' or LevelCode == 'M1' or LevelCode == 'M2': # เช็คระดับของนักศึกษา ระดับ7-8
@@ -119,15 +125,16 @@ def home(request):
             courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
             #selected_course = Course_D.objects.all().filter(status = 1).filter(Access_level = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
         else : 
-            courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+            massage = "ไม่มีวิชาที่ท่านสามารถลงทะเบียนได้"
+            courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     competency_data = Course_D.objects.all().filter(Access_level=2,status=1)
     #print(Subject.objects.all().filter(Url_location='https://virtual.yournextu.com/Catalog'))
     #subject = Relation_comp.objects.select_related('Course_ID').filter(Course_ID__Course_ID='PDD01CO08')
-    print(courses)
+    #print(openorclose.Number_App , openorclose.Number_People)
     subjects = Subject.objects.all()
     open_course = len(Course_D.objects.filter(PK_Course_D =75,status = 1))
     print("open_course",open_course)
-    return render(request, 'home.html', {'courses': courses,'Cut_Dept_code':Cut_Dept_code,'subjests':subjects,'Fullname':Fullname,'open_course':open_course})
+    return render(request, 'home.html', {'openorclose': openorclose,'courses': courses,'Cut_Dept_code':Cut_Dept_code,'subjests':subjects,'Fullname':Fullname,'open_course':open_course,'massage':massage})
 
 
 def course_title(request, PK_Course_D):
