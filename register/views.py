@@ -25,7 +25,7 @@ def login(request):
             check_ID = idm_login(Emp_id,Emp_pass)
             # print(check_ID)
             reposeMge = check_ID
-        reposeMge = 'true'
+        #reposeMge = 'true'
         if reposeMge == 'true':
             nameget = idm(Emp_id)
             # print(nameget)
