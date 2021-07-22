@@ -108,25 +108,25 @@ def home(request):
     mini = now.strftime("%M")
     print("Current Time =", current_time)'''
     massage = ""
-    if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951':
+    if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' :
         openorclose = Course_D.objects.get(Course_ID = 'PDD01CO01')
-        courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        courses = Course_D.objects.all().filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     else:  
         openorclose = Course_D.objects.get(Course_ID = 'PDD01CO01')
-        if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951':
+        if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' :
             courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
         elif LevelCode == '07' or LevelCode == '08' or LevelCode == 'M1' or LevelCode == 'M2': # เช็คระดับของนักศึกษา ระดับ7-8
-            courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+            courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
             #selected_course = Course_D.objects.all().filter(status = 1).filter(Access_level = 4 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
         elif LevelCode == '09' or LevelCode == 'M3':
-            courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+            courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
             #selected_course = Course_D.objects.all().filter(status = 1).filter(Access_level = 4 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
         elif LevelCode == '10'  or LevelCode == '11' or LevelCode == 'M4' or LevelCode == 'M5' or LevelCode == 'M6' or LevelCode == 'S1':
-            courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-            #selected_course = Course_D.objects.all().filter(status = 1).filter(Access_level = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+            courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+            #selected_course = Course_D.objects.all().filter(status = 1).filter(Access_level = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') 
         else : 
-            massage = "ไม่มีวิชาที่ท่านสามารถลงทะเบียนได้"
-            courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+            #massage = "ไม่มีวิชาที่ท่านสามารถลงทะเบียนได้"
+            courses = Course_D.objects.all().filter(Access_level = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     competency_data = Course_D.objects.all().filter(Access_level=2,status=1)
     #print(Subject.objects.all().filter(Url_location='https://virtual.yournextu.com/Catalog'))
     #subject = Relation_comp.objects.select_related('Course_ID').filter(Course_ID__Course_ID='PDD01CO08')
@@ -358,13 +358,16 @@ def course_base2(request, PK_Course_D):
     subjects= {
         'subjests' : ''
     }
+    sub_subjects= {
+        'sub_subjests' : ''
+    }
     course = Course_D.objects.get(PK_Course_D=PK_Course_D)
     Emp_id = request.session['Emp_id'] 
     Fullname = request.session['Fullname']
     Dept = request.session['Department']
     LevelCode = request.session['LevelCode']
     Email = request.session['Email']
-    subjects = Subject.objects.all().filter(Sub_level=1)
+    print(PK_Course_D)
     student = List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D))
     qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
     if qs_check_register > 0:
@@ -377,6 +380,28 @@ def course_base2(request, PK_Course_D):
             'LevelCode' : LevelCode,
             'Email' : Email
     }
+    if course.PK_Course_D == 109 or course.PK_Course_D == 110 or course.PK_Course_D == 111 or course.PK_Course_D == 112 or course.PK_Course_D == 113 or course.PK_Course_D == 114 :
+
+        courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        subjects = Subject.objects.all().exclude(Subject_name = 'Managing and Coaching Teams').filter(Sub_level=3)
+        if LevelCode == '07' or LevelCode == '08' or LevelCode == 'M1' or LevelCode == 'M2':
+            subjects = Subject.objects.all().filter(Sub_level=3)
+    elif LevelCode == '07' or LevelCode == '08' or LevelCode == 'M1' or LevelCode == 'M2': # เช็คระดับของนักศึกษา ระดับ7-8
+        courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        subjects = Subject.objects.all().filter(Sub_level=1)
+        sub_subjects = Subject.objects.filter(Sub_level = 4)
+    elif LevelCode == '09' or LevelCode == 'M3' : # เช็คระดับของนักศึกษา ระดับ7-8
+        courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        subjects = Subject.objects.all().filter(Sub_level=2)
+        sub_subjects = Subject.objects.filter(Sub_level = 4)
+    elif LevelCode == '10'  or LevelCode == '11' or LevelCode == 'M4' or LevelCode == 'M5' or LevelCode == 'M6' or LevelCode == 'S1': # เช็คระดับของนักศึกษา ระดับ7-8
+        courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        subjects = Subject.objects.all().filter(Sub_level=3)
+        sub_subjects = Subject.objects.filter(Sub_level = 5)
+    else :
+        courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        subjects = Subject.objects.all().filter(Subject_ID = 13) | Subject.objects.all().filter(Subject_ID = 10) | Subject.objects.all().filter(Subject_ID = 5) | Subject.objects.all().filter(Subject_ID = 18) | Subject.objects.all().filter(Subject_ID = 17)
+        sub_subjects = Subject.objects.all().filter(Subject_ID = 8) | Subject.objects.all().filter(Subject_ID = 4) | Subject.objects.all().filter(Subject_ID = 19) | Subject.objects.all().filter(Subject_ID = 22) 
     if request.method == 'POST':
         if course.Number_App > course.Number_People:
             Emp_tel = request.POST.get('Emp_tel')
@@ -385,25 +410,22 @@ def course_base2(request, PK_Course_D):
             if qs_check_user == 0:
                 nameget = idm(Emp_id)
                 fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
-                if nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2':
-                    employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
-                    if course.status == '1' or course.status == 1:
-                        employee.save()
-                        count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
-                        update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
-                        qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
-                        massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
+                employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
+                if course.status == '1' or course.status == 1:
+                    employee.save()
+                    count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
+                    update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                    qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+                    massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
 
-                    else :
-                        massage = "ยังไม่เปิดให้ลงทะเบียน"
                 else :
-                    massage = "ท่านไม่ได้อยู่ในกลุ่มระดับ 7-8 ที่หลักสูตรกำหนด"
+                    massage = "ยังไม่เปิดให้ลงทะเบียน"
             else :
                 massage = "ท่านได้ลงทะเบียนแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
         else:
             massage = "มีผู้ลงทะเบียนครบแล้ว"
 
-    return render(request,'course_base2.html',{'course': course,'profile':profile,'subjects':subjects,'student':student,'massage':massage,'qs_check_register':qs_check_register})
+    return render(request,'course_base2.html',{'course': course,'profile':profile,'subjects':subjects,'sub_subjects':sub_subjects,'student':student,'massage':massage,'qs_check_register':qs_check_register})
 
 def course_base3(request, PK_Course_D):
     massage=''
