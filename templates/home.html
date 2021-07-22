@@ -17,7 +17,7 @@
                 {% if openorclose.Number_People == openorclose.Number_App %}
                     <a href="{% url 'course_base3' '1'  %}"><img src=/static/img/close1.jpg  class="center" width=100% ></a>
                 {% else %}
-                    <a href="{% url 'course_base3' '1'  %}"><img src=/static/img/open1.jpg  class="center" width=100% ></a>
+                    <a href="{% url 'course_base3' '1'  %}"><img src=/static/img/open1.png  class="center" width=100% ></a>
                 {% endif %}
             </div>
             <div class="card p-4">
@@ -61,13 +61,13 @@
                                     {% endif %}
                                     <td class="align-middle"><a href="{% url 'course_base3' course.PK_Course_D %}">รายชื่อ</a></td>
                                 
-                                {% elif course.Access_level == 3 %}
+                                {% elif course.Access_level == 1 %}
                                     {% if course.Number_App > course.Number_People %}
-                                        <td class="align-middle"><a href="{% url 'course_base3' course.PK_Course_D %}">ลงทะเบียน</a></td>
+                                        <td class="align-middle"><a href="{% url 'course_base2' course.PK_Course_D %}">ลงทะเบียน</a></td>
                                     {% else %}
                                         <td class="align-middle">เต็ม</td>
                                     {% endif %}
-                                    <td class="align-middle"><a href="{% url 'course_base3' course.PK_Course_D %}">รายชื่อ</a></td>
+                                    <td class="align-middle"><a href="{% url 'course_base2' course.PK_Course_D %}">รายชื่อ</a></td>
                                 {% else %}
                                     {% if course.Number_App > course.Number_People %}
                                     <td class="align-middle"><a href="{% url 'course_title' course.PK_Course_D %}">ลงทะเบียน</a></td>
