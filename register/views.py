@@ -406,8 +406,8 @@ def course_base2(request, PK_Course_D):
         if course.Number_App > course.Number_People:
             Emp_tel = request.POST.get('Emp_tel')
             qs_check_user = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
-            
-            if qs_check_user == 0:
+            check_same_user = List_Emp.objects.filter(E_ID = Emp_id).count()
+            if qs_check_user == 0 and check_same_user == 0 :
                 nameget = idm(Emp_id)
                 fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
                 employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
