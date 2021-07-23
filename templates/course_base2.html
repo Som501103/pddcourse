@@ -90,7 +90,15 @@
         </div>
         <div class="card p-4">
             <div class="col-md-12 mb-3">
-                <h3 class="text-center text-danger">เปิดให้ลงทะเบียนวันพุทธที่ 4 สิงหาคม 2564 เวลา 13.00 น.</h3>
+                {% if course.PK_Course_D == 3 %}
+                    <h3 class="text-center text-danger">เปิดให้ลงทะเบียนวันพุทธที่ 4 สิงหาคม 2564 เวลา 13.00 น.</h3>
+                {% elif course.PK_Course_D == 4 %}
+                    <h3 class="text-center text-danger">เปิดให้ลงทะเบียนวันพฤหัสบดีที่ 5 สิงหาคม 2564 เวลา 13.00 น.</h3>
+                {% elif course.PK_Course_D == 5 %}
+                    <h3 class="text-center text-danger">เปิดให้ลงทะเบียนวันศุกร์ที่ 6 สิงหาคม 2564 เวลา 13.00 น.</h3>
+                {% else %}
+                    <h3 class="text-center text-danger">เปิดให้ลงทะเบียนวัน ที่ x สิงหาคม 2564 เวลา 13.00 น.</h3>
+                {% endif %}
                 <h3>เงื่อนไขการอบรม</h3>
                 <div class="container2 mt-2">
                     <div>1. เป็นพนักงาน PEA ระดับ 2-11</div>
