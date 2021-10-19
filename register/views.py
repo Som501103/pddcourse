@@ -9,10 +9,17 @@ import requests, xmltodict
 import string
 from django.db.models import Q, F
 from datetime import datetime
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
 def login(request):
     mgs = {
                 'massage' : ' '
             }
+    '''list = [180436,181149,191788,200587,223747,229133,233564,255914,261232,261274,267644,268022,269175,275281,280414,283276,284638,287254,289719,292615,292681,294413,297788,297916,298158,298849,301391,301812,303254,303270,304161,305507,305688,305777,308068,308115,308474,308490,308628,308733,309399,309894,310489,311728,311778,311833,313479,314166,314213,315950,151063,194752,198057,199590,200537,222555,233881,235972,237623,251253,252712,258174,258742,263535,268894,273718,275192,276504,277487,283828,284094,284565,284793,285016,285139,286957,289353,290003,290312,290833,293988,296512,297291,298394,300492,300646,302494,302957,303602,303733,304056,304268,305939,306731,307826,308050,308767,309585,311914,312041,312944,313843,314962,315895,316469,318152,321579,321600,322282,322614,324153,324179,327004,327753,330879,331956,400014,401670,403177,404034,404937,407969,410271,413033,413415,414495,414665,415019,415027,415085,415920,415938,415988,415996,416031,416065,417566,418025,419673,420860,423004,423088,424783,425373,426662,427244,427927,427935,428151,428193,428486,429149,429513,430572,430718,430734,430768,430899,430912,432469,432697,432702,433261,437401,437689,444204,444254,444466,444513,444547,444636,444652,444678,448575,448957,449733,449995,451675,451926,452663,454128,454306,454534,454550,454657,454885,456007,456829,456992,457613,458253,458295,458635,458685,458693,459445,459518,459924,459974,459990,460234,460315,460527,460844,461010,461125,461141,462503,462511,462757,463193,463648,463907,464042,464327,464385,464393,464474,464521,464636,465030,465195,465276,465640,466256,466646,466905,466939,466947,466971,467286,467472,467553,467587,467707,467765,468012,468630,468923,469076,469173,469822,469872,469995,470213,470255,470865,471609,471934,472029,472427,472493,472516,472532,472582,472621,472671,472689,472702,472906,473033,473041,474398,474746,474762,475085,476219,476374,476413,476528,476536,477477,477613,477891,477914,478279,478350,479429,479657,479673,479681,479699,481002,481272,481450,481507,481549,481840,483088,484513,484822,485307,486515,487846,488452,488876,489034,489199,489416,490718,490792,490912,491031,491861,495077]
+    for i in list:
+        gettest = idm(i)
+        print(i,gettest['LevelCode'],gettest['PositionDescShort'])'''
     if request.method == 'POST':
         Emp_id = request.POST.get('StaffID')
         Emp_pass = request.POST.get('StaffPS')
@@ -115,7 +122,10 @@ def home(request):
         openorclose = Course_D.objects.get(PK_Course_D = 5)
         if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' :
             courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-        elif LevelCode == '07' or LevelCode == '08' or LevelCode == 'M1' or LevelCode == 'M2': # เช็คระดับของนักศึกษา ระดับ7-8
+        elif LevelCode == 'M5' or LevelCode == 'M6' or Emp_id == '510951' or Emp_id == '510187':
+            print('fubukai')
+            courses = Course_D.objects.all().filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') 
+            '''elif LevelCode == '07' or LevelCode == '08' or LevelCode == 'M1' or LevelCode == 'M2': # เช็คระดับของนักศึกษา ระดับ7-8
             courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 4).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
             #selected_course = Course_D.objects.all().filter(status = 1).filter(Access_level = 4 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
         elif LevelCode == '09' or LevelCode == 'M3':
@@ -123,7 +133,8 @@ def home(request):
             #selected_course = Course_D.objects.all().filter(status = 1).filter(Access_level = 4 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
         elif LevelCode == '10'  or LevelCode == '11' or LevelCode == 'M4' or LevelCode == 'M5' or LevelCode == 'M6' or LevelCode == 'S1':
             courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 4).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-            #selected_course = Course_D.objects.all().filter(status = 1).filter(Access_level = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') 
+            #selected_course = Course_D.objects.all().filter(status = 1).filter(Access_level = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') '''
+        
         else : 
             #massage = "ไม่มีวิชาที่ท่านสามารถลงทะเบียนได้"
             courses = Course_D.objects.all().filter(PK_Course_D = 4).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
@@ -310,6 +321,7 @@ def update_eng(request):
 
     return render(request, 'update_eng.html', {'mgs':mgs})
 
+@csrf_exempt
 def course_base(request, PK_Course_D):
     massage=''
     subjects= {
@@ -352,7 +364,7 @@ def course_base(request, PK_Course_D):
 
     return render(request,'course_base.html',{'course': course,'profile':profile,'subjects':subjects,'student':student})
 
-
+@csrf_exempt
 def course_base2(request, PK_Course_D):
     massage=''
     subjects= {
@@ -432,6 +444,7 @@ def course_base2(request, PK_Course_D):
 
     return render(request,'course_base2.html',{'course': course,'profile':profile,'subjects':subjects,'sub_subjects':sub_subjects,'student':student,'massage':massage,'qs_check_register':qs_check_register})
 
+@csrf_exempt
 def course_base3(request, PK_Course_D):
     massage=''
     subjects= {
@@ -459,7 +472,9 @@ def course_base3(request, PK_Course_D):
             'LevelCode' : LevelCode,
             'Email' : Email
     }
-    if course.PK_Course_D == 109 or course.PK_Course_D == 110 or course.PK_Course_D == 111 or course.PK_Course_D == 112 or course.PK_Course_D == 113 or course.PK_Course_D == 114 :
+    subjects['subjests'] = 'get0'
+    sub_subjects['sub_subjests'] ='get1'
+    '''if course.PK_Course_D == 109 or course.PK_Course_D == 110 or course.PK_Course_D == 111 or course.PK_Course_D == 112 or course.PK_Course_D == 113 or course.PK_Course_D == 114 :
 
         courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
         subjects = Subject.objects.all().exclude(Subject_name = 'Managing and Coaching Teams').filter(Sub_level=3)
@@ -476,7 +491,7 @@ def course_base3(request, PK_Course_D):
     elif LevelCode == '10'  or LevelCode == '11' or LevelCode == 'M4' or LevelCode == 'M5' or LevelCode == 'M6' or LevelCode == 'S1': # เช็คระดับของนักศึกษา ระดับ7-8
         courses = Course_D.objects.all().filter(status = 1).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
         subjects = Subject.objects.all().filter(Sub_level=3)
-        sub_subjects = Subject.objects.filter(Sub_level = 5)
+        sub_subjects = Subject.objects.filter(Sub_level = 5)'''
     if request.method == 'POST':
         if course.Number_App > course.Number_People:
             Emp_tel = request.POST.get('Emp_tel')

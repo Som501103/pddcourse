@@ -88,10 +88,10 @@
         </div>
         <div class="card p-4">
             <div class="col-md-12 mb-3">
-                <h3 class="text-center text-danger">เปิดให้ลงทะเบียนวันจันทร์ที่ 21 มิถุนายน 2564 เวลา 13.00 น.</h3>
+                <h3 class="text-center text-danger">เปิดให้ลงทะเบียนวันที่ {{course.Open_Register|date:'d/m/Y H:i'}}</h3>
                 <h3>เงื่อนไขการอบรม</h3>
                 <div class="container2 mt-2">
-                    <div>1. เป็นพนักงาน PEA ระดับ 7-11</div>
+                    <div>1. เป็นพนักงาน PEA ระดับ อก. รฝ.</div>
                     <div>2. เข้าเรียนครบตามวิชาหลักที่กำหนด</div>
                     <div>3. สามารถจัดสรรเวลาเรียนได้</div>
                     <div>4. มีความใฝ่รู้ และรักการพัฒนาตนเอง</div>
@@ -99,7 +99,8 @@
                 </div>
             </div>
         </div>
-
+        {% if subjects.subject == get0 %}
+        {% else %}
         <h2>วิชาหลัก</h2>
         {% for subject in subjects %}
         <div class="grid-item box1">
@@ -114,6 +115,10 @@
             </div>
         </div>
         {% endfor %} 
+        {% endif %}
+
+        {% if sub_subjects.sub_subjects == get1 %}
+        {% else %}
         <h2>วิชาเลือก</h2>
         {% for subject in sub_subjects %}
         <div class="grid-item2 box1">
@@ -128,6 +133,7 @@
             </div>
         </div>
         {% endfor %} 
+        {% endif %}
         {% if course.status == '1' or course.status == 1 %}
         <div class="card p-4">
             <div class="col-md-12 mb-3">
@@ -198,7 +204,7 @@
                         {% for student in student %} {% if student.E_ID == profile.Emp_id %}
                         <h4>{{student.Fullname}} ได้ลงทะเบียนเรียนในวิชานี้แล้ว</h4>
                         {% endif %} {% endfor %}
-                        <h4 for="Emp_id" class="text-danger text-center">หลักสูตรนี้ปิดการลงทะเบียนแล้ว</h4>
+                        <h4 for="Emp_id" class="text-danger text-center">หลักสูตรนี้ยังไม่ได้เปิดลงทะเบียน</h4>
                     </div>
                 </div>
                 {% endif %}
@@ -251,8 +257,6 @@
 
         </div>
         {% endif %}
-    </div>
-
     <ol class="breadcrumb my-4">
         <li class="breadcrumb-item active">กองพัฒนาบุคลากร แผนกจัดการความรู้ ติดต่อ 5858</li>
     </ol>
