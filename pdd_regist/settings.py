@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'd4i6u+0afm^$rc%7&9z0#y5xr*(yb9syxm(6!04yw(^k2!2_th'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*','pddcourse.herokuapp.com/']
 
