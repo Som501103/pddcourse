@@ -8,7 +8,8 @@ from django.shortcuts import redirect
 import requests, xmltodict
 import string
 from django.db.models import Q, F
-from datetime import datetime
+from datetime import datetime, timedelta , timezone, date 
+import datetime
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
@@ -124,7 +125,18 @@ def home(request):
             courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
         elif LevelCode == 'M5' or LevelCode == 'M6' or Emp_id == '510951' or Emp_id == '510187':
             print('fubukai')
-            courses = Course_D.objects.all().filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') 
+            courses = Course_D.objects.all().filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        elif LevelCode == '09' or LevelCode == 'M3' or LevelCode == '10' or LevelCode == 'M4':
+            nows = datetime.date.today() 
+            #+ datetime.timedelta(days=12)
+            print(nows)
+            istodaystr = '2021-11-01'
+            istoday = datetime.datetime.strptime(istodaystr, "%Y-%m-%d").date()
+            if nows <= istoday:
+                courses = Course_D.objects.all().filter(Access_level = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+            else:
+                print(istoday,nows)
+            
             '''elif LevelCode == '07' or LevelCode == '08' or LevelCode == 'M1' or LevelCode == 'M2': # เช็คระดับของนักศึกษา ระดับ7-8
             courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 4).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
             #selected_course = Course_D.objects.all().filter(status = 1).filter(Access_level = 4 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
