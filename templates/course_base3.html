@@ -104,6 +104,13 @@
                 </div>
             </div>
         </div>
+        <div class="grid-item box1">
+            {% if course.Course_ID == 'PDD01CO11' %}
+                <img src=/static/img/29_01.jpg class="center" style="width:150% ;height:250;"></img>
+            {% elif course.Course_ID == 'PDD01CO12' %}
+                <img src=/static/img/29_02.jpg class="center" style="width:150% ;height:250;"></img>
+            {% endif %}
+        </div>
         {% if subjects.subject == get0 %}
         {% else %}
         <h2>วิชาหลัก</h2>
