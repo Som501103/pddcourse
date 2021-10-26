@@ -117,10 +117,10 @@ def home(request):
     print("Current Time =", current_time)'''
     massage = ""
     if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' :
-        openorclose = Course_D.objects.get(PK_Course_D = 5)
+        openorclose = Course_D.objects.get(PK_Course_D = 7)
         courses = Course_D.objects.all().filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     else:  
-        openorclose = Course_D.objects.get(PK_Course_D = 5)
+        openorclose = Course_D.objects.get(PK_Course_D = 7)
         if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' :
             courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
         elif LevelCode == 'M5' or LevelCode == 'M6' or Emp_id == '510951' or Emp_id == '510187':
@@ -155,7 +155,7 @@ def home(request):
     #subject = Relation_comp.objects.select_related('Course_ID').filter(Course_ID__Course_ID='PDD01CO08')
     #print(openorclose.Number_App , openorclose.Number_People)
     subjects = Subject.objects.all()
-    open_course = len(Course_D.objects.filter(PK_Course_D = 4,status = 1))
+    open_course = len(Course_D.objects.filter(PK_Course_D = 7,status = 1))
     print("open_course",open_course)
     return render(request, 'home.html', {'openorclose': openorclose,'courses': courses,'Cut_Dept_code':Cut_Dept_code,'subjests':subjects,'Fullname':Fullname,'open_course':open_course,'massage':massage})
 
