@@ -116,26 +116,21 @@ def home(request):
     mini = now.strftime("%M")
     print("Current Time =", current_time)'''
     massage = ""
-    if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' :
+    if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951' :
         openorclose = Course_D.objects.get(PK_Course_D = 7)
-        courses = Course_D.objects.all().filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        courses = Course_D.objects.all().filter(Access_level = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') 
+        print(courses)
     else:  
         openorclose = Course_D.objects.get(PK_Course_D = 7)
-        if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' :
+        if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951':
             courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-        elif LevelCode == 'M5' or LevelCode == 'M6' or Emp_id == '510951' or Emp_id == '510187':
-            print('fubukai')
-            courses = Course_D.objects.all().filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+            print(courses)
         elif LevelCode == '09' or LevelCode == 'M3' or LevelCode == '10' or LevelCode == 'M4':
-            nows = datetime.date.today() 
-            #+ datetime.timedelta(days=12)
-            print(nows)
-            istodaystr = '2021-11-01'
-            istoday = datetime.datetime.strptime(istodaystr, "%Y-%m-%d").date()
-            if nows <= istoday:
-                courses = Course_D.objects.all().filter(Access_level = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-            else:
-                print(istoday,nows)
+            courses = Course_D.objects.all().filter(Access_level = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+            print(courses)
+            '''elif LevelCode == 'M5' or LevelCode == 'M6' or Emp_id == '510951' or Emp_id == '510187':
+            print('fubukai')
+            courses = Course_D.objects.all().filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')'''
             
             '''elif LevelCode == '07' or LevelCode == '08' or LevelCode == 'M1' or LevelCode == 'M2': # เช็คระดับของนักศึกษา ระดับ7-8
             courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 4).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
@@ -149,7 +144,7 @@ def home(request):
         
         else : 
             #massage = "ไม่มีวิชาที่ท่านสามารถลงทะเบียนได้"
-            courses = Course_D.objects.all().filter(PK_Course_D = 4).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+            courses = Course_D.objects.all().filter(Access_level = 3,status = 0).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
     competency_data = Course_D.objects.all().filter(Access_level=2,status=1)
     #print(Subject.objects.all().filter(Url_location='https://virtual.yournextu.com/Catalog'))
     #subject = Relation_comp.objects.select_related('Course_ID').filter(Course_ID__Course_ID='PDD01CO08')
@@ -512,7 +507,7 @@ def course_base3(request, PK_Course_D):
             if qs_check_user == 0:
                 nameget = idm(Emp_id)
                 fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
-                if nameget['LevelCode'] == '10' or nameget['LevelCode'] == '10' or nameget['LevelCode'] == 'M4' or nameget['LevelCode'] == 'M5' or nameget['LevelCode'] == 'M6' or nameget['LevelCode'] == 'S1' :
+                if nameget['LevelCode'] == '10' or nameget['LevelCode'] == '10' or nameget['LevelCode'] == 'M4':
                     employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
                     if course.status == '1' or course.status == 1:
                         employee.save()
@@ -536,19 +531,19 @@ def course_base3(request, PK_Course_D):
                     else :
                         massage = "ยังไม่เปิดให้ลงทะเบียน"
 
-                elif nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2' :
-                    employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
-                    if course.status == '1' or course.status == 1:
-                        employee.save()
-                        count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
-                        update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
-                        qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
-                        massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
+                    '''elif nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2' :
+                        employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
+                        if course.status == '1' or course.status == 1:
+                            employee.save()
+                            count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
+                            update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                            qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+                            massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
 
-                    else :
-                        massage = "ยังไม่เปิดให้ลงทะเบียน"
+                        else :
+                            massage = "ยังไม่เปิดให้ลงทะเบียน"'''
                 else :
-                    massage = "ท่านไม่ได้อยู่ในกลุ่มระดับ 7-11 ที่หลักสูตรกำหนด"
+                    massage = "ท่านไม่ได้อยู่ในกลุ่มระดับ 9-10 ที่หลักสูตรกำหนด"
             else :
                 massage = "ท่านได้ลงทะเบียนแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
         else:
