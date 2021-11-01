@@ -117,11 +117,11 @@ def home(request):
     print("Current Time =", current_time)'''
     massage = ""
     if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951' :
-        openorclose = Course_D.objects.get(PK_Course_D = 7)
+        openorclose = Course_D.objects.get(PK_Course_D = 9)
         courses = Course_D.objects.all().filter(Access_level = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') 
         print(courses)
     else:  
-        openorclose = Course_D.objects.get(PK_Course_D = 7)
+        openorclose = Course_D.objects.get(PK_Course_D = 9f)
         if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951':
             courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
             print(courses)
