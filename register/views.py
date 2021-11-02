@@ -503,35 +503,71 @@ def course_base3(request, PK_Course_D):
         if course.Number_App > course.Number_People:
             Emp_tel = request.POST.get('Emp_tel')
             qs_check_user = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
-            
+            check_user_version1 = List_Emp.objects.filter(E_ID = Emp_id,ref_course = Course_D.objects.get(Course_ID='PDD01CO13')).count()
+            check_user_version2 = List_Emp.objects.filter(E_ID = Emp_id,ref_course = Course_D.objects.get(Course_ID='PDD01CO14')).count()
             if qs_check_user == 0:
-                nameget = idm(Emp_id)
-                fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
-                if nameget['LevelCode'] == '10' or nameget['LevelCode'] == '10' or nameget['LevelCode'] == 'M4':
-                    employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
-                    if course.status == '1' or course.status == 1:
-                        employee.save()
-                        count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
-                        update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
-                        qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
-                        massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
+                if PK_Course_D == '8' or PK_Course_D == 8 :
+                    if check_user_version2 == 0:
+                        nameget = idm(Emp_id)
+                        fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
+                        if nameget['LevelCode'] == '10' or nameget['LevelCode'] == '10' or nameget['LevelCode'] == 'M4':
+                            employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
+                            if course.status == '1' or course.status == 1:
+                                employee.save()
+                                count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
+                                update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                                qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+                                massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
 
-                    else :
-                        massage = "ยังไม่เปิดให้ลงทะเบียน"
+                            else :
+                                massage = "ยังไม่เปิดให้ลงทะเบียน"
 
-                elif nameget['LevelCode'] == '09' or nameget['LevelCode'] == 'M3' :
-                    employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
-                    if course.status == '1' or course.status == 1:
-                        employee.save()
-                        count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
-                        update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
-                        qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
-                        massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
+                        elif nameget['LevelCode'] == '09' or nameget['LevelCode'] == 'M3' :
+                            employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
+                            if course.status == '1' or course.status == 1:
+                                employee.save()
+                                count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
+                                update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                                qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+                                massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
 
-                    else :
-                        massage = "ยังไม่เปิดให้ลงทะเบียน"
+                            else :
+                                massage = "ยังไม่เปิดให้ลงทะเบียน"
+                    else:
+                        massage = "ท่านได้ลงทะเบียนแล้วในรุ่นอื่น กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
+                elif PK_Course_D == '9' or PK_Course_D == 9:
+                    if check_user_version1 == 0:
+                        nameget = idm(Emp_id)
+                        fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
+                        if nameget['LevelCode'] == '10' or nameget['LevelCode'] == '10' or nameget['LevelCode'] == 'M4':
+                            employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
+                            if course.status == '1' or course.status == 1:
+                                employee.save()
+                                count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
+                                update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                                qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+                                massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
 
-                    '''elif nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2' :
+                            else :
+                                massage = "ยังไม่เปิดให้ลงทะเบียน"
+
+                        elif nameget['LevelCode'] == '09' or nameget['LevelCode'] == 'M3' :
+                            employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
+                            if course.status == '1' or course.status == 1:
+                                employee.save()
+                                count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
+                                update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                                qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+                                massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
+
+                            else :
+                                massage = "ยังไม่เปิดให้ลงทะเบียน"
+                    else:
+                        massage = "ท่านได้ลงทะเบียนแล้วในรุ่นอื่น กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
+                else:
+                    nameget = idm(Emp_id)
+                    fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
+                    if nameget['LevelCode'] == '10' or nameget['LevelCode'] == '10' or nameget['LevelCode'] == 'M4':
                         employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
                         if course.status == '1' or course.status == 1:
                             employee.save()
@@ -541,7 +577,31 @@ def course_base3(request, PK_Course_D):
                             massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
 
                         else :
-                            massage = "ยังไม่เปิดให้ลงทะเบียน"'''
+                            massage = "ยังไม่เปิดให้ลงทะเบียน"
+
+                    elif nameget['LevelCode'] == '09' or nameget['LevelCode'] == 'M3' :
+                        employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
+                        if course.status == '1' or course.status == 1:
+                            employee.save()
+                            count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
+                            update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                            qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+                            massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
+
+                        else :
+                            massage = "ยังไม่เปิดให้ลงทะเบียน"
+
+                        '''elif nameget['LevelCode'] == '07' or nameget['LevelCode'] == '08' or nameget['LevelCode'] == 'M1' or nameget['LevelCode'] == 'M2' :
+                            employee = List_Emp(ref_course=course, E_ID = Emp_id, Fullname= fullname, Position = nameget['PositionDescShort'],Level = nameget['LevelCode'] ,Dep = nameget['DepartmentShort'], Email = nameget['Email'], Dept_code=nameget['NewOrganizationalCode'] , Tel = Emp_tel , Gender=nameget['GenderCode'])
+                            if course.status == '1' or course.status == 1:
+                                employee.save()
+                                count = len(List_Emp.objects.filter(ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D), status = 1))
+                                update_num_student = Course_D.objects.filter(PK_Course_D = PK_Course_D).update(Number_People = count)
+                                qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
+                                massage = "ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
+
+                            else :
+                                massage = "ยังไม่เปิดให้ลงทะเบียน"'''
                 else :
                     massage = "ท่านไม่ได้อยู่ในกลุ่มระดับ 9-10 ที่หลักสูตรกำหนด"
             else :
