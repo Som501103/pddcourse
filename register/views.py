@@ -502,11 +502,10 @@ def course_base3(request, PK_Course_D):
     if request.method == 'POST':
         if course.Number_App > course.Number_People:
             Emp_tel = request.POST.get('Emp_tel')
-            qs_check_user = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
-            check_user_version1 = List_Emp.objects.filter(E_ID = Emp_id,ref_course = Course_D.objects.get(Course_ID='PDD01CO13')).count()
-            check_user_version2 = List_Emp.objects.filter(E_ID = Emp_id,ref_course = Course_D.objects.get(Course_ID='PDD01CO14')).count()
+            qs_check_user = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()           
             if qs_check_user == 0:
                 if PK_Course_D == '8' or PK_Course_D == 8 :
+                    check_user_version2 = List_Emp.objects.filter(E_ID = Emp_id,ref_course = Course_D.objects.get(Course_ID='PDD01CO14')).count()
                     if check_user_version2 == 0:
                         nameget = idm(Emp_id)
                         fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
@@ -536,6 +535,7 @@ def course_base3(request, PK_Course_D):
                     else:
                         massage = "ท่านได้ลงทะเบียนแล้วในรุ่นอื่น กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
                 elif PK_Course_D == '9' or PK_Course_D == 9:
+                    check_user_version1 = List_Emp.objects.filter(E_ID = Emp_id,ref_course = Course_D.objects.get(Course_ID='PDD01CO13')).count()
                     if check_user_version1 == 0:
                         nameget = idm(Emp_id)
                         fullname = nameget['TitleFullName']+nameget['FirstName']+' '+nameget['LastName']
@@ -602,8 +602,8 @@ def course_base3(request, PK_Course_D):
 
                             else :
                                 massage = "ยังไม่เปิดให้ลงทะเบียน"'''
-                else :
-                    massage = "ท่านไม่ได้อยู่ในกลุ่มระดับ 9-10 ที่หลักสูตรกำหนด"
+                    else :
+                        massage = "ท่านไม่ได้อยู่ในกลุ่มระดับ ที่หลักสูตรกำหนด"
             else :
                 massage = "ท่านได้ลงทะเบียนแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
         else:
