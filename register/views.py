@@ -96,64 +96,66 @@ def home(request):
     openorclose = {
             'openorclose' : ''
     }
-    Emp_id = request.session['Emp_id']
-    Fullname = request.session['Fullname']
-    Dept = request.session['Department']
-    Dept_code = request.session['Dept_code']
-    Position = request.session['Position']
-    LevelCode = request.session['LevelCode']
-    Cut_Dept_code = Dept_code[:4]
-    Cut_Dept_code2 = Dept[:3]
-    get_dept = Dept[5:8]
-    print(Dept_code)
-    print(LevelCode)
-    print(Fullname)
-    print(Dept)
-    print(get_dept)
-    print('s+',Cut_Dept_code2)
-    '''now = datetime.now()
-    current_time = now.strftime("%H")
-    mini = now.strftime("%M")
-    print("Current Time =", current_time)'''
-    massage = ""
-    if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951' or Emp_id == '510187':
-        openorclose = Course_D.objects.get(PK_Course_D = 9)
-        courses = Course_D.objects.all().filter(Access_level = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') 
-        print(courses)
-    else:  
-        openorclose = Course_D.objects.get(PK_Course_D = 9)
-        if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951':
-            courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+    try:
+        Emp_id = request.session['Emp_id']
+        Fullname = request.session['Fullname']
+        Dept = request.session['Department']
+        Dept_code = request.session['Dept_code']
+        Position = request.session['Position']
+        LevelCode = request.session['LevelCode']
+        Cut_Dept_code = Dept_code[:4]
+        Cut_Dept_code2 = Dept[:3]
+        get_dept = Dept[5:8]
+        print(Dept_code)
+        print(LevelCode)
+        print(Fullname)
+        print(Dept)
+        print(get_dept)
+        print('s+',Cut_Dept_code2)
+        '''now = datetime.now()
+        current_time = now.strftime("%H")
+        mini = now.strftime("%M")
+        print("Current Time =", current_time)'''
+        massage = ""
+        if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951' or Emp_id == '510187':
+            openorclose = Course_D.objects.get(PK_Course_D = 9)
+            courses = Course_D.objects.all().filter(Access_level = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') 
             print(courses)
-        elif LevelCode == '09' or LevelCode == 'M3' or LevelCode == '10' or LevelCode == 'M4':
-            courses = Course_D.objects.all().filter(Access_level = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-            print(courses)
-            '''elif LevelCode == 'M5' or LevelCode == 'M6' or Emp_id == '510951' or Emp_id == '510187':
-            print('fubukai')
-            courses = Course_D.objects.all().filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')'''
+        else:  
+            openorclose = Course_D.objects.get(PK_Course_D = 9)
+            if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951':
+                courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+                print(courses)
+            elif LevelCode == '09' or LevelCode == 'M3' or LevelCode == '10' or LevelCode == 'M4':
+                courses = Course_D.objects.all().filter(Access_level = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+                print(courses)
+                '''elif LevelCode == 'M5' or LevelCode == 'M6' or Emp_id == '510951' or Emp_id == '510187':
+                print('fubukai')
+                courses = Course_D.objects.all().filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')'''
+                
+                '''elif LevelCode == '07' or LevelCode == '08' or LevelCode == 'M1' or LevelCode == 'M2': # เช็คระดับของนักศึกษา ระดับ7-8
+                courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 4).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+                #selected_course = Course_D.objects.all().filter(status = 1).filter(Access_level = 4 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+            elif LevelCode == '09' or LevelCode == 'M3':
+                courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 4).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+                #selected_course = Course_D.objects.all().filter(status = 1).filter(Access_level = 4 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+            elif LevelCode == '10'  or LevelCode == '11' or LevelCode == 'M4' or LevelCode == 'M5' or LevelCode == 'M6' or LevelCode == 'S1':
+                courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 4).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+                #selected_course = Course_D.objects.all().filter(status = 1).filter(Access_level = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') '''
             
-            '''elif LevelCode == '07' or LevelCode == '08' or LevelCode == 'M1' or LevelCode == 'M2': # เช็คระดับของนักศึกษา ระดับ7-8
-            courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 4).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-            #selected_course = Course_D.objects.all().filter(status = 1).filter(Access_level = 4 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-        elif LevelCode == '09' or LevelCode == 'M3':
-            courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 4).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-            #selected_course = Course_D.objects.all().filter(status = 1).filter(Access_level = 4 ).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-        elif LevelCode == '10'  or LevelCode == '11' or LevelCode == 'M4' or LevelCode == 'M5' or LevelCode == 'M6' or LevelCode == 'S1':
-            courses = Course_D.objects.all().filter(status = 1).filter(Access_level = 2).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 4).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') | Course_D.objects.all().filter(PK_Course_D = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-            #selected_course = Course_D.objects.all().filter(status = 1).filter(Access_level = 5).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') '''
-        
-        else : 
-            #massage = "ไม่มีวิชาที่ท่านสามารถลงทะเบียนได้"
-            courses = Course_D.objects.all().filter(Access_level = 3,status = 0).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-    competency_data = Course_D.objects.all().filter(Access_level=2,status=1)
-    #print(Subject.objects.all().filter(Url_location='https://virtual.yournextu.com/Catalog'))
-    #subject = Relation_comp.objects.select_related('Course_ID').filter(Course_ID__Course_ID='PDD01CO08')
-    #print(openorclose.Number_App , openorclose.Number_People)
-    subjects = Subject.objects.all()
-    open_course = len(Course_D.objects.filter(PK_Course_D = 9,status = 1))
-    print("open_course",open_course)
-    return render(request, 'home.html', {'openorclose': openorclose,'courses': courses,'Cut_Dept_code':Cut_Dept_code,'subjests':subjects,'Fullname':Fullname,'open_course':open_course,'massage':massage})
-
+            else : 
+                #massage = "ไม่มีวิชาที่ท่านสามารถลงทะเบียนได้"
+                courses = Course_D.objects.all().filter(Access_level = 3,status = 0).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+        competency_data = Course_D.objects.all().filter(Access_level=2,status=1)
+        #print(Subject.objects.all().filter(Url_location='https://virtual.yournextu.com/Catalog'))
+        #subject = Relation_comp.objects.select_related('Course_ID').filter(Course_ID__Course_ID='PDD01CO08')
+        #print(openorclose.Number_App , openorclose.Number_People)
+        subjects = Subject.objects.all()
+        open_course = len(Course_D.objects.filter(PK_Course_D = 9,status = 1))
+        print("open_course",open_course)
+        return render(request, 'home.html', {'openorclose': openorclose,'courses': courses,'Cut_Dept_code':Cut_Dept_code,'subjests':subjects,'Fullname':Fullname,'open_course':open_course,'massage':massage})
+    except:
+        return redirect('login')
 
 def course_title(request, PK_Course_D):
     Emp_id = request.session['Emp_id'] 
