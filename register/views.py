@@ -33,7 +33,7 @@ def login(request):
             check_ID = idm_login(Emp_id,Emp_pass)
             # print(check_ID)
             reposeMge = check_ID
-        reposeMge = 'true'
+        #reposeMge = 'true'
         if reposeMge == 'true':
             nameget = idm(Emp_id)
             # print(nameget)
@@ -117,13 +117,18 @@ def home(request):
         mini = now.strftime("%M")
         print("Current Time =", current_time)'''
         massage = ""
+        listcheck = ['507666','229078','240113','241266','251334','255493','255948','256596','258182','270980','275273','279146','280919','284947','293629','295100','297403','297940','298051','298085','298116','299308','299358','303050','304153','304975','305272','305298','308652','308678','310154','311736','311760','311841','311883','311922','322606','322622','322729','322745','322787','326854','327575','327761','330764','331095','331794','331817','331833','331964','333283','409424','409539','413025','413669','413936','415182','415386','416049','416057','417605','418473','420226','425357','427943','428062','428135','439974','442553','444050','447870','451201','454746','458716','460307','464490','464628','464953','467024','467171','467456','467757','468892','478619','480747']
         if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951' or Emp_id == '510187':
             openorclose = Course_D.objects.get(PK_Course_D = 9)
             courses = Course_D.objects.all().filter(Access_level = 3).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') 
             print(courses)
         else:  
-            openorclose = Course_D.objects.get(PK_Course_D = 9)
-            if Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951':
+            openorclose = Course_D.objects.get(PK_Course_D = 10)
+            print(Emp_id,Emp_id in listcheck)
+            if Emp_id in listcheck:
+                courses = Course_D.objects.filter(Course_ID = 'PDD01CO15').annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+                print('อยู่ในlist',courses)
+            elif Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951':
                 courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
                 print(courses)
             elif LevelCode == '09' or LevelCode == 'M3' or LevelCode == '10' or LevelCode == 'M4':
