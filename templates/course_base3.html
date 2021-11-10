@@ -222,7 +222,9 @@
                 {% endif %}
                 </form>
             </div>
-
+            
+            {% if course.PK_Course_D == 11 %}
+            {% else %}
             <table class="table table-bordered" id="example">
                 <thead class="thead-light">
                     <tr class="stylefont text-center">
@@ -266,7 +268,7 @@
                     {% endfor %}
                 </tbody>
             </table>
-
+            {% endif %}
         </div>
         {% endif %}
     <ol class="breadcrumb my-4">
