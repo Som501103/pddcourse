@@ -99,8 +99,7 @@ class List_Emp(models.Model):
     # status 1= on, 0 = off
 
     def __str__(self):
-        get_data = self.E_ID + self.ref_course
-        return get_data 
+        return self.E_ID
 
 class Course_sub(models.Model):
     title = models.CharField(max_length=100,null=True)
