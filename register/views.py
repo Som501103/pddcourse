@@ -14,6 +14,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def login(request):
+    test = Course_D.objects.get(Course_ID = 'PDD01CO16')
+    print(test)
+    get_name = List_Emp.objects.filter(ref_course = test)
+    print(get_name)
     mgs = {
                 'massage' : ' '
             }
