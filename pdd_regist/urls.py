@@ -38,6 +38,7 @@ urlpatterns = [
     path('course_base/<int:PK_Course_D>/', views.course_base, name='course_base'),
     path('course_base2/<int:PK_Course_D>/', views.course_base2, name='course_base2'),
     path('course_base3/<int:PK_Course_D>/', views.course_base3, name='course_base3'),
+    path('course_base_firebase/<int:PK_Course_D>/', views.course_base_firebase, name='course_base_firebase'),
     path('admin/', admin.site.urls),
 
 ]
