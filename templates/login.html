@@ -17,10 +17,9 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <h3>ลงชื่อเข้าใช้</h3>
-                </br>
+                    </br>
                         <div class="form-row">
                             <div class="col-sm-4"><input type="text" id="StaffID" name="StaffID" class="form-control" placeholder="รหัสพนักงาน"></div>
-                            <div class="col-sm-4"><input type="password" id="StaffPS" name="StaffPS" class="form-control" placeholder="รหัสผ่านเข้าเครื่องคอมพิวเตอร์"></div>
                             <div class="col-sm-4"><input type="submit" value="เข้าสู่ระบบ" class="btn btn-primary"></div>
                         </div>   
                         <div class="row">
@@ -28,7 +27,6 @@
                                 <label>{{ massage.massage }}</label>
                             </div>
                         </div>
-                        
                 </div>
             </form>
             <ol class="breadcrumb my-4">
