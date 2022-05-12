@@ -1,0 +1,56 @@
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>ลงทะเบียนฝึกอบรม</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    </head>
+
+    <body>
+        <div class="container mt-5">
+            <ol class="breadcrumb my-4">
+                <li class="breadcrumb-item active">กองพัฒนาบุคลากร</li>
+            </ol>
+            <div class="card p-4">
+                <h3>รายชื่อผู้บริหารอบรมภายนอก</h3>
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr class="stylefont text-center">
+                            <th class="align-middle">ลำดับ</th>
+                            <th class="align-middle">หลักสูตร</th>
+                            <th class="align-middle">รุ่น</th>
+                            <th>ชื่อสถาบัน</th>
+                            <th>วันที่เริ่มต้น</th>
+                            <th>วันที่สิ้นสุด</th>
+                            <th>ชื่อผู้บริหาร</th>
+                            <th>สถานะการอบรม</th>
+                            <th>รายละเอียดหลักสูตร</th>
+                        </tr>
+                    </thead>
+                        {% for course in courses %}
+                            <tr>
+                                <td class="align-middle">{{ forloop.counter }}</td>
+                                <td class="align-middle">{{ course.Course_Name }}</td>
+                                <td class="align-middle">{{ course.Course_generation }}</td>
+                                <td class="align-middle">{{ course.Course_location }}</td>
+                                <td class="align-middle">{{ course.Course_startdate|date:'d/m/Y' }}</td>
+                                <td class="align-middle">{{ course.Course_enddate|date:'d/m/Y' }}</td>
+                                <td class="align-middle">{{ course.Course_user }}</td>
+                                <td class="align-middle">{{ course.Course_status }}</td>
+                                <td class="align-middle">รายละเอียด</td>
+                            </tr>
+                        {% endfor %}
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <ol class="breadcrumb my-4">
+                <li class="breadcrumb-item active">กองพัฒนาบุคลากร แผนกจัดการความรู้ ติดต่อ 5858</li>
+            </ol>
+        </div>
+
+    </body>
+    
+</html>

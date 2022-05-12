@@ -1,3 +1,4 @@
+from statistics import mode
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -140,7 +141,18 @@ class Check_Staff_End(models.Model):
     def __str__(self):
         return self.E_ID
 
-
+class Course_out(models.Model):
+    Course_ID = models.AutoField(primary_key=True)
+    Course_number = models.FloatField(default=0.0)
+    Course_name = models.CharField(max_length=150,null = True)
+    Description = models.TextField(default='เนื้อหาที่จะเรียน', null=True)
+    Course_location = models.CharField(max_length=100, blank = True)#สถาบัน/หน่วยงาน
+    Course_user = models.CharField(max_length=100, blank = True)
+    Course_user_position = models.CharField(max_length=100, blank = True)
+    Course_generation = models.IntegerField(default=1, null=True)
+    Course_startdate = models.DateField(null=True)
+    Course_enddate = models.DateField(null=True)
+    Course_status = models.CharField(max_length=100, blank = True)
 
 
 

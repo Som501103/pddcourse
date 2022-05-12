@@ -2,7 +2,7 @@ from os import access
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import Http404
-from .models import MT_User, Course_D, List_Dept, List_Emp, Course_Director, Check_Loginerror, Check_Staff_End, Subject
+from .models import MT_User, Course_D, List_Dept, List_Emp, Course_Director, Check_Loginerror, Check_Staff_End, Subject , Course_out
 from .forms import SaveForm
 from django.shortcuts import redirect
 import requests, xmltodict
@@ -756,3 +756,22 @@ def course_base_firebase(request, PK_Course_D):
             massage = "มีผู้ลงทะเบียนครบแล้ว"
 
     return render(request,'course_base_firebase.html',{'course': course,'profile':profile,'subjects':subjects,'sub_subjects':sub_subjects,'student':student,'massage':massage,'qs_check_register':qs_check_register})
+
+def outhome(request):
+    courses= {
+            'courses' : ''
+        }
+    subjects= {
+            'subjests' : ''
+    }
+    openorclose = {
+            'openorclose' : ''
+    }
+    try:
+        Emp_id = request.session['Emp_id']
+        
+        massage = ""
+        courses = Course_out.objects.all()
+        return render(request, 'home.html', {'courses': courses})
+    except:
+        return redirect('login')
