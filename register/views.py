@@ -122,7 +122,7 @@ def home(request):
         else:
             print(Emp_id,Emp_id in listcheck)
             if Emp_id in listcheck:
-                courses = Course_D.objects.filter(Batch_Type = '5').annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+                courses = Course_D.objects.filter(Duration = 4512).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
             elif Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951':
                 courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
                 print(courses)
@@ -145,7 +145,7 @@ def home(request):
             
             else : 
                 #massage = "ไม่มีวิชาที่ท่านสามารถลงทะเบียนได้"
-                courses = Course_D.objects.all().filter(Batch_Type = '5').annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+                courses = Course_D.objects.all().filter(Duration = 4512).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
         competency_data = Course_D.objects.all().filter(Access_level=2,status=1)
         #print(Subject.objects.all().filter(Url_location='https://virtual.yournextu.com/Catalog'))
         #subject = Relation_comp.objects.select_related('Course_ID').filter(Course_ID__Course_ID='PDD01CO08')
