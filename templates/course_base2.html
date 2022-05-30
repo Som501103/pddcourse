@@ -88,6 +88,10 @@
                 <h3 class="text-center">รูปแบบ {{course.Location}}</h3>
             </div>
         </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-12 text-center"><label class="text-danger text-center">{{ massage }}</label></div>
+        </div>
         <div class="card p-4">
             <div class="col-md-12 mb-3">
                 {% if course.PK_Course_D == 3 %}
@@ -251,9 +255,7 @@
                             </div>
                             {% endif %}
                             </br>
-                            <div class="row">
-                                <div class="col-sm-12 text-center"><label for="massage_error" class="text-danger text-center">{{ massage }}</label></div>
-                            </div>
+                            
                         </div>
                         {% else %}
                         <div class="row">
