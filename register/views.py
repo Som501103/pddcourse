@@ -387,6 +387,9 @@ def course_base2(request, PK_Course_D):
     qs_check_register = List_Emp.objects.filter(E_ID = Emp_id, ref_course = Course_D.objects.get(PK_Course_D=PK_Course_D)).count()
     if qs_check_register > 0:
         massage = "ท่านได้ลงทะเบียนแล้ว กรุณาตรวจสอบ e-mail ของท่าน ถ้าไม่ถูกต้องกรุณาติดต่อที่เบอร์ 5858 หรือ แจ้งใน HRD Connext"
+    if course.Number_App <= course.Number_People:
+        massage = "มีผู้ลงทะเบียนครบแล้ว"
+    print('this',massage)
     # print(subjects)
     profile = {
             'Emp_id' : Emp_id,
