@@ -122,7 +122,7 @@ def home(request):
         else:
             print(Emp_id,Emp_id in listcheck)
             if Emp_id in listcheck:
-                courses = Course_D.objects.filter(Duration = 4512).exclude(PK_Course_D = 18).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
+                courses = Course_D.objects.filter(Duration = 4512).exclude(PK_Course_D = 18).exclude(PK_Course_D = 19).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
             elif Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951':
                 courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
                 print(courses)
