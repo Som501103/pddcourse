@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'pdd_regist.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd29653c2ig8bkr',
-        'USER': 'ndkddtohanpxsh',
-        'PASSWORD': 'b8d184f0601e56e0967adec1f773504d80b69e8182c61ce72ccd317b39fe00e3',
-        'HOST': 'ec2-3-213-192-58.compute-1.amazonaws.com',
+        'NAME': 'd6c6tp0k2lalag',
+        'USER': 'xiqgzzjbtllikl',
+        'PASSWORD': '183e5f2843166c7964ff8fa91bff8cbc5a925637711f622b32e832056949ffa5',
+        'HOST': 'ec2-52-21-128-9.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
