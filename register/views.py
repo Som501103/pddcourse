@@ -135,9 +135,9 @@ def home(request):
         #subject = Relation_comp.objects.select_related('Course_ID').filter(Course_ID__Course_ID='PDD01CO08')
         #print(openorclose.Number_App , openorclose.Number_People)
         subjects = Subject.objects.all()
-        open_course = len(Course_D.objects.filter(PK_Course_D = 19,status = 1))
+        open_course = len(Course_D.objects.filter(PK_Course_D = 20,status = 1))
         print("open_course",open_course)
-        openorclose = Course_D.objects.get(PK_Course_D = 19)
+        openorclose = Course_D.objects.get(PK_Course_D = 20)
         return render(request, 'home.html', {'openorclose': openorclose,'courses': courses,'subjests':subjects,'open_course':open_course,'massage':massage})
     except:
         return redirect('login')
