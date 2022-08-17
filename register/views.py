@@ -126,10 +126,6 @@ def home(request):
             if Emp_id in listcheck4 or Emp_id in listcheck:
                 print('isin')
                 courses = Course_D.objects.filter(Duration = 4512).exclude(PK_Course_D = 24).exclude(PK_Course_D = 25).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-            elif Emp_id in listcheck2:
-                courses = Course_D.objects.all().filter(PK_Course_D = 22).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
-                if Emp_id in listcheck3:
-                    courses = Course_D.objects.all().filter(PK_Course_D = 23).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
             elif Emp_id in listcheck:
                 courses = Course_D.objects.filter(Duration = 4512).exclude(PK_Course_D = 18).exclude(PK_Course_D = 19).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
             elif Emp_id == '501103' or Emp_id == '503710' or Emp_id == '499781' or Emp_id == '507599' or Emp_id == '492613' or Emp_id == '497784' or Emp_id == '510951':
