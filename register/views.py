@@ -123,7 +123,7 @@ def home(request):
             courses = Course_D.objects.all().annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D') 
             print(courses)
         else:
-            if Emp_id in listcheck4 or Emp_id in listcheck or Emp_id in listcheck2 or Emp_id in listcheck3 :
+            if Emp_id in listcheck4 or Emp_id in listcheck or Emp_id in listcheck3 :
                 print('isin')
                 courses = Course_D.objects.filter(Duration = 4512).exclude(PK_Course_D = 24).exclude(PK_Course_D = 25).annotate(Gap_number =F('Number_App') - F('Number_People')).order_by('-PK_Course_D')
             elif Emp_id in listcheck2:
